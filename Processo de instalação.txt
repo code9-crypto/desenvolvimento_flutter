@@ -1,0 +1,28 @@
+1º Entrar no link: https://docs.flutter.dev/get-started/install/windows/mobile
+
+2° Baixar a versão estável do flutter: https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.5-stable.zip
+(OBS.: caso haja uma versão estável mais recente, baixe-a)
+
+3º Configurar as variaveis de ambiente:
+ - configurar o caminho da pasta /bin do flutter para a variável de ambiente Path
+
+4º Após o passo 3 ter sido concluído, executar o comando "flutter doctor" dentro do CMD
+(OBS.: Provavelmente será exibido uma mensagem de erro que não foi encontrado o android studio)
+
+5º Depois do passo 4, baixar o android studio:
+(Esta é a versão mais recente)
+https://redirector.gvt1.com/edgedl/android/studio/install/2024.2.1.11/android-studio-2024.2.1.11-windows.exe
+
+6º Entrar dentro do Android Studio -> "Na tela de Welcome..." -> More Actions -> SDK Manager
+-> Aba SDK tools -> Selecione a opção Android SDK Command-line Tools(latest)
+
+7º Depois de baixado e instalado, execute o comando "flutter doctor --android-licenses" 
+(Ir aceitando com a tecla y)
+
+8º Após feito tudo isso, instalar os plugins do flutter no Android Studio:
+-Na tela de "Welcome..." na lateral esquerda clicar em plugins:
+-Instalar Flutter e Dart
+
+
+
+	
