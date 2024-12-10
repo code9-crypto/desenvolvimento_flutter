@@ -1,0 +1,8 @@
+1º Entrar no VS CODE e executar a sequência de teclas: ctrl + shit + p (para entrar no command pallet)
+
+2º Executar o comando -> Extensions: install extensions
+
+3º Na aba lateral esquerda clicar no ícone das extensões, no campo de pesquisar digitar flutter
+e instalar
+
+4º No fim entre novamente no command pallet (ctrl + shit + p) e execute o flutter doctor

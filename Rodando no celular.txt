@@ -1,0 +1,6 @@
+-Configure o celular como modo de desenvolvedor(sem o celular estar conectado no computador)
+-Conecte o celular via USB de dados no computador
+-Deixe a opção PTP(do celular) selecionada
+-Feito tudo isso, rode o comando: flutter run
+(Caso aprensente erro por falta de memória do computador, libere mais espaço na memória virutal
+que irá funcionar)

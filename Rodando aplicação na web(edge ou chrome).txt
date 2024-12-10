@@ -1,0 +1,3 @@
+flutter run -d chrome -> comando para rodar no google chrome
+
+flutter run -d edge -> comando para rodar no microsoft edge
