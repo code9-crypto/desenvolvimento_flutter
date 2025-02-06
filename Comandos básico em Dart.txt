@@ -1,0 +1,26 @@
+É uma linguagem que é fortemente tipada, ou seja, deve declarar o tipo
+da variável antes do nome;
+Exemplos:
+int idade = 30;
+String nome = "William";
+...
+
+OBS.: É possível fazer a multiplicação de caracteres assim:
+"A" * 20 -> aqui vai gerar 20 letras A
+
+PARÂMETROS DE FUNÇÕES
+Para que seja possível "setar" um valor padrão e seja também opcionail,
+apenas coloque o parâmetro entre colchetes [] e atribua um valor a ele;
+NOTA: Dentro desses colchetes pode colocar mais de uma variável, porém
+para que seja possível passar o valor ao segundo parâmetro sem passar pelo primeiro,
+ocorrerá erro; então nesse caso deverá passar o valor a todos os parâmetros para que não haja erros;
+
+Caso queria faze-lo de forma aleatória, ou seja, sem seguir a ordem dos parâmetros, é possível deixar os parâmetros entre chaves {}, porém agora
+quando for chamar a função, a forma de passar os parâmetros devem ser nomeados;
+Ex.:void main(){
+	funcao(nome: "William", idade: 32);
+}
+
+funcao({String nome, int idade}){
+	print("Olá $nome, sua idade é $idade);
+}
