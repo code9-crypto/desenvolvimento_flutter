@@ -24,3 +24,25 @@ Ex.:void main(){
 funcao({String nome, int idade}){
 	print("Olá $nome, sua idade é $idade);
 }
+
+VALORES NULOS / NULL
+Para que uma variável/parâmetro seja null, apenas específique o símbolo de ? depois do tipo da variável:
+Ex.: String? nome
+
+OBS.: Para que seja possível uma variável receber um valor se for nulo ou que tenha valor utílizavel, usamos o operador ??;
+Ex.: String cliente = nome ?? "não informado" -> Caso a variável nome tenha valor, então cliente receberá o valor da variável nome;
+Caso a variável nome seja nulo ou undefined, então a variável cliente receberá o valor "não informado"
+
+FUNÇÕES ANÔNIMAS
+É passar uma função como parâmetro de outra função:
+Ex.:
+void main() {
+  saudacoes(
+    "William",
+    corpo: (i){
+    for( int j = 1; j <= i; j++ ){
+      print("Olá $j");
+    }
+  });
+}
+o parâmetro corpo está recebendo uma função anônima
