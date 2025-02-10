@@ -29,6 +29,10 @@ VALORES NULOS / NULL
 Para que uma variável/parâmetro seja null, apenas específique o símbolo de ? depois do tipo da variável:
 Ex.: String? nome
 
+OPERADOR TERNÁRIO
+double nota = 8.5;
+String mensagem = nota >= 6 ? "Aprovado" : "Reprovado"
+
 OBS.: Para que seja possível uma variável receber um valor se for nulo ou que tenha valor utílizavel, usamos o operador ??;
 Ex.: String cliente = nome ?? "não informado" -> Caso a variável nome tenha valor, então cliente receberá o valor da variável nome;
 Caso a variável nome seja nulo ou undefined, então a variável cliente receberá o valor "não informado"
@@ -46,3 +50,34 @@ void main() {
   });
 }
 o parâmetro corpo está recebendo uma função anônima
+
+VARIÁVEIS DINÂMICAS
+var -> é uma forma de declarar variável que não tem tipo específico, contudo se a variável iniciar com determinado tipo,
+ela não poderá ser alterada para outro tipo no decorrer do script;
+Ex.: var nome = "William";
+var nome = 2; -> aqui causará um erro, portanto use apenas em casos muito específicos
+
+dinamyc -> é uma forma de declarar variável que não tem tipo específico, mas este tipo aceita a troca do valor dentro da variável;
+Ex.: dinamyc teste = "texto";
+teste = 2 -> diferente da de cima, aqui não ocorrerá um erro, todavia não usa-a o tempo todo, faça isso em cenários muito específicos
+para que não haja possível fatal erro no aplicativo;
+
+num -> é uma forma de declarar variável que aceita apenas número, tanto inteiro como decimal e também pode ser alterado um pelo outro
+no decorrer do script sem que haja erro;
+Ex.: num numero = 50; 
+num numero = 6.5;
+
+LISTAS
+Para criar uma lista é assim:
+Ex.: List nomes;
+
+Para iniciar uma lista:
+Ex.: List nomes = ["texto1", "texto2", "texto3",...] -> deve estar entre colchetes
+
+Para criar uma lista de determinado tipo
+Ex.: List<String>... -> aceita apenas itens do tipo String OU List<int>... -> aceita apenas itens do tipo inteiro; e assim por diante
+
+Para acessar o valor da lista:
+Ex.: 1º termo(duas formas) -> print(nomes.first) OU print(nomes[0])
+Ex.: Último termo -> print(nomes.last)
+Ex.: Acessando qualquer outro termo -> print(nomes[3])
