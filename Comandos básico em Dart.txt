@@ -81,3 +81,16 @@ Para acessar o valor da lista:
 Ex.: 1º termo(duas formas) -> print(nomes.first) OU print(nomes[0])
 Ex.: Último termo -> print(nomes.last)
 Ex.: Acessando qualquer outro termo -> print(nomes[3])
+
+FUNÇÕES DE LISTAS
+Vamos usar os exemplos com esta lista: List<int> idades = [](também pode ser declarado vazio)
+
+idades.add(5) -> adiciona um valor à lista na última posição
+idades.addAll([2,3,4,5,6]) -> adiciona uma lista de valores dentro da lista idades
+idades.insert(int pos, valor) -> adiciona um valor à lista idades, numa posição específica
+idades.contains(5) -> verifica se o valor está contido na lista e retorna(usado com print) true or false
+idades.indexOf(5) -> retorna(usado com print) em qual posição está o valor determinado
+idades.remove(5) -> remove o valor determinado da lista
+idades.remoteAt(2) -> remove o valor da lista com base na posição informada como parâmetro
+idades.shuffle() -> embaralha toda a lista
+idades.clear() -> apaga todos os valores da lista
