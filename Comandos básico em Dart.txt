@@ -94,3 +94,31 @@ idades.remove(5) -> remove o valor determinado da lista
 idades.remoteAt(2) -> remove o valor da lista com base na posição informada como parâmetro
 idades.shuffle() -> embaralha toda a lista
 idades.clear() -> apaga todos os valores da lista
+
+ITERAÇÃO DO LISTAS
+List<String> nomes = ['william','ester','hadassa']
+1º Exemplo(menos indicado):
+for ( int i = 0; i <= nomes.length -1; i++){
+	print(nomes[i].toUpperCase());
+}
+
+2º Exemplo(mais indicado e mais legível):
+for (String nome in nomes){
+	print(nome.toUpperCase());
+}
+
+TAMBÉM PODE FAZER UM LIMITE NA LISTA
+for(String nome in nomes.sublist(2, 4)){
+	print(nome.toUpperCase());
+}
+
+
+3º Exemplo(menos indicado):
+nomes.forEach((nome) {
+	print(nome.toUpperCase());
+})
+
+TAMBÉM PODE FAZER UM LIMITE NA LISTA
+nomes.sublist(2,4).forEach((nome) {
+	print(nome.toLowerCase());
+})
