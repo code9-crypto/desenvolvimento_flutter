@@ -8,6 +8,7 @@ String nome = "William";
 OBS.: É possível fazer a multiplicação de caracteres assim:
 "A" * 20 -> aqui vai gerar 20 letras A
 
+-------------------------------------------------------------------------------------------------------------------------------------
 PARÂMETROS DE FUNÇÕES
 Para que seja possível "setar" um valor padrão e seja também opcionail,
 apenas coloque o parâmetro entre colchetes [] e atribua um valor a ele;
@@ -25,10 +26,12 @@ funcao({String nome, int idade}){
 	print("Olá $nome, sua idade é $idade);
 }
 
+---------------------------------------------------------------------------------------------------------------------------------
 VALORES NULOS / NULL
 Para que uma variável/parâmetro seja null, apenas específique o símbolo de ? depois do tipo da variável:
 Ex.: String? nome
 
+----------------------------------------------------------------------------------------------------------------------------------
 OPERADOR TERNÁRIO
 double nota = 8.5;
 String mensagem = nota >= 6 ? "Aprovado" : "Reprovado"
@@ -37,6 +40,7 @@ OBS.: Para que seja possível uma variável receber um valor se for nulo ou que 
 Ex.: String cliente = nome ?? "não informado" -> Caso a variável nome tenha valor, então cliente receberá o valor da variável nome;
 Caso a variável nome seja nulo ou undefined, então a variável cliente receberá o valor "não informado"
 
+-----------------------------------------------------------------------------------------------------------------------------------
 FUNÇÕES ANÔNIMAS
 É passar uma função como parâmetro de outra função:
 Ex.:
@@ -51,6 +55,13 @@ void main() {
 }
 o parâmetro corpo está recebendo uma função anônima
 
+void saudacoes(String nome, {required Function(int) corpo}){
+	corpo(10);
+}
+Para declarar um parâmetro como função, é deste jeito;(o atributo 'required' mostra que é obrigatório)
+E para que uma função por parâmetro receba parâmetros, é deste jeito que é declarado
+
+----------------------------------------------------------------------------------------------------------------------------------
 VARIÁVEIS DINÂMICAS
 var -> é uma forma de declarar variável que não tem tipo específico, contudo se a variável iniciar com determinado tipo,
 ela não poderá ser alterada para outro tipo no decorrer do script;
@@ -67,6 +78,7 @@ no decorrer do script sem que haja erro;
 Ex.: num numero = 50; 
 num numero = 6.5;
 
+-------------------------------------------------------------------------------------------------------------------------------------
 LISTAS
 Para criar uma lista é assim:
 Ex.: List nomes;
@@ -122,3 +134,52 @@ TAMBÉM PODE FAZER UM LIMITE NA LISTA
 nomes.sublist(2,4).forEach((nome) {
 	print(nome.toLowerCase());
 })
+
+OUTRAS FUNÇÕES DE LISTA
+List<int> maluca = List.filled(100, 8); -> o 1º parâmetro é a quantidade e o 2º é o valor que será exibido
+print(maluca);
+
+List<int> doida = List.generate(10, (i) => i * 10); -> este exemplo, irá pegar o valor de cada posição e multiplicará por 10
+print(doida);
+
+print(doida.isEmpty) -> verifica se a lista está vazia e retorna um valor booleano
+print(doida.isNotEmpty) -> verifica se a lista não está vazia e retorna um valor booleano
+print(doida.any((i) => i % 20 == 0) -> neste exemplo, faz uma verificação se na lista há valores que atendam a este critério
+print(doida.firstWhere((i) => i % 40 == 0) -> neste exemplo, retorna o primeiro valor que atenda a este critério
+print(doida.lastWhere((i) => i % 40 == 0) -> neste exemplo, retorna o último valor que atenda a este critério
+print(doida.where((i) => i % 20 == 0) -> neste exemplo, retorna uma lista que atenda a este critério
+print(doida.map((i) => i + 1) -> esta função gera uma nova lista aplicando este critério a ela
+
+LISTAS NULLABLES E NÃO NULLABLES
+List<String> lista1 = []; -> lista que existe, não aceita valores nulos, mas está vazia
+List<String?> lista2 = ["a","b",null] -> este é uma lista que aceita elementos nulos
+List<String>? lista3; -> é uma lista que pode ser iniciada nula, mas que ainda não existe; todavia, para ser adicionada valores nela
+deverá passar por uma condicional verificando se é nula ou não, contudo ela não aceita elementos nulos.
+List<String?>? lista4; -> é uma lista que pode ser iniciada nula, mas que ainda não existe; todavia, para ser adicionada valores nela
+deverá passar por uma condicional verificando se é nula ou não, contudo ela aceita elementos nulos.
+-----------------------------------------------------------------------------------------------------------------------------
+MAPAS / MAPS -> É uma forma de organizar os elementos como: chave: valor;
+Map<int, String> ddds = {
+	11: "São Paulo",
+	13: "Santos",
+	19: "Campinas"
+}; -> A declaração é deste jeito
+
+Modificando um valor
+ddds[11] = "Corea do Norte"; -> aqui o valor da chave espeficidada, será alterado;
+
+Adicionando valor
+ddds[50] = "Brasilia"; -> como esta chave não existe, então ela será adicionada;
+
+Removendo valor
+ddds.remove(50) -> será removido o elemento baseado na chave
+
+Exibindos valores
+print(ddds.keys) -> aqui serão exibidos todas as chaves do mapa
+print(ddds.values) -> aqui serão exibidos todos os valores do mapa
+
+Verificando se uma chave existe -> seu retorno é booleano
+print(ddds.containsKey(11));
+
+Verificando se um valor existe -> seu retorno é booleano
+print(ddds.containsValue("Campynas"));
