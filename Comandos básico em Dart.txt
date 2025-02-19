@@ -235,3 +235,56 @@ print(dados['nome']) -> Para acessar o valor da chave, a chave deve ser informad
 
 Recuperando valores pelo Índice
 print(dados['cursos'][0]) -> Para acessar o valor dentro de uma chave, primeiro digite a chave entre colchetes e aspas simples e depois entre colchetes novamente e o índice daquele valor
+
+------------------------------------------------------------------------------------------------------------------------------
+TRATAMENTO DE EXCEÇÃO TRY/CATCH
+estrutura:
+try{
+
+}catch(e){
+
+}
+
+É possível pegar qual o erro exato que está acontecendo com o parâmetro do catch;
+Ex.: ...catch(e){ print(e.runtimeType) }...
+E com este erro, podemos aprimorar mais o tratamento de erro dentro da estrutura do try/catch;
+Supondo que o exemplo acima tenha impresso na tela o erro: UnsupportedError;
+Adicionamos este erro na estrutura deste jeito:
+DETALHE: ESTE TRATAMENTO DEVE SER FEITO SEMPRE ANTES DO CATCH E PODE SER ADICIONADO QUANTOS FOREM NECESSÁRIOS
+try{
+
+}on UnsupportedError{
+
+}catch(e){
+
+}
+
+Desta forma, o código que der este erro, irá cair direto no erro descrito e não mais no catch
+
+EXCEÇÕES PERSONALIZADAS
+Primeiro criamos uma classe e implementamos da interface Exception;
+Depois de criar a classe, criamos o método toString() que é na verdade uma sobrescrita
+class excecao implements Exception{^
+	String toString(){
+		return "Este valor é inválido";
+	}	
+}
+
+Depois de criada, lançamos a exceção com base em determinada condicional;
+Ex.:
+void funcao(int x){
+	if( x <= 0 ){
+		trow excecao();
+	}
+}
+
+Agora podemos chamar a função normalmente na função main();
+void main(){
+	try{
+		funcao(-10);
+	}catch(e){
+		print(e);
+	}
+}
+
+Neste cenário, como o valor é menor que 0, então a exceção será lançada, caso fosse mair que 0, então continuará o programa normalmente
