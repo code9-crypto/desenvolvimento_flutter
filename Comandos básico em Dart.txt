@@ -149,6 +149,7 @@ print(doida.firstWhere((i) => i % 40 == 0) -> neste exemplo, retorna o primeiro 
 print(doida.lastWhere((i) => i % 40 == 0) -> neste exemplo, retorna o último valor que atenda a este critério
 print(doida.where((i) => i % 20 == 0) -> neste exemplo, retorna uma lista que atenda a este critério
 print(doida.map((i) => i + 1) -> esta função gera uma nova lista aplicando este critério a ela
+doida.removeWhere((i) => i > 10) -> aqui a lista irá remover todos os elementos que são maiores que 10
 
 LISTAS NULLABLES E NÃO NULLABLES
 List<String> lista1 = []; -> lista que existe, não aceita valores nulos, mas está vazia
@@ -164,6 +165,9 @@ Map<int, String> ddds = {
 	13: "Santos",
 	19: "Campinas"
 }; -> A declaração é deste jeito
+
+Acessando um valor
+print(ddds[19]) -> aqui será exibido o valor da chave específicada
 
 Modificando um valor
 ddds[11] = "Corea do Norte"; -> aqui o valor da chave espeficidada, será alterado;
@@ -183,3 +187,51 @@ print(ddds.containsKey(11));
 
 Verificando se um valor existe -> seu retorno é booleano
 print(ddds.containsValue("Campynas"));
+
+removendo valores específicos
+ddds.removeWhere((chave, valor) => chave > 20);
+print(ddds);
+  
+adicionando outro mapa
+ddds.addAll({90: "Cidade legal", 91: "Cidade chata"});
+print(ddds);
+
+null assertion = valores nulos
+String cidade = ddds[11]!; -> este sinal de exclamação será usado somente quando tiver certeza que o valor recuperado não for nulo
+Caso tenha dúvida se o valor é nulo então use esta nomenclatura
+String cidade = ddds[45] ?? "Não informado";
+
+-----------------------------------------------------------------------------------------------------------------------------------
+NOTAÇÃO JSON
+Para trabalhar com essa notação, primeiramente devemos importar a biblioteca dart:convert
+Assim(no topo da página): import 'dart:convert'
+OBS.: TODA NOTAÇÃO JSON, QUANDO CONVERTIDA PARA LINGUAGEM DART, SEMPRE SERÁ NO FORMATO MAPA, SENDO ASSIM PODEMOS USAR TODAS AS FUNÇÕES DE MPA
+
+Convertendo json em mapa
+Map<String, dynamic> dados = json.decode(dadosDoUsuario()); -> A chave sempre será no formato String, mas no caso do valor, como não sabemos ao certo qual será o valor, então usamos o tipo de dado dynamic(aceita qualquer valor)
+
+Exemplo de retorno de JSON
+String dadosDoUsuario() {
+  return """
+    {
+      "nome":"William",
+      "Sobrenome":"Caetano de souza",
+      "cursos":[
+	      {
+	        "Front-end":
+	        [
+		        "HTML",
+		        "CSS",
+		        "JavaScript"
+	        ]
+	      }
+      ]
+    }
+   """;
+}
+
+Recuperando valores pela chave
+print(dados['nome']) -> Para acessar o valor da chave, a chave deve ser informada entre colchetes e entra aspas simples
+
+Recuperando valores pelo Índice
+print(dados['cursos'][0]) -> Para acessar o valor dentro de uma chave, primeiro digite a chave entre colchetes e aspas simples e depois entre colchetes novamente e o índice daquele valor
