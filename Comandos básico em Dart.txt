@@ -95,6 +95,9 @@ Ex.: Último termo -> print(nomes.last)
 Ex.: Acessando qualquer outro termo -> print(nomes[3])
 
 FUNÇÕES DE LISTAS
+OBS.: é possível criar um encadeamento nas funções de lista, fazendo assim e atribuir a uma nova lista ou fazer um retorno de uma uma função:
+Ex.: List<int> outrasIdades = idades..add(50)..add(65)..removeWhere((i) => i >= 20);
+
 Vamos usar os exemplos com esta lista: List<int> idades = [](também pode ser declarado vazio)
 
 idades.add(5) -> adiciona um valor à lista na última posição
@@ -288,3 +291,25 @@ void main(){
 }
 
 Neste cenário, como o valor é menor que 0, então a exceção será lançada, caso fosse mair que 0, então continuará o programa normalmente
+
+-------------------------------------------------------------------------------------------------------------------------------
+ENUMERADORES
+Para declarar esse tipo é assim:
+Ex.: enum StatusPagamento {pendente, pago, reembolsado}
+Apenas para este tipo não encerramos a linha com ;
+
+Para usarmos essas informações, nós a declaramos como um tipo de dado e já podemos atribuir um valor
+Ex.: StatusPagamento status = StatusPagamento.pendente;
+
+Para acessar o valor com base na posição:
+Ex.: print(StatusPagamento.values[1]); -> aqui será impresso o valor desta posição
+OBS.: para pegar apenas nome desse retorno, acrescente o .name nesta estrutura, assim:
+Ex.: print(StatusPagamento.values[1].name);
+
+Para acessar a posição com base no valor:
+Ex.:
+StatusPagamento status = StatusPagamento.pendente
+print(status.index); -> será impresso a posição com base no valor recebido
+
+Para retornar apenas o nome do enumerador:
+Ex.: print(status.name);
