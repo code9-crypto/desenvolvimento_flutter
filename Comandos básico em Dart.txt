@@ -313,3 +313,81 @@ print(status.index); -> será impresso a posição com base no valor recebido
 
 Para retornar apenas o nome do enumerador:
 Ex.: print(status.name);
+
+---------------------------------------------------------------------------------------------------------------------------
+PROGAMAÇÃO ORIENTADA A OBJETOS
+Criando uma classe
+Ex.: class Pessoa{
+	String? nome;
+	int? idade;
+	int passo = 0;
+
+	void andar(){
+		passo++;
+		print("Você deu mais um passo");
+	}
+}
+
+Instanciando um objeto
+Ex.: void main(){
+	Pessoa p1 = Pessoa();
+	p1.andar();
+}
+OBS.: Nesta programação não precisa usar a palavra reservada new para instanciar um novo objeto.
+
+Acessando tanto os métodos quanto atributos
+Ex.: p1.andar();
+
+CONSTRUTORES
+A criação do construtor é assim:
+OBS.: Para manter o código mais legível, o padrão de criação é: 
+1º Construtores, 2º Atributos e 3º Métodos
+Ex.: class Empresa{
+	//CONSTRUTORES
+	Empresa(); -> este construtor que não tem parâmetro é opcional
+
+	Empresa({required this.nome, required this.faturamento, required this.porte}); -> Este construtor é aquele que tem parâmetros
+	OBS.: A forma de declarar os parâmetros que tem o mesmo nome dos atributos, é deste jeito do construtor, e como está dentro de chaves
+	significa que seus parâmetros são nomeados.
+
+	Empresa.fisica({required this.nome, required this.faturamento, required this.porte}); -> É possível criar também construtores nomeados,
+	Significa que ao instanciar um objeto desta classe, é possível instanciar direto com este construtor;
+	Assim sendo, é possível criar vários cenários de acordo com cada necessidade.
+
+	//ATRIBUTOS
+	String nome;
+	double faturamento;
+	String porte;
+
+	//MÉTODOS
+	void verFaturamento(){
+		print("Vendo faturamento...");
+	}
+}
+
+GETTERS E SETTERS
+Para criar esses métodos:
+Ex.: set atribuiValor(int valor){
+
+}
+
+int get recuperaValor{
+	return _dinheiro;
+}
+
+O método set recebe parâmetros, pois ele é quem faz as atribuições aos atributos privados( aqueles que começam com _; Ex.: _nome, _idade, _conta ...)
+O método get não recebe parâmetro e também na sua declaração não precisa abrir e fechar parênteses
+
+OBS.: Caso um atributo seja nullable, o seu get e set também deverá ser nullable, assim:
+Ex.: set setarValor(num? valor){
+	//Faça uma verificação antes de atribuir, pois o valor pode ser nulo
+	if( valor != null ){
+		_conta = valor;
+	}else{
+		print("o valor é nulo, não foi possível atribuir");
+	}	
+}
+
+num? get pegarValor{
+	return _conta;
+}
