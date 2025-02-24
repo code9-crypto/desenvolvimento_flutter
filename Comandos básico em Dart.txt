@@ -391,3 +391,94 @@ Ex.: set setarValor(num? valor){
 num? get pegarValor{
 	return _conta;
 }
+
+ATRIBUTOS NULLABLES
+Lição importante, quando for fazer a leitura de um GET, sempre atribua este retorno a uma variável local para que se não dê
+ao caso de que o retorno deste GET não seja um valor null;
+Ex.: String nome = pessoa.recuperaNome;
+Depois faça uma verificação com if..else
+if( nome != null){
+	print(nome);
+}
+
+MODIFICAR DE ACESSO STATIC
+Esse modificador indica que o atributo ou o método pertence EXCLUSIVAMENTE à classe e não ao objeto
+Ou seja, só é possível fazer o acesso diremente pela classe e não pelo objeto;
+Ex.: class Pessoa{
+	static comer(){
+		print("comendo...");
+	}
+}
+
+Acessando diretamente a o método pela classe e NÃO INSTANCIANDO UM OBJETO, já que se tentar fazer, o objeto não encontrará este método
+Pessoa.comer();
+
+MODIFICAR LATE
+Este modificar é muito importante para quando você saiba que um atributo deverá ser inicializado antes de ser usado ou acessado;
+Outro detalhe importante é que não precisará fazer uma verificação se é null, no caso do operador nullable(?);
+Ex.: class Pessoa{
+	late String cpf;
+}
+Pessoa p1 = Pessoa();
+Se eu tentar acessar este atributo antes de inicializá-lo, terei um erro de exceção;
+E para evitar isso, inicializamos o atributo antes de acessá-lo;
+Ex.: p1.cpf = "000.000.000-00";
+print(p1.cpf);
+
+HERANÇA
+É possível herdar os atributos e método de outras classes para minizar a quantidade de código, e também poder acessá-los;
+Ex.: class Animal{
+	String? nome;
+	int? idade;
+
+	void andar(){
+		print(")
+	}
+}
+
+class Cachorro extends Animal{
+	void latir(){
+		print("latindo...");
+	}
+}
+
+class Gato extends Animal{
+	void miar(){
+		print("Miando...");
+	}
+}
+
+VANTAGENS DA HERANÇA
+Caso uma lista seja iniciada com um tipo classe e este classe seja genérica, e esta classe está sendo herdade por outras classes;
+É possível fazer determinada verificação com qual tipo de dado estamos trabalhando;(pois numa lista haverá muitos elementos)
+
+Ex.: List<Animal> animais = [];
+animais.add(Cachorro());
+animais.add(Gato());
+
+Supondo que não saibamos com qual tipo estamos trabalhando, então fazemos deste jeito:
+Ex.: Animal animal1 = animais.first; -> Aqui criamos uma variável do tipo classe genérica e que recebe o primeiro elemento da lista;
+
+Agora para verificar qual elemento estamos trabalhando;
+Ex.: if( animal1 is Cachorro ){ 
+	animal1.latir();
+}else if( animal1 is Gato ){
+	animal1.miar();
+}
+Com esta verificação, a variável animal1 já terá seu comportamento alterado de acordo com a condição
+
+REESCRITA DE MÉTODO
+Quando fizer uma sobrescrita de método, deverá escrever a notação @override;
+Ex.: class Pessoa{
+	void andar(){
+		print("Andando...");
+	}
+}
+
+class PessoaFisica extends Pessoa{
+	@override
+	void andar(){
+		print("Andando com pessoa física);
+	}
+}
+NOTA: A assinatura do método deve ser igual a da super classe
