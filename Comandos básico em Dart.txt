@@ -467,7 +467,7 @@ Ex.: if( animal1 is Cachorro ){
 }
 Com esta verificação, a variável animal1 já terá seu comportamento alterado de acordo com a condição
 
-REESCRITA DE MÉTODO
+REESCRITA/SOBRESCRITA DE MÉTODO
 Quando fizer uma sobrescrita de método, deverá escrever a notação @override;
 Ex.: class Pessoa{
 	void andar(){
@@ -482,3 +482,109 @@ class PessoaFisica extends Pessoa{
 	}
 }
 NOTA: A assinatura do método deve ser igual a da super classe
+
+PALAVRA CHAVE "SUPER"
+Antes de mais nada devemos entender que, NÃO É POSSÍVEL ACESSAR MÉTODOS DE UMA SUBCLASSE
+Para que seja possível que um método da subclasse seja executada, primeiramente criamos o método na SUPERCLASSE e após
+criamos o mesmo método na SUBCLASSE(com a mesma assinatura), porém com a anotação @override em cima deste método da SUBLCASSE;
+Agora para fazer acesso aos métodos da SUPERCLASSE devemos usar o "super." e o nome do método;
+Ex.: Ex.: class Pessoa{
+	void andar(){
+		print("Andando...");
+	}
+
+	void correr(){
+		print("Estou correndo");
+	}
+}
+
+class PessoaFisica extends Pessoa{
+	@override
+	void andar(){
+		print("Andando com pessoa física);
+	}
+
+	@override
+	void correr(){
+		super.correr();
+		print("Continuo correndo...");
+	}
+}
+
+E para que o construtor da SUBCLASSE passe os valores aos atributos da SUPERCLASSE, fazemos assim:
+Ex.: Ex.: class Pessoa{
+	Pessoa(this.nome, this.idade)
+	
+	String nome;
+	int idade;
+}
+
+class PessoaFisica extends Pessoa{
+	PessoaFisica(String nome, int idade) : super(nome, idade);
+}
+
+OPERADOR CAST
+Muito usado quando você tiver CERTEZA que determinado retorno será daquele tipo específico
+Ex.; Automovel conducao = funcao() as Carro; -> Este "... as Carro" é a forma de fazer o cast
+
+CLASSES ABSTRATAS
+Com esse tipo de classe não será possível instanciá-las, apenas será possível herda-las;
+Ex.: abstract class Pessoa ....
+
+Só para frisar o que vimos antes sobre o comportamento dos métodos;
+Caso eu queira que determinado comportamento de um método da classe Pai(SUPERCLASE) se comporte especificamente de acordo com
+a SUBCLASSE, então podemos criar o método dentro da SUPERCLASSE, mas sem nenhum comportamento fazendo com que apenas a SUBCLASSE
+se corportar como você quer:(NÃO SE ESQUECENDO DA NOTAÇÃO @override)
+
+Ex.:class Pessoa{
+	void falar(){}
+}
+
+classe PessoaFisica extends Pessoa{
+	@override
+	void falar(){
+		print("aqui eu defino o comportamento");
+	}
+}
+
+INTERFACES
+Uma interface é declarada como uma classe abstrata(abstract class ...), mas na hora de reutilizá-lo usamos a palavra reservada
+implements(como se fosse cumprir um contrato);
+Toda classe que cumpre este contrato, obrigatoriamente deve usar seus métodos;
+DETALHE: A lógica não fica dentro da interface, mas sim dentro da classe que cumpre seu contrato
+
+Ex.:
+OBS.: Na declaração da variável pode utilizar o tipo de dado como a interface, porém na instanciação deverá ser a classe
+que implementa a interface.(já que não é possível instanciar classes abstratas)
+void main() {
+  RepositorioPessoas pessoas = RepositorioPessoasLocal();
+  print(pessoas.ler(5));
+  
+}
+
+//Aqui é considerado um interface
+//A lógica não fica na interface
+abstract class RepositorioPessoas {
+  String ler(int i);
+  void adicionar(String nome);
+  void apagar(int i);
+  void apagarTodos();
+}
+
+//Para implementá-lo é feito deste jeito
+//E toda a lógica fica dentro da classe que cumpre o contrato da interface
+class RepositorioPessoasLocal implements RepositorioPessoas {
+  @override
+  void adicionar(String nome) {}
+
+  @override
+  void apagar(int i) {}
+
+  @override
+  void apagarTodos() {}
+
+  @override
+  String ler(int i) {
+    return "Lendo seus dados...";
+  }
+}
