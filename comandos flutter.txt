@@ -23,3 +23,9 @@ class MyApp extends StatelessWidget {
 
 Dentro da função MaterialApp(), irá o parâmetro nomeado home: Container() que é a tela inicial do app
 E dentro da função Container(), irá os parâmetros nomeados dos ícones que apareceram na tela inicial
+
+NOTA: AGORA NÓS VAMOS TRABALHAR DENTRO DA CLASSE QUE RETORNA ÀS PÁGINAS
+função Scaffold() -> é a função mais utilizada para criar as telas, nela está toda os parâmetros para configurar as telas
+Exemplos de elementos disponíveis(todos parâmetros nomeados): backgroundColor, body, children(parâmetro que inclui mais de um filhos),
+mainAxisAlignment(parâmetro que alinha na vertical no eixo X)
+

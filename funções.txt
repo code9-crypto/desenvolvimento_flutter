@@ -1,0 +1,10 @@
+Text() -> nela é possível inserir os textos e também estilizá-los com o parâmetro descrito
+Ex.:
+Text(
+    "Pode entrar!",
+    Aqui é a estilização
+    style: TextStyle(
+        fontSize: 40, color: Colors.white, fontWeight: FontWeight.w800),
+),
+
+Column() -> é aquela que alinha todos elementos de forma vertical
