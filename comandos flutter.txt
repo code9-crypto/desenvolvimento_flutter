@@ -1,0 +1,25 @@
+O código sempre será inicializado com a função main:
+void main(){
+}
+
+Dentro da função main(), irá a função que rodará o app:
+runApp(const MyApp()); -> Este parâmetro é um classe, onde você personaliza seu widget e assim também é possível usar o hot reaload
+OBS.: para criar essa classe de forma simples e rápida, digite "stless"(sem aspas) que a estrutura padrão será exibida para alterações
+class MyApp extends StatelessWidget {
+  const ({super.key});
+
+  Este método está sobreescrevendo o método da SUPERCLASSE StatelessWidget
+  E este método é necessário para retornar um widget - Aquilo que será exibido na tela - pode ser ícone, texto, espaço...
+  @override
+  Widget build(BuildContext context) {
+    Retorna um material app
+    return MaterialApp(
+        home: Container(
+            color: Colors.black
+        )
+    );
+  }
+}
+
+Dentro da função MaterialApp(), irá o parâmetro nomeado home: Container() que é a tela inicial do app
+E dentro da função Container(), irá os parâmetros nomeados dos ícones que apareceram na tela inicial
