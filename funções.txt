@@ -1,3 +1,4 @@
+IMPORTANTE: ESSAS FUNÇÕES SEMPRE IRÃO DENTRO DE UM Container() OU DENTRO DE UM Scaffold()
 Text() -> nela é possível inserir os textos e também estilizá-los com o parâmetro descrito
 Ex.:
 Text(
@@ -8,3 +9,22 @@ Text(
 ),
 
 Column() -> é aquela que alinha todos elementos de forma vertical
+
+children[] -> recebe uma lista de filhos, onde podem ser botões, textos ...
+OBS.: aqui dentro desta lista, não precisa declarar os parâmetros como nomeados, apenas digite a função que deseja inserir
+
+SizedBox() -> põe um espaçamento entre os elementos; recebe como parâmetro: width ou height
+Ex.: SizedBox(height: 30)
+
+BOTÕES
+TextButton(onPressed: onPressed, child: child) -> este é um widget que cria um botão e nele há dois parâmetros: 
+1º função do botão
+2º o filho do botão, ou seja, o que tem dentro do botão(normalmente um texto)
+
+TextButton.styleFrom() -> é onde podemos personalizar o botão
+padding: const EdgeInsets.all(50) -> com esta linha de código inserimos padding em todos os lados
+padding: const EdgeInsets.only(top: 20, left: 20, right: 10, bottom: 30) -> permite personalizar onde ficará os tamanhos
+
+shape: RoundedRectangleBorder() -> onde é possível arredondar o botão
+    borderRadius: BorderRadius.circular(20) -> é este parâmetro que arredonda o botão
+    side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão

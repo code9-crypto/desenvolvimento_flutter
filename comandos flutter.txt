@@ -29,3 +29,5 @@ função Scaffold() -> é a função mais utilizada para criar as telas, nela es
 Exemplos de elementos disponíveis(todos parâmetros nomeados): backgroundColor, body, children(parâmetro que inclui mais de um filhos),
 mainAxisAlignment(parâmetro que alinha na vertical no eixo X)
 
+Quando for chamar uma função, não a chame com os paratênses, pois é como se fosse um retorno da função, então fique atento a isso
+As funções são declaradas dentro da classe da prória página
