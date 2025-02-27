@@ -1,3 +1,8 @@
+Digite esses comandos simples para criar a estrutura básica dos states:
+stless -> criar a estrura do StatelessWidget (este aqui não possui estado, ou seja, do jeito que for criado, vai ficar assim pra sempre)
+stful -> cria a estrutura do StateFulWidget
+OBS.: para que você queira que seu app mude de estado, use sempre o StateFulWidget
+
 O código sempre será inicializado com a função main:
 void main(){
 }
@@ -14,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Retorna um material app
     return MaterialApp(
+        debugShowCheckedModeBanner: false -> para retirar a faixa de debug, é este código aqui
         home: Container(
             color: Colors.black
         )
@@ -31,3 +37,21 @@ mainAxisAlignment(parâmetro que alinha na vertical no eixo X)
 
 Quando for chamar uma função, não a chame com os paratênses, pois é como se fosse um retorno da função, então fique atento a isso
 As funções são declaradas dentro da classe da prória página
+
+DENTRO DO ARQUIVO pubspec.yaml
+Para adicionar uma imagem, insira o código dentro da tag flutter: , e certifique-se de manter alinhado conforme Exemplos
+OBS.: para adicionar todas as imagens da pasta, apenas digite o caminho até a pasta e sem especificar o nome da imagem;
+pois assim o programa pegará todas as imagens da pasta
+
+INSERINDO IMAGEM - (dentro da função Container())
+decoration: BoxDecoration(
+  image: DecorationImage(
+image: AssetImage("aqui vai o caminho da imagem") -> imagem local
+image: NetworkImage("aqui vai o caminho da imagem na internet") -> imagem na internet
+fit: BoxFit.cover -> faz a imagem preencher toda a tela sem que haja distorção da imagem
+
+OPERADOR TERNÁRIO
+Quando queremos fazer alguma verifição de alguma condição e mudar o texto, cor, font,... usamos muito o operador ternário
+Ex.: condição ? se_verdadeiro_cai_aqui : se_falso_cai_aqui
+
+OBS.: QUANDO UM BOTÃO RECEBE O VALOR NULL, ESTE BOTÃO AUTOMATICAMENTE FICA DESABILITADO
