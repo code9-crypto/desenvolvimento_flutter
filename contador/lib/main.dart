@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool get isEmprty => count == 0;
+
   bool get isFull => count == 20;
 
   @override
