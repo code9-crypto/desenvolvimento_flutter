@@ -9,6 +9,9 @@ Text(
 ),
 
 Column() -> é aquela que alinha todos elementos de forma vertical
+Ex.: Column(
+    mainAxisAlignment: MainAxisAlignment.center, -> normalmente sempre dentro da coluna vem este elemento para centralizar os widgets
+)
 
 children[] -> recebe uma lista de filhos, onde podem ser botões, textos ...
 OBS.: aqui dentro desta lista, não precisa declarar os parâmetros como nomeados, apenas digite a função que deseja inserir
@@ -22,6 +25,11 @@ Ex.: Container(
     child: Column(
         ....
     )
+)
+
+ESPAÇAMENTO
+Padding(
+    padding: const EdgeInsets.symmetric(horizontal/vertical: 16) -> este comando e espaçamento da a mesma simetria de espaçamento tanto na vertical ou horizontal
 )
 
 BOTÕES
@@ -43,3 +51,15 @@ setState(() {
 
 })
 Dentro dele irá toda a lógica para mudança da tela
+
+LINHA ou ROW -> Dentro desta widget os elementos são alinhados horizontalmente
+Row(
+    children: [
+        mainAxisAlignment: MainAxisAlignment.center, -> este parâmetro é usado para manter centralizado
+        Text("Texto"),
+        TextButton(
+            onPressed: null,
+            child: Text("Texto do botão")
+        )
+    ]
+)

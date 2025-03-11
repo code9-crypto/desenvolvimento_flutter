@@ -9,7 +9,7 @@ void main(){
 
 Dentro da função main(), irá a função que rodará o app:
 runApp(const MyApp()); -> Este parâmetro é um classe, onde você personaliza seu widget e assim também é possível usar o hot reaload
-OBS.: para criar essa classe de forma simples e rápida, digite "stless"(sem aspas) que a estrutura padrão será exibida para alterações
+OBS.: para criar essa classe de forma simples e rápida, digite "stless" ou "stful"(sem aspas) que a estrutura padrão será exibida para alterações
 class MyApp extends StatelessWidget {
   const ({super.key});
 
@@ -28,15 +28,31 @@ class MyApp extends StatelessWidget {
 }
 
 Dentro da função MaterialApp(), irá o parâmetro nomeado home: Container() que é a tela inicial do app
-E dentro da função Container(), irá os parâmetros nomeados dos ícones que apareceram na tela inicial
+E dentro da função Container(), irá os parâmetros nomeados dos ícones que aparecerão na tela inicial
 
 NOTA: AGORA NÓS VAMOS TRABALHAR DENTRO DA CLASSE QUE RETORNA ÀS PÁGINAS
 função Scaffold() -> é a função mais utilizada para criar as telas, nela está toda os parâmetros para configurar as telas
 Exemplos de elementos disponíveis(todos parâmetros nomeados): backgroundColor, body, children(parâmetro que inclui mais de um filhos),
 mainAxisAlignment(parâmetro que alinha na vertical no eixo X)
+OBS.: Esta função Scaffold() fica dentro da sobrescrita Widget build:
+Ex.: @override
+  Widget build(BuildContext context) {
+    ....
+    return Scaffold(
+      ...
+    )
+    ....
+  }
 
-Quando for chamar uma função, não a chame com os paratênses, pois é como se fosse um retorno da função, então fique atento a isso
+NOTA: Quando for chamar uma função, não a chame com os paratênses, pois é como se fosse um retorno da função, então fique atento a isso
 As funções são declaradas dentro da classe da prória página
+
+DENTRO DO ARQUIVO AndroidManigest.xml(.../android/app/src/main/)
+É onde fica o nome do aplicativom, ou seja, por conseguinte é possível alterar seu nome também
+
+DENTRO DO ARQUIVO build.gradle(.../android/app/)
+É onde fica a configuração para gerar o .apk ou .appbnd(este é enviado à loja google play)
+Caso tenha dúvida de como fazer, olhar para os projetos anteriores
 
 DENTRO DO ARQUIVO pubspec.yaml
 Para adicionar uma imagem, insira o código dentro da tag flutter: , e certifique-se de manter alinhado conforme Exemplos
@@ -55,3 +71,36 @@ Quando queremos fazer alguma verifição de alguma condição e mudar o texto, c
 Ex.: condição ? se_verdadeiro_cai_aqui : se_falso_cai_aqui
 
 OBS.: QUANDO UM BOTÃO RECEBE O VALOR NULL, ESTE BOTÃO AUTOMATICAMENTE FICA DESABILITADO
+
+CENTRALIZANDO NO MEIO DA TELA O CAMPO DE TEXTO
+Nota: Tudo que for feito sempre será dentro do método Scaffold()
+Ex.: body: Center(
+  child: TextField(),
+)
+
+ESTILIZANDO UM CAMPO DE TEXTO
+child: TextField(
+  decoration: InputDecoration( -> Este elemento decoration junto com InputDecoration será o responsável de estilizar todo o campo
+    //labelText: "E-mail", -> É o texto dentro do campo; mas quando clicado ele faz um efeito e o texto sobe fica em cima do campo
+    labelText: "Preço", ->  É o mesmo que o de cima
+    icon: Icon(Icons.price_change), -> É o elemento que adiciona um ícone ao lado esquerdo do campo
+    hintText: "exemplo@email.com", -> É o elemento que mostra uma dica ao usuário de como deve ser escrito
+    //border: InputBorder.none//OutlineInputBorder(), -> É o elemento que pode colocar ou retirar a borda do campo
+    errorText: null, -> É o elemento que mostra um erro 
+    prefixText: "R\$ ", -> É o elemento que deixa um texto de forma fixa ao lado esquerdo do campo
+    suffixText: "cm", -> É o elemento que deixa um texto de forma fixa ao direito do campo
+    suffixStyle: TextStyle( -> Aqui é onde faz a estilização do suffixText
+      fontSize: 20
+    ),
+    labelStyle: TextStyle( -> Aqui é onde faz es estilização do labelText
+      fontSize: 20
+    )
+  ),
+  //obscureText: true, -> Este elemento deixa o texto de forma não legível, como se fosse campo de senha
+  //obscuringCharacter: "*", -> Este é o elemento que escolhe o caracter para ocultar o texto
+  keyboardType: TextInputType.number, -> Este é o elemento que defini qual o tipo de teclado que será exibido para o usuário
+  style: TextStyle( -> IMPORTATE: este style é referente ao texto digitado no campo
+    fontSize: 20,
+    fontWeight: FontWeight.w700
+  ),
+),
