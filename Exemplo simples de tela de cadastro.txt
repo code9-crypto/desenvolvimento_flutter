@@ -1,0 +1,34 @@
+return Scaffold(
+        //Centralizando o campo de texto no meio do corpo da tela
+        body: Center(
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        children: [          
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Cadastro de voluntários",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 30,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              decoration: InputDecoration(labelText: "Nome", icon: Icon(Icons.person), hintText: "Fulano de tal"),
+          )),
+          SizedBox(height: 50,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              decoration: InputDecoration(labelText: "Função", icon: Icon(Icons.work), hintText: "Ajudante"),
+          )),
+        ],
+      ),
+    )

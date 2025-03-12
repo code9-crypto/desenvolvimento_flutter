@@ -45,6 +45,8 @@ shape: RoundedRectangleBorder() -> onde é possível arredondar o botão
     side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão
     fixedSize: const Size(100, 100),
 
+ElevatedButton(onPressed: login, child: Icon(Icons.login)) -> este parece ser um botão mais estilizado que o de cima
+
 FUNÇÕES(parte lógica)
 Para que sua tela mostre as alterações feitas, devemos usar o seguinte método:
 setState(() {

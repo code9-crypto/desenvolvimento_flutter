@@ -104,3 +104,35 @@ child: TextField(
     fontWeight: FontWeight.w700
   ),
 ),
+
+CONTROLANDO O CAMPO DE TEXTO
+NOTA: todo esse conteúdo deverá fica dentro da classe da prória página
+
+//Esta é a instancia da classe controller para recuperar valores do campo de texto
+ //OBS.: esta é a 1ª forma de recuperar dados do campo de texto
+final TextEditingController emailController = TextEditingController();
+
+TextField(
+  onSubmitted: enviando, //este parâmetro é chamado quando o botão de enviar do teclado do celular ou tecla Enter é acionada
+  onChanged: mudando, // este parâmetro fica monitorando se há alguma mudança no campo; este elemento não faz nenhuma edição no campo
+  //aqui dentro que é declarado o controller para aquele campo e fazendo referência a instancia da classe ali em cima
+  controller: emailController,
+)
+
+//A função(parte lógica) deve estar dentro da classe da página
+void login() {
+  String texto = emailController.text;
+  print(texto);
+  //emailController.clear();
+  //emailController.text = "email digitado"; -> esta é a única forma de inserir um texto dentro do campo
+
+}
+
+void mudando(String texto){
+  //print(texto);
+}
+
+void enviando(String texto){
+  print(texto);
+  emailController.clear();
+}
