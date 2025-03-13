@@ -12,57 +12,88 @@ class TodoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Centralizando o campo de texto no meio do corpo da tela
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                onSubmitted: enviando, //este parâmetro é chamado quando o botão de enviar do teclado do celular ou tecla Enter é acionada
-                onChanged: mudando, // este parâmetro fica monitorando se há alguma mudança no campo; este elemento não faz nenhuma edição no campo
-                //aqui dentro que é declarado o controller para aquele campo
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  )
-                ),
-                //obscureText: true,
-                //obscuringCharacter: "*",
-                keyboardType: TextInputType.number,
+              Text(
+                "Lista de tarefas",
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              ElevatedButton(onPressed: login, child: Icon(Icons.login))
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Adicionar uma tarefa",
+                          hintText: "Ex. estudar flutter"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      fixedSize: Size(50, 50),
+                      backgroundColor: Color(0xff00d7f3),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+              //AQUI É A PARTE DA LISTVIEW
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Você possui 0 tarefas pendentes",
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      fixedSize: Size(105, 50),
+                      backgroundColor: Color(0xff00d7f3),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    child: Text(
+                      "Limpar tudo",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
       ),
     );
   }
-
-  //A função(parte lógica) deve estar dentro da classe da página
-  void login() {
-    String texto = emailController.text;
-    print(texto);
-    //emailController.clear();
-    //emailController.text = "email digitado"; -> esta é a única forma de inserir um texto dentro do campo
-
-  }
-
-  void mudando(String texto){
-    //print(texto);
-  }
-
-  void enviando(String texto){
-    print(texto);
-    emailController.clear();
-  }
-
-
 }

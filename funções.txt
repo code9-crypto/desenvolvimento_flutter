@@ -10,7 +10,8 @@ Text(
 
 Column() -> é aquela que alinha todos elementos de forma vertical
 Ex.: Column(
-    mainAxisAlignment: MainAxisAlignment.center, -> normalmente sempre dentro da coluna vem este elemento para centralizar os widgets
+    mainAxisAlignment: MainAxisAlignment.center, -> normalmente sempre dentro da coluna vem este elemento para centralizar os widgets. Este alinha no meio da tela, porém o tamanho da coluna ocupda a tela inteira
+    mainAxisSize: MainAxisSize.min -> este elemento faz com que a coluna ocupe o mínimo possível de acordo com os widgets na tela.
 )
 
 children[] -> recebe uma lista de filhos, onde podem ser botões, textos ...
@@ -32,7 +33,11 @@ Padding(
     padding: const EdgeInsets.symmetric(horizontal/vertical: 16) -> este comando e espaçamento da a mesma simetria de espaçamento tanto na vertical ou horizontal
 )
 
-BOTÕES
+Expanded() -> esta função faz com que o elemento o ocupe a maior área possível, ou seja, caso haja um botão do lado, então ele vai ocupar até o espaço do botão
+
+************************************************************************************************************************************************************
+
+BOTÕES (serve para )
 TextButton(onPressed: onPressed, child: child) -> este é um widget que cria um botão e nele há dois parâmetros: 
 1º função do botão
 2º o filho do botão, ou seja, o que tem dentro do botão(normalmente um texto)
@@ -40,12 +45,26 @@ TextButton(onPressed: onPressed, child: child) -> este é um widget que cria um 
 TextButton.styleFrom() -> é onde podemos personalizar o botão
 padding: const EdgeInsets.all(50) -> com esta linha de código inserimos padding em todos os lados
 padding: const EdgeInsets.only(top: 20, left: 20, right: 10, bottom: 30) -> permite personalizar onde ficará os tamanhos
-shape: RoundedRectangleBorder() -> onde é possível arredondar o botão
+shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
     borderRadius: BorderRadius.circular(20) -> é este parâmetro que arredonda o botão
     side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão
-    fixedSize: const Size(100, 100),
+    fixedSize: const Size(100, 100)
+)
 
 ElevatedButton(onPressed: login, child: Icon(Icons.login)) -> este parece ser um botão mais estilizado que o de cima
+OBS.: os estilos usados acima, também servem para este botão
+
+ElevatedButton.styleFrom() -> é onde podemos personalizar o botão
+padding: const EdgeInsets.all(50) -> com esta linha de código inserimos padding em todos os lados
+padding: const EdgeInsets.only(top: 20, left: 20, right: 10, bottom: 30) -> permite personalizar onde ficará os tamanhos
+shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
+    borderRadius: BorderRadius.circular(20) -> é este parâmetro que arredonda o botão
+    side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão
+    fixedSize: const Size(100, 100)
+)
+
+
+***********************************************************************************************************************************************
 
 FUNÇÕES(parte lógica)
 Para que sua tela mostre as alterações feitas, devemos usar o seguinte método:
@@ -54,7 +73,10 @@ setState(() {
 })
 Dentro dele irá toda a lógica para mudança da tela
 
-LINHA ou ROW -> Dentro desta widget os elementos são alinhados horizontalmente
+************************************************************************************************************************************************************
+
+ROW -> Dentro desta widget os elementos são alinhados horizontalmente
+
 Row(
     children: [
         mainAxisAlignment: MainAxisAlignment.center, -> este parâmetro é usado para manter centralizado
