@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
+import 'package:todo_list/models/todo.dart';
 import 'package:todo_list/widgets/todo_list_item.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -14,12 +15,14 @@ class _TodoListPageState extends State<TodoListPage> {
   //Este é o controlador do campo para adicionar tarefas
   final TextEditingController tasksController = TextEditingController();
 
-  List<String> tasks = [];
+  //A lista que será usada para adicionar os itens a lista
+  List<Todo> tasks = [];
 
   //Esta é a instancia da classe controller para recuperar valores do campo de texto
   @override
   Widget build(BuildContext context) {
-    return SafeArea( // Este faz com que o layout não encoste na área superior que é onde fica as notificações do celular
+    return SafeArea(
+      // Este faz com que o layout não encoste na área superior que é onde fica as notificações do celular
       child: Scaffold(
         body: Center(
           child: Padding(
@@ -41,6 +44,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   children: [
                     Expanded(
                       child: TextField(
+                        //Deixo o controller dentro do textfied para que possa recuperar o valor escrito aqui dentro
                         controller: tasksController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
@@ -53,11 +57,18 @@ class _TodoListPageState extends State<TodoListPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        //Aqui esta pegando o valor do campo de texto e armazenando dentro da variável text
                         String text = tasksController.text;
-                        setState(() {
-                          tasks.add(text);
-                        });
-                        tasksController.clear();
+                        //verificando se não está vazio
+                        if( text.isNotEmpty) {
+                          setState(() {
+                            //Instanciando a nova classe e adicionando a instancia na lista
+                            Todo newTodo = new Todo(title: text, dateTime: DateTime.now());
+                            //Aqui esta apenas mandando para lista... NÃO ESTÁ EXIBINDO NA TELA NADA
+                            tasks.add(newTodo);
+                          });
+                          tasksController.clear();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -78,14 +89,21 @@ class _TodoListPageState extends State<TodoListPage> {
                 SizedBox(
                   height: 30,
                 ),
-                Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible()
+                Flexible(
+                  //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible()
                   child: ListView(
-                    shrinkWrap: true, // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
+                    shrinkWrap: true,
+                    // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
                     children: [
-                      for( String task in tasks )
+                      //AQUI É A PARTE QUE ESTÁ EXIBINDO NA TELA O QUE ESTÁ DENTRO DA LISTA
+                      //PERCORRENDO POR TODOS OS ITENS QUE ESTÃO DENTRO DA LISTA COM O for()
+                      for (Todo task in tasks)
+                        //Já dentro do for, estou chamando o novo widget criado e já passando o objeto task ao parâmetro nomeado do construtor dessa classe
                         TodoListItem(
                           //OBS.: aqui dentro sempre aparecerá os parâmetros nomeados que estiverem dentro do construtor
-                          title: task,
+                          //Passando os valores á classe do widget filho
+                          todo: task,
+                          onDelete: onDelete,
                         ),
                     ],
                   ),
@@ -103,7 +121,9 @@ class _TodoListPageState extends State<TodoListPage> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          tasks.clear();
+                          if( tasks.isNotEmpty ){
+                            tasks.clear();
+                          }
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -113,6 +133,7 @@ class _TodoListPageState extends State<TodoListPage> {
                         backgroundColor: Color(0xff00d7f3),
                         padding: EdgeInsets.all(10),
                       ),
+                      //Esse child é o parâmetro que vai dentro do botão; pode ser um ícone ou um texto
                       child: Text(
                         "Limpar tudo",
                         style: TextStyle(color: Colors.white, fontSize: 15),
@@ -127,4 +148,14 @@ class _TodoListPageState extends State<TodoListPage> {
       ),
     );
   }
+
+  //Para que a classe Pai passe parâmetros para classe filho, cria-se uma função e dentro da classe filho recebe esta função como parâmetro
+
+  //neste caso será para deletar
+  void onDelete(Todo tf){
+    setState(() {
+      tasks.remove(tf);
+    });
+  }
+
 }
