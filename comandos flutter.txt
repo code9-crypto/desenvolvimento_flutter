@@ -7,6 +7,8 @@ O código sempre será inicializado com a função main:
 void main(){
 }
 
+IMPORTANTE: Sempre que for receber um parâmetro, faremos isso via construtor
+
 Dentro da função main(), irá a função que rodará o app:
 runApp(const MyApp()); -> Este parâmetro é um classe, onde você personaliza seu widget e assim também é possível usar o hot reaload
 OBS.: para criar essa classe de forma simples e rápida, digite "stless" ou "stful"(sem aspas) que a estrutura padrão será exibida para alterações
