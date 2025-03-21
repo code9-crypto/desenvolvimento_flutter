@@ -1,11 +1,9 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:todo_list/models/todo.dart';
 import 'package:todo_list/widgets/todo_list_item.dart';
 
 class TodoListPage extends StatefulWidget {
-  TodoListPage({super.key});
+  const TodoListPage({super.key});
 
   @override
   State<TodoListPage> createState() => _TodoListPageState();
@@ -60,10 +58,11 @@ class _TodoListPageState extends State<TodoListPage> {
                         //Aqui esta pegando o valor do campo de texto e armazenando dentro da variável text
                         String text = tasksController.text;
                         //verificando se não está vazio
-                        if( text.isNotEmpty) {
+                        if (text.isNotEmpty) {
                           setState(() {
                             //Instanciando a nova classe e adicionando a instancia na lista
-                            Todo newTodo = new Todo(title: text, dateTime: DateTime.now());
+                            Todo newTodo =
+                                Todo(title: text, dateTime: DateTime.now());
                             //Aqui esta apenas mandando para lista... NÃO ESTÁ EXIBINDO NA TELA NADA
                             tasks.add(newTodo);
                           });
@@ -99,11 +98,12 @@ class _TodoListPageState extends State<TodoListPage> {
                       //PERCORRENDO POR TODOS OS ITENS QUE ESTÃO DENTRO DA LISTA COM O for()
                       for (Todo task in tasks)
                         //Já dentro do for, estou chamando o novo widget criado e já passando o objeto task ao parâmetro nomeado do construtor dessa classe
+                        //Esse TodoListItem é o construtor da própria classe
                         TodoListItem(
                           //OBS.: aqui dentro sempre aparecerá os parâmetros nomeados que estiverem dentro do construtor
                           //Passando os valores á classe do widget filho
                           todo: task,
-                          onDelete: onDelete,
+                          funcDelete: onDelete,
                         ),
                     ],
                   ),
@@ -121,7 +121,7 @@ class _TodoListPageState extends State<TodoListPage> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if( tasks.isNotEmpty ){
+                          if (tasks.isNotEmpty) {
                             tasks.clear();
                           }
                         });
@@ -152,10 +152,17 @@ class _TodoListPageState extends State<TodoListPage> {
   //Para que a classe Pai passe parâmetros para classe filho, cria-se uma função e dentro da classe filho recebe esta função como parâmetro
 
   //neste caso será para deletar
-  void onDelete(Todo tf){
+  void onDelete(Todo tf) {
     setState(() {
       tasks.remove(tf);
     });
-  }
 
+    //Criando um SnackBar quando houver uma deleção
+    //Esta é uma forma bem simples
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Tarefa ${tf.title} excluída com sucesso"),
+      ),
+    );
+  }
 }

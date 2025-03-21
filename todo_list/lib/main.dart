@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //importando uma classe de outro pacote
 //OBS.: package:nome_do_aplicativo

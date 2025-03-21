@@ -1,0 +1,112 @@
+TROCANDO ÍCONE DO APP
+1º Usar o package para trocar ícone: flutter_launcher_icons e faremos essa customização dentro do arquivo pubspec.yaml;
+
+dev_dependencies:
+    flutter_test:
+      .....
+    flutter_launcher_icons: "^0.14.3" -> na mesma linha do dev_dependencies
+
+flutter_launcher_icons: -> este código aqui fica no final do arquivo e deve estar na mesma linha de flutter:
+  android: true
+  ios: true
+  image_path: "caminho_da_imagem_do_app"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+2º Rodar os seguintes comandos:(esses comandos devem ser executados dentro da pasta do aplicativo)
+ - flutter pub get (ou pode clicar no menu lá de cima)
+ - dart run flutter_launcher_icons
+
+CONFIGURANDO ASSINATURA DO APLICATIVO
+1º criar um keystore, usando este comando:
+keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+OBS.: este comando usa a ferramenta keytool que é do java; caso o path do java não esteja global, você deve rodar este comando dentro da pasta do java;
+Quando criar a senha, NÃO ESQUECER NUNCA MAIS
+
+2º após conclusão do primeiro passo; criar um novo arquivo dentro da pasta android(Ex.: .../android) chamado key.properties e colocar esse código:
+storePassword=senha_criada_do_store
+keyPassword=senha_criada_do_store
+keyAlias=upload
+storeFile=caminho_onde_está_o_.jks
+
+3º dentro do arquivo build.gradle em .../android/app/build.gradle jogar este código aqui:
+
+import java.util.Properties
+import java.io.FileInputStream
+
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def keystoreProperties = new Properties();
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace = "com.contador.contador" //-> ALTERAR AQUI, MAS SEMPRE COM com.
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "dev.starttodev.contador" //-> ALTERAR AQUI
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now,
+            // so `flutter run --release` works.
+            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+ALTERANDO O NOME DO APLICATIVO
+1º alterar o nome do aplicativo dentro do arquivo androimanifest.xml no seguite caminho: .../android/src/main/AndroidManifest.xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="[project]"
+        ...
+    </application>
+    ...
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>
+
+OBS.: dentro deste arquivo também mexe nas permissões do aplicativo
+
+CRIANDO A VERSÃO APK OU APP BUNDLE
+1º dentro da pasta do projeto, entre no modo terminal e digite o comando: flutter build apk --split-per-abi ou pode ser apenas o flutter build apk
