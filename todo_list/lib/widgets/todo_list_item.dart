@@ -24,6 +24,7 @@ class TodoListItem extends StatelessWidget {
       child: Slidable( //Esse Slidable é da versão 3.1.2
         // The child of the Slidable is what the user sees when the
         // component is not dragged.
+        child: ListTile(title: Text(todo.title),),
         endActionPane: ActionPane(
           motion: DrawerMotion(),
           children: [
@@ -48,9 +49,6 @@ class TodoListItem extends StatelessWidget {
             )*/
           ],
         ), //Esse Slidable é da versão 3.1.2
-        // The child of the Slidable is what the user sees when the
-        // component is not dragged.
-        child: ListTile(title: Text(todo.title),),
       ),
     );
   }

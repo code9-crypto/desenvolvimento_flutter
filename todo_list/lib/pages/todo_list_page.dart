@@ -16,6 +16,9 @@ class _TodoListPageState extends State<TodoListPage> {
   //A lista que será usada para adicionar os itens a lista
   List<Todo> tasks = [];
 
+  Todo? deletedTodo; //esta variável irá armazenar as tarefas que foram deletadas
+  int? deletedTodoPos; //esta variável irá armazenzar a posição da tarefa que foi deletada
+
   //Esta é a instancia da classe controller para recuperar valores do campo de texto
   @override
   Widget build(BuildContext context) {
@@ -119,13 +122,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          if (tasks.isNotEmpty) {
-                            tasks.clear();
-                          }
-                        });
-                      },
+                      onPressed: tasks.isNotEmpty ? mostrarMensagemApagarTudo : null, //verificando se a lista está vazia. Caso esteja o botão será desabilitado, se não o botão vai habilitar para apagar tudo
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -153,16 +150,68 @@ class _TodoListPageState extends State<TodoListPage> {
 
   //neste caso será para deletar
   void onDelete(Todo tf) {
+    deletedTodo = tf;
+    deletedTodoPos = tasks.indexOf(tf);
+
     setState(() {
       tasks.remove(tf);
     });
 
+    ScaffoldMessenger.of(context)
+        .clearSnackBars(); //este comando apaga o snackbar que está sendo exibido
     //Criando um SnackBar quando houver uma deleção
     //Esta é uma forma bem simples
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Tarefa ${tf.title} excluída com sucesso"),
+        content: Text(
+          "Tarefa ${tf.title} excluída com sucesso",
+          style: TextStyle(color: Color(0xff060708)),
+        ),
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 10),
+        action: SnackBarAction(
+          label: 'Desfazer',
+          textColor: Color(0xff00d7f3),
+          onPressed: () {
+            setState(() {
+              tasks.insert(deletedTodoPos!, deletedTodo!);
+            });
+          },
+        ),
       ),
     );
   }
+
+  //Esta função é usada para mostrar um alerta para o usuário
+  void mostrarMensagemApagarTudo() {
+    //mostrando o dialogo
+    showDialog(
+      context: context,
+      //Este builder é onde faz a configuração de todo o dialogo
+      builder: (context) => AlertDialog(
+        title: Text("Limpar tudo?"),
+        content: Text("Você tem certeza que deseja apagar todas as tarefas?"),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();//Esta função fecha o dialogo
+            },
+            style: TextButton.styleFrom(foregroundColor: Color(0xff00d7f3)),
+            child: Text("Cancelar",),
+          ),
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+              setState(() {
+                tasks.clear();
+              });
+            },
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text("Limpar tudo"),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
