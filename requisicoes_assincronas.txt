@@ -1,0 +1,47 @@
+MÉTODOS ASSINCRONOS
+
+Quando usamos um método que leva alguns segundos para retornar um valor, podemos usar um callback na função(.then()) ou usar o async/await;
+
+1º Ex.:
+void main(){
+    print("Inicio");
+    reqUsuario().then((user){
+        print("Usuario $user encontrado")
+    })
+    print("fim");
+}
+
+No exemplo acima, supondo que a função reqUsuario() leve 2 segundos para executar. Neste caso, como está escrito com a função de callback, o código
+dentro de void main() será todo executado, mas só depois desses 2 segundos a função reqUsuario() será executado. Conclusão, se quer que o valor retornado
+da função reqUsuario() seja usada no decorrer do programa, NÃO será possível, pois a função reqUsuario() será executada só depois, ou seja, por último;
+(O pograma não vai esperar até a função terminar de executar)
+
+
+2º Ex.:
+void main() async {
+    print("inicio");
+    String result = await reqUsuario();
+    print("Usuário $result encontrado");
+    print("fim");
+}
+
+Neste 2º exemplo acontecerá da seguinte forma:
+ - O código dentro da função main() só será totalmente executada depois que a função reqUsuario() for executada por completo, por isso do await;
+OBS.: o comando await só poderá ser usada dentro de uma função que estiver como async, igual o 2º exemplo.
+
+3º Ex.:
+void main() async {
+    print("inicio");
+    String result = await reqUsuario();
+    print("Usuário $result encontrado");
+    print("fim");
+}
+
+Future<void> reqUsuario(){
+    ....
+}
+
+Neste 3º exemplo, tomando como base o 2º exemplo;
+- Para que uma variável receba o retorno de uma função assíncrona, a notação desta função que está retornado, deverá ter a notação da função reqUsuario()
+deste 3º exemplo;
+OBS.: mesmo que a função não retorne nada, deverá ser escrita deste jeito.

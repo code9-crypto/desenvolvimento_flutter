@@ -1,0 +1,5 @@
+PACOTES USADOS NOS PROJETOS
+NOTA: todos esses pacotes devem ser inseridos dentro do arquivo pubspec.yaml e depois executado o pub get para baixar esses pacotes no projeto
+
+flutter_slidable: ^3.1.2 -> este pacote é para fazer os slides nos itens numa listView;(a versão usada foi esta)
+shared_preferences: ^2.0.8 -> este pacote serve para fazer pequenos textos no próprio celular;(versão usada)

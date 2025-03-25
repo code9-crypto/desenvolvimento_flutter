@@ -22,8 +22,8 @@ class _TodoListPageState extends State<TodoListPage> {
   //Esta é a instancia da classe controller para recuperar valores do campo de texto
   @override
   Widget build(BuildContext context) {
+    // Este faz com que o layout não encoste na área superior que é onde fica as notificações do celular
     return SafeArea(
-      // Este faz com que o layout não encoste na área superior que é onde fica as notificações do celular
       child: Scaffold(
         body: Center(
           child: Padding(
@@ -145,6 +145,8 @@ class _TodoListPageState extends State<TodoListPage> {
       ),
     );
   }
+
+  /* --------- FUNÇÕES DO APLICATIVO ---------- */
 
   //Para que a classe Pai passe parâmetros para classe filho, cria-se uma função e dentro da classe filho recebe esta função como parâmetro
 
