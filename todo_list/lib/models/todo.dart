@@ -1,9 +1,24 @@
 //Esta classe foi criada para armazenar o titulo e a data
 class Todo{
 
-  Todo({required this.title, required this.dateTime});
+  Todo({required this.title, required this.data});
+
+  //Este construtor nomeado é usado para transformar o JSON recuperado em uma lista de MAP
+  Todo.fromJson(Map<String, dynamic> json)
+    : title = json['title'],
+      data = DateTime.parse(json['dateTime']); //Convertendo o valor string para datetime
+
 
   String title;
-  DateTime dateTime;
+  DateTime data;
+
+  //Convertendo o objeto em tipo jSON
+  //OBS.: este método é uma sobrecarga para fazer conversão em JSON
+  Map<String, dynamic> toJson(){
+    return{
+      'title': title,
+      'dateTime': data.toIso8601String() // este tipo converte o datetime de forma mais amigável, pois permite converter de volta para datetime sem muitas dificuldades
+    };
+  }
 
 }

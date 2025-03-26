@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/models/todo.dart';
+import 'package:todo_list/repositories/tarefas_repository.dart';
 import 'package:todo_list/widgets/todo_list_item.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -10,14 +11,39 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+
+  /* ----------- VARIÁVEIS DESTA CLASSE ------------------ */
+
   //Este é o controlador do campo para adicionar tarefas
   final TextEditingController tasksController = TextEditingController();
+
+  //Instanciando a classe do repositório
+  //OBS.: Na instancia da classe, NÃO É NECESSÁRIO ESCREVER A PALAVRA RESERVADA new...
+  final TarefasRepository tfRepo = TarefasRepository();
+
 
   //A lista que será usada para adicionar os itens a lista
   List<Todo> tasks = [];
 
   Todo? deletedTodo; //esta variável irá armazenar as tarefas que foram deletadas
   int? deletedTodoPos; //esta variável irá armazenzar a posição da tarefa que foi deletada
+
+  String? errorText;
+
+
+  //Este método initState é usado para fazer com que seja executado apenas uma única vez assim que o app é iniciado
+  @override
+  void initState(){
+    super.initState();
+
+    tfRepo.getListaTarefas().then((value){
+      setState(() {
+        tasks = value;
+      });
+    });
+  }
+
+  /* -------------------------- INICIO DA CRIAÇÃO DA TELA ------------------------------- */
 
   //Esta é a instancia da classe controller para recuperar valores do campo de texto
   @override
@@ -50,7 +76,18 @@ class _TodoListPageState extends State<TodoListPage> {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Adicionar uma tarefa",
-                            hintText: "Ex. estudar flutter"),
+                            hintText: "Ex. estudar flutter",
+                            errorText: errorText,
+                            labelStyle: TextStyle(
+                              color: Color(0xff00d7f3)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xff00d7f3),
+                                width: 2
+                              )
+                            ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -65,11 +102,17 @@ class _TodoListPageState extends State<TodoListPage> {
                           setState(() {
                             //Instanciando a nova classe e adicionando a instancia na lista
                             Todo newTodo =
-                                Todo(title: text, dateTime: DateTime.now());
-                            //Aqui esta apenas mandando para lista... NÃO ESTÁ EXIBINDO NA TELA NADA
+                                Todo(title: text, data: DateTime.now());
+                            //Aqui esta apenas mandando para lista... NÃO ESTÁ EXIBINDO NADA NA TELA
                             tasks.add(newTodo);
+                            errorText = null;
                           });
                           tasksController.clear();
+                          tfRepo.saveListaTarefas(tasks);
+                        }else{
+                          setState(() {
+                            errorText = "O título não pode ser vázio";
+                          });
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -158,6 +201,7 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       tasks.remove(tf);
     });
+    tfRepo.saveListaTarefas(tasks);
 
     ScaffoldMessenger.of(context)
         .clearSnackBars(); //este comando apaga o snackbar que está sendo exibido
@@ -178,6 +222,7 @@ class _TodoListPageState extends State<TodoListPage> {
             setState(() {
               tasks.insert(deletedTodoPos!, deletedTodo!);
             });
+            tfRepo.saveListaTarefas(tasks);
           },
         ),
       ),
@@ -207,6 +252,7 @@ class _TodoListPageState extends State<TodoListPage> {
               setState(() {
                 tasks.clear();
               });
+              tfRepo.saveListaTarefas(tasks);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: Text("Limpar tudo"),
