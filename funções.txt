@@ -117,3 +117,11 @@ Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; 
         ],
     ),
 ),
+
+**********************************************************************************************************************************************************
+
+DATAS e HORAS -> só será possível trabalhar com datas e horas depois que fizer a importação do pacote intl
+
+DateFormat() -> este é o construtor da classe
+DateFormat('dd/MM/yyyy - HH>mm') -> este é o formato padrão que será mais usado
+DateFormat('dd/MM/yyyy - HH>mm').format(variavel) -> agora para formatar um valor já definido numa variável é desta forma

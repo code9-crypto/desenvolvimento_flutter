@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/todo.dart';
 
+//Como a chave do MAP é padrão, então foi criado uma constante para este valor
+//OBS.: Esta constante foi criada fora da classe
 const String chaveListaTarefa = "lista_tarefas";
 
 //Esta classe é responsável por guardar os dados
@@ -17,7 +19,7 @@ class TarefasRepository{
   }*/
 
   /* --------------------- ATRIBUTOS ------------------------------ */
-  late SharedPreferences sharedPreferences;
+  late SharedPreferences sharedPreferences; //Atributo usado para salvar os dados no dispostivo
 
 
   /* -------------- MÉTODOS ----------------- */
@@ -38,7 +40,7 @@ class TarefasRepository{
     final String jsonString  = json.encode(tarefas);
 
     //Salvando a lista no dispositivo
-    //O formato de salvamento é tipo json ou também MAP
+    //O formato de salvamento é tipo json
     sharedPreferences.setString(chaveListaTarefa, jsonString);
   }
 

@@ -14,6 +14,7 @@ class _TodoListPageState extends State<TodoListPage> {
 
   /* ----------- VARIÁVEIS DESTA CLASSE ------------------ */
 
+  //Esta é a instancia da classe controller para recuperar valores do campo de texto
   //Este é o controlador do campo para adicionar tarefas
   final TextEditingController tasksController = TextEditingController();
 
@@ -44,8 +45,6 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   /* -------------------------- INICIO DA CRIAÇÃO DA TELA ------------------------------- */
-
-  //Esta é a instancia da classe controller para recuperar valores do campo de texto
   @override
   Widget build(BuildContext context) {
     // Este faz com que o layout não encoste na área superior que é onde fica as notificações do celular
@@ -73,6 +72,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       child: TextField(
                         //Deixo o controller dentro do textfied para que possa recuperar o valor escrito aqui dentro
                         controller: tasksController,
+                        //O decoration é a parte da estilização do campo de texto, como labels, bordas, dicas(hint) ....
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Adicionar uma tarefa",
@@ -81,7 +81,7 @@ class _TodoListPageState extends State<TodoListPage> {
                             labelStyle: TextStyle(
                               color: Color(0xff00d7f3)
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: OutlineInputBorder( //Este parâmetro estiliza o campo quando estiver em foco, ou seja, quando clicar em cima do campo
                               borderSide: BorderSide(
                                 color: Color(0xff00d7f3),
                                 width: 2
@@ -101,9 +101,9 @@ class _TodoListPageState extends State<TodoListPage> {
                         if (text.isNotEmpty) {
                           setState(() {
                             //Instanciando a nova classe e adicionando a instancia na lista
-                            Todo newTodo =
-                                Todo(title: text, data: DateTime.now());
+                            Todo newTodo = Todo(title: text, data: DateTime.now());
                             //Aqui esta apenas mandando para lista... NÃO ESTÁ EXIBINDO NADA NA TELA
+                            //No entanto, para que seja possível ver os dados na tela, esta adição na lista deve ser feito dentro do método setState()
                             tasks.add(newTodo);
                             errorText = null;
                           });
@@ -119,14 +119,14 @@ class _TodoListPageState extends State<TodoListPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        fixedSize: Size(50, 50),
+                        fixedSize: Size(55, 55), //este fixedSize é referente ao tamanho do botão
                         backgroundColor: Color(0xff00d7f3),
                         padding: EdgeInsets.all(10),
                       ),
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
-                        size: 30,
+                        size: 35, //este size aqui é referente ao tamanho do desenho do ícone que está dentro do botão
                       ),
                     ),
                   ],
@@ -203,8 +203,8 @@ class _TodoListPageState extends State<TodoListPage> {
     });
     tfRepo.saveListaTarefas(tasks);
 
-    ScaffoldMessenger.of(context)
-        .clearSnackBars(); //este comando apaga o snackbar que está sendo exibido
+    ScaffoldMessenger.of(context).clearSnackBars(); //este comando apaga o snackbar que está sendo exibido
+
     //Criando um SnackBar quando houver uma deleção
     //Esta é uma forma bem simples
     ScaffoldMessenger.of(context).showSnackBar(

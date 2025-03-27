@@ -6,7 +6,7 @@ class Todo{
   //Este construtor nomeado é usado para transformar o JSON recuperado em uma lista de MAP
   Todo.fromJson(Map<String, dynamic> json)
     : title = json['title'],
-      data = DateTime.parse(json['dateTime']); //Convertendo o valor string para datetime
+      data = DateTime.parse(json['data']); //Convertendo o valor string para datetime
 
 
   String title;
@@ -17,7 +17,7 @@ class Todo{
   Map<String, dynamic> toJson(){
     return{
       'title': title,
-      'dateTime': data.toIso8601String() // este tipo converte o datetime de forma mais amigável, pois permite converter de volta para datetime sem muitas dificuldades
+      'data': data.toIso8601String() // este tipo converte o datetime de forma mais amigável, pois permite converter de volta para datetime sem muitas dificuldades
     };
   }
 

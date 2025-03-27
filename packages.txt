@@ -2,4 +2,32 @@ PACOTES USADOS NOS PROJETOS
 NOTA: todos esses pacotes devem ser inseridos dentro do arquivo pubspec.yaml e depois executado o pub get para baixar esses pacotes no projeto
 
 flutter_slidable: ^3.1.2 -> este pacote é para fazer os slides nos itens numa listView;(a versão usada foi esta)
-shared_preferences: ^2.0.8 -> este pacote serve para fazer pequenos textos no próprio celular;(versão usada)
+shared_preferences: ^2.0.8 -> este pacote serve para salvar pequenos textos no próprio celular;(versão usada)
+intl: -> é o pacote que faz a formatação da data e hora(este pacote não tem versão)
+
+IMPORTANTE:
+Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular
+
+1º no arquivo build.gradle (.../android/app/build.gradle)
+....
+android{
+    ....
+    ndkVersion = "25.1.8937393"
+    ....
+
+    kotlinOptions {
+        jvmTarget = 17
+    }
+}
+
+2º no arquivo settings.gradle (.../android/settings.gradle)
+....
+plugins{
+    ...
+    id "com.android.application" version "8.3.2" apply false
+    id "org.jetbrains.kotlin.android" version "2.0.20" apply false
+}
+
+3º no arquivo gradle-wrapper.properties (.../android/gradle/wrapper/gradle-wrapper.properties)
+....
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-all.zip
