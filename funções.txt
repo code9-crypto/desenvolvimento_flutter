@@ -125,3 +125,18 @@ DATAS e HORAS -> só será possível trabalhar com datas e horas depois que fize
 DateFormat() -> este é o construtor da classe
 DateFormat('dd/MM/yyyy - HH>mm') -> este é o formato padrão que será mais usado
 DateFormat('dd/MM/yyyy - HH>mm').format(variavel) -> agora para formatar um valor já definido numa variável é desta forma
+
+**********************************************************************************************************************************************************
+
+CAMPO DE TEXTO -> O seu construtor sempre irá dentro de um children[], ou de uma Column() ou de uma Row()
+
+TextField(
+    keyboardType: TextInputType.number,
+    //Este é o comando que define qual o tipo de teclado que será exibido ao usuário
+    decoration: InputDecoration(
+        labelText: "Altura em (cm)",
+        //label: Text("teste"),
+        labelStyle: TextStyle(color: Colors.green)),
+    textAlign: TextAlign.center,
+    style: TextStyle(fontSize: 25.0, color: Colors.green),
+)

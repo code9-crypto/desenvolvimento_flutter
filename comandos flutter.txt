@@ -138,3 +138,25 @@ void enviando(String texto){
   print(texto);
   emailController.clear();
 }
+
+CRIANDO APPBAR
+return Scaffold(
+  //Esta appBar é a barra que fica na parte de cima do aplicativo
+  appBar: AppBar(
+    title: Text(
+      "Calculadora de IMC",
+      style: TextStyle(color: Colors.white),
+    ),
+    centerTitle: true,
+    //Este parâmetro faz com que o título fique centralizado
+    backgroundColor: Colors.green,
+    //Essas actions será, normalmente, os botões
+    actions: [
+      IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.refresh),
+        color: Colors.white,
+      )
+    ],
+  ),
+);
