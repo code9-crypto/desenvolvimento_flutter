@@ -140,3 +140,13 @@ TextField(
     textAlign: TextAlign.center,
     style: TextStyle(fontSize: 25.0, color: Colors.green),
 )
+
+**********************************************************************************************************************************************************
+
+CRIANDO UM SCROLL PARA QUE O TECLADO NÃO SE SOBREPONHA AOS WIDGETS DA TELA
+SingleChildScrollView(
+    padding: EdgeInsets.all(10),
+    child: Column(
+        ....
+    )
+)
