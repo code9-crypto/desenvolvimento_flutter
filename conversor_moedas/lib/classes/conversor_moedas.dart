@@ -35,7 +35,7 @@ class _ConversorMoedasState extends State<ConversorMoedas> {
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         //Como estamos trabalhando com valores que virão no futuro, então o body do Scaffold será o FutureBuilder<Map>()
-        future: getData(),
+        future: getData(), //Neste parâmetro está sendo usado os dados devolvidos da função
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             //Aqui no switch está verificando o estado da conexão
@@ -100,6 +100,7 @@ class _ConversorMoedasState extends State<ConversorMoedas> {
   }
 
   /* FUNÇÕES */
+  //Esta função está requisitando(capturando em jSON) os dados da API, transformando num MAP e os retornando
   Future<Map<String, dynamic>> getData() async {
     http.Response response = await http.get(Uri.parse(request));
     return json.decode(response.body)[

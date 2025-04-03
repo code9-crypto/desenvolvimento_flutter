@@ -14,6 +14,8 @@ Ex.: Column(
     mainAxisSize: MainAxisSize.min -> este elemento faz com que a coluna ocupe o mínimo possível de acordo com os widgets na tela.
 )
 
+Center() -> este é o widget que faz os itens ficarem centralizados, bem no meio da tela
+
 children[] -> recebe uma lista de filhos, onde podem ser botões, textos ...
 OBS.: aqui dentro desta lista, não precisa declarar os parâmetros como nomeados, apenas digite a função que deseja inserir
 
