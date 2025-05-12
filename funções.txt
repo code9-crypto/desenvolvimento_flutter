@@ -101,24 +101,35 @@ Row(
 **********************************************************************************************************************************************************
 
 ListView -> Adiciona vários itens dentro dela sem desalinhá-los
+OBS.: Para usar a ListView deverá ser dentro da seguinte estrutura
 
-Ex.:
-Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible()
-    child: ListView(
-        shrinkWrap: true, // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
-        children: [
-        for( String task in tasks )
-            ListTile( //É um elemento que permite inserir de forma mais legível os itens dentro da listView
-                title: Text(task), //Adiciona o título
-                subtitle: Text("16/09/2023"), //Adiciona um subtitulo
-                leading: Icon(Icons.person, size: 30), //adiciona um elemento à esquerda do item, um exemplo neste caso foi o ícone
-                onTap: (){ //Permite o usuário clicar em cima do item e executar uma função
-                    print("Tarefa: $task");
-                },
-            ),
-        ],
-    ),
-),
+... return Scaffold(
+    body: Center(
+        child: Column(
+            children[
+                Ex.:
+                Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible()
+                    child: ListView(
+                        shrinkWrap: true, // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
+                        children: [
+                        for( String task in tasks )
+                            ListTile( //É um elemento que permite inserir de forma mais legível os itens dentro da listView
+                                title: Text(task), //Adiciona o título
+                                subtitle: Text("16/09/2023"), //Adiciona um subtitulo
+                                leading: Icon(Icons.person, size: 30), //adiciona um elemento à esquerda do item, um exemplo neste caso foi o ícone
+                                onTap: (){ //Permite o usuário clicar em cima do item e executar uma função
+                                    print("Tarefa: $task");
+                                },
+                            ),
+                        ],
+                    ),
+                ),
+            ]
+        )
+    )
+)
+
+
 
 **********************************************************************************************************************************************************
 
@@ -138,7 +149,14 @@ TextField(
     decoration: InputDecoration(
         labelText: "Altura em (cm)",
         //label: Text("teste"),
-        labelStyle: TextStyle(color: Colors.green)),
+        labelStyle: TextStyle(color: Colors.green),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white)
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.amber)
+        )
+    ),
     textAlign: TextAlign.center,
     style: TextStyle(fontSize: 25.0, color: Colors.green),
 )
@@ -146,9 +164,37 @@ TextField(
 **********************************************************************************************************************************************************
 
 CRIANDO UM SCROLL PARA QUE O TECLADO NÃO SE SOBREPONHA AOS WIDGETS DA TELA
+NOTA: Não pode ser usado uma ListView dentro de um SingleChildScrollView, pois este(SingleChildScrollView) é infinito
+
 SingleChildScrollView(
     padding: EdgeInsets.all(10),
     child: Column(
         ....
     )
 )
+
+***********************************************************************************************************************************************************
+CRIANDO UMA SNACKBAR
+
+//Criando um SnackBar quando houver uma deleção
+    //Esta é uma forma bem simples
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Tarefa ${tf.title} excluída com sucesso",
+          style: TextStyle(color: Color(0xff060708)),
+        ),
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 10),
+        action: SnackBarAction(
+          label: 'Desfazer',
+          textColor: Color(0xff00d7f3),
+          onPressed: () {
+            setState(() {
+              tasks.insert(deletedTodoPos!, deletedTodo!);
+            });
+            tfRepo.saveListaTarefas(tasks);
+          },
+        ),
+      ),
+    );

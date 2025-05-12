@@ -6,6 +6,7 @@ shared_preferences: ^2.0.8 -> este pacote serve para salvar pequenos textos no p
 intl: -> é o pacote que faz a formatação da data e hora(este pacote não tem versão)
 http: ^0.13.0 -> este é o pacote que faz requisições http(GET, PUT, POST ...) é a versão que funcionou
 OBS.: ao fazer alguma requisição use o Uri.parse(request)
+path_provider: ^2.1.5 -> este pacote será usado para salvar dados no celular usando JSON
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     Retorna um material app
     return MaterialApp(
         debugShowCheckedModeBanner: false -> para retirar a faixa de debug, é este código aqui
-        home: Container(
+        home: Container ou classe()( 
             color: Colors.black
         )
     );
