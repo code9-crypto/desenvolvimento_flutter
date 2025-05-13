@@ -12,9 +12,10 @@ class ListaTarefas extends StatefulWidget {
 }
 
 class _ListaTarefasState extends State<ListaTarefas> {
-
   // ***** VARIAÁVEIS ****
   List todoList = [];
+  late Map<String, dynamic> _lastRemoved;
+  late int _lastRemovedPos;
 
   // **** CONTROLADORES DOS CAMPOS DE TEXTO ****
   final TextEditingController newTask = TextEditingController();
@@ -87,13 +88,18 @@ class _ListaTarefasState extends State<ListaTarefas> {
               ),
               Divider(color: Colors.white),
               Flexible(
-                fit: FlexFit.tight,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(top: 10.0),
-                    itemCount: todoList.length,
-                    itemBuilder: buildItem,
-                )
+                  fit: FlexFit.tight,
+                  child: RefreshIndicator(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10.0),
+                        //Neste parâmetro itemCount, faz amostragem dos itens; neste caso está sendo feita a contagem até o máximo da lista
+                        itemCount: todoList.length,
+                        //Neste parâmetro itemBuilder irá uma função; pode ser anônima ou não
+                        itemBuilder: buildItem,
+                      ),
+                      onRefresh: _refresh
+                  ),
               ),
             ],
           ),
@@ -110,7 +116,7 @@ class _ListaTarefasState extends State<ListaTarefas> {
     return File("${directory.path}/data.json");
   }
 
-  //Esta função está sendo usada para salvar os dados em forma json
+  //Esta função está sendo usada para salvar os dados em formato json
   Future<File> _saveData() async {
     //Pegando a lista e formatando em json e atribuindo a uma string
     String data = json.encode(todoList);
@@ -133,15 +139,28 @@ class _ListaTarefasState extends State<ListaTarefas> {
   //Adicionando o valor na lista
   void _addTodo() {
     setState(() {
-      Map<String, dynamic> newTodo = Map();
-      newTodo["title"] = newTask.text;
-      newTask.clear();
+      Map<String,dynamic> newTodo = Map();
+      newTodo["titulo"] = newTask.text;
       newTodo["ok"] = false;
       todoList.add(newTodo);
       _saveData();
+      newTask.clear();
     });
   }
 
+  //Esta função faz a ordenação dos itens da lista; os que foram feitos ficam para baixo e os que não foram feitos ficam pra cima
+  Future<Null> _refresh() async{
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      todoList.sort((a, b){
+        if(a["ok"] && !b["ok"]) return 1;
+        else if(!a["ok"] && b["ok"]) return -1;
+        else return 0;
+      });
+      _saveData();
+    });
+    return null;
+  }
 
   // **** Widgets personalizaveis ****
   Widget buildItem(context, index) {
@@ -152,14 +171,48 @@ class _ListaTarefasState extends State<ListaTarefas> {
         color: Colors.red,
         child: Align(
           alignment: Alignment(-0.9, 0.0),
-          child: Icon(Icons.delete, color: Colors.white,),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
         ),
       ),
       direction: DismissDirection.startToEnd,
+      //Criando uma ação para quando apagar o item da lista
+      onDismissed: (direction) {
+        setState(() {
+          //Aqui estou pegando o último item removido da lista e atribuindo ao Map _lastRemoved
+          _lastRemoved = Map.from(todoList[index]);//aqui estou pegando o valor referente a posição
+          //Aqui estou pegando a posição do último item removido da lista e atribuindo a variável _lastRemovedPos
+          _lastRemovedPos = index; //aqui estou pegando apenas o número da posição
+          //Aqui estou removendo da lista o item na posição da variável index
+          todoList.removeAt(index);
+          _saveData();
+
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          //Aqui estou mostrando uma snackBar e com um botão para desfazer
+          final snack = SnackBar(
+            content: Text("Tarefa \"${_lastRemoved["titulo"]}\" removida"),
+            action: SnackBarAction(
+                //Título do botão
+                label: "Desfazer",
+                //Ação do botão
+                onPressed: () {
+                  setState(() {
+                    //Aqui estou inserindo novamente os itens na lista de acordo com sua posição e seu conteúdo
+                    todoList.insert(_lastRemovedPos, _lastRemoved);//OBS.: o 1º parâmetro é a posição e o 2º é o valor
+                  });
+                }),
+            duration: Duration(seconds: 2)
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+        });
+      },
       //Este tipo de CheckboxLisTile irá fornecer um layout com ícones e um campo de checkbox
+      //OBS.: é aqui dentro do CheckboxListTile que acontece a aparição de todos os itens da lista
       child: CheckboxListTile(
         value: todoList[index]["ok"],
-        title: Text(todoList[index]["title"]),
+        title: Text(todoList[index]["titulo"]),
         //Este onChanged muda o estado na tela, quando marcado a caixa fica ticada e quando não a caixa fica em branco
         //Essa função sempre vai receber um parâmetro para ser trabalhado o check
         onChanged: (check) {
@@ -169,9 +222,7 @@ class _ListaTarefasState extends State<ListaTarefas> {
           });
         },
         secondary: CircleAvatar(
-          child: Icon(todoList[index]["ok"]
-              ? Icons.check
-              : Icons.error),
+          child: Icon(todoList[index]["ok"] ? Icons.check : Icons.error),
         ),
       ),
     );
