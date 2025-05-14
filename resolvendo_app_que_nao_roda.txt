@@ -1,0 +1,29 @@
+Isto é para quando houver um erro parecido com este: Execution failed for task ':pacote_usado_no_projeto:compileDebugJavaWithJavac'.
+
+1º No arquivo settings.gradle(...projeto/android/settings.gradle),
+no objeto plugins;
+
+plugins{
+....
+id "com.android.application" version "8.1.0" apply false
+....
+}
+
+altere a version para "8.3.2"
+
+
+2º No arquivo build.gradle(...projeto/android/app/build.gradle),
+no objeto android;
+
+android{
+....
+ndkVersion = flutter.NDKVersion
+....
+}
+
+altere este ndkVersion para "25.1.8937393"
+
+3º No arquivo gradle-wrapper.properties(....projeto/android/gradle/gradle-wrapper.properties), no item distrituinUrl;
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.3-all.zip
+
+altere o final da string assim: ..../gradle-8.4-all.zip

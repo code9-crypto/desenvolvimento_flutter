@@ -208,6 +208,7 @@ class _ListaTarefasState extends State<ListaTarefas> {
           ScaffoldMessenger.of(context).showSnackBar(snack);
         });
       },
+
       //Este tipo de CheckboxLisTile irá fornecer um layout com ícones e um campo de checkbox
       //OBS.: é aqui dentro do CheckboxListTile que acontece a aparição de todos os itens da lista
       child: CheckboxListTile(
