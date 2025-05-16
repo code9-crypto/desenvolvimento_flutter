@@ -7,7 +7,7 @@ intl: -> é o pacote que faz a formatação da data e hora(este pacote não tem 
 http: ^0.13.0 -> este é o pacote que faz requisições http(GET, PUT, POST ...) é a versão que funcionou
 OBS.: ao fazer alguma requisição use o Uri.parse(request)
 path_provider: ^2.1.5 -> este pacote será usado para salvar dados no celular usando JSON
-share: ^2.0.4 -> este pacote permite fazer o compartilhamento do conteúdo
+share_plus: ^11.0.0 -> este pacote permite fazer o compartilhamento do conteúdo
 transparent_image: ^2.0.1 ->
 
 IMPORTANTE:

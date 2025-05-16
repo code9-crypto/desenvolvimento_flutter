@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'classes/buscador.dart';
+import 'classes/home_page.dart';
 
 void main(){
   runApp(MyApp());
@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Buscador(),
+      home: HomePage(),
+      theme: ThemeData(
+        hintColor: Colors.white
+      ),
     );
   }
 }
