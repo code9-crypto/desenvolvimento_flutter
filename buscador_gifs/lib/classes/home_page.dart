@@ -19,13 +19,13 @@ class _HomePageState extends State<HomePage> {
   int _offSet = 0;
 
   //Iniciando o aplicativo já chamando a função de requisitar os dados na API
-  @override
+  /*@override
   void initState() {
     super.initState();
     _getGifs().then((map){
       print(map);
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
