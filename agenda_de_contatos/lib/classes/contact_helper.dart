@@ -13,17 +13,16 @@ final String imgColumn = "imgColumn";
 
 class ContactHelper{
 
+  //PADRÃO DE PROJETO - SINGLETON
   static final ContactHelper _instance = ContactHelper.internal();
-
   factory ContactHelper() => _instance;
-
   //Contrutor nomeado
   ContactHelper.internal();
 
-  late Database _db;
+  Database? _db;
 
   //Esta função irá retornar o banco de dados caso já esteja criado(será populado); caso não então irá criar um banco novo e depois retornará este banco novo e vazio
-  Future<Database>get db async{
+  Future<Database?> get db async{
     if( _db != null ){
       return _db;
     }else{
@@ -48,36 +47,85 @@ class ContactHelper{
 
   //SALVANDO OS DADOS NO BANCO
   Future<Contact> saveContact(Contact contact) async{
-    Database dbContact = await db;
-    contact.id = await dbContact.insert(contactTable, contact.toMap());
+    Database? dbContact = await db;
+    contact.id = await dbContact!.insert(
+        contactTable,
+        contact.toMap()
+    ); //os dados estão sendo salvos como MAP, ou seja, chave:valor
     return contact;
   }
 
   //PEGANDO OS DADOS DO BANCO E RETORNANDO O PRIMEIRO VALOR ENCONTRADO
   Future<Contact?> getContact(int id) async{
-    Database dbContact = await db;
-    List<Map> maps = await dbContact.query(
+    Database? dbContact = await db;
+    List<Map> maps = await dbContact!.query(
       contactTable,
       columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
       where: "$idColumn = ?",
       whereArgs: [id]
     );
     if( maps.length > 0 ){
-      return Contact.fromMap(maps.first);
+      return Contact.fromMap(maps.first);// aqui estou pegando o map do primeiro valor encontrado, chamando o construtor nomeado para passar os valores a cada atributo da classe
     }else{
       return null;
     }
+  }
+
+  //DELETANDO CONTATO DA TABELA
+  Future<int> deleteContact(int id) async{
+    Database? dbContact = await db;
+    return await dbContact!.delete(
+        contactTable,
+        where: "$idColumn = ?",
+        whereArgs: [id]
+    );
+  }
+
+  //ATUALIZANDO DADOS NO BANCO
+  Future<int> updateContact(Contact contact) async{
+    Database? dbContact = await db;
+    return await dbContact!.update(
+        contactTable,
+        contact.toMap(),
+        where: "$idColumn = ?",
+        whereArgs: [contact.id]
+    );
+  }
+
+  //PEGANDO TODOS OS CONTATOS DO BANCO EM FORMA DE MAP, TRANSFORMANDO OS MAPS NUMA LISTA DE CONTATOS E RETORNANDO-OS
+  Future<List<Contact>> getAllContacts() async{
+    Database? dbContact = await db;
+    List listMap = await dbContact!.rawQuery("SELECT * FROM $contactTable");//aqui está recebendo uma lista de maps
+    List<Contact> listContact = []; //aqui foi criado uma lista de contatos, onde cada item da lista de maps será transformado para uma lista de contatos
+    for(Map m in listMap){
+      listContact.add(Contact.fromMap(m));
+    }
+    return listContact;
+  }
+
+  //PEGANDO O NUMÉRO DE CONTATOS DO BANCO
+  Future<int?> getNUmber() async{
+    Database? dbContact = await db;
+    return Sqflite.firstIntValue(await dbContact!.rawQuery("SELECT COUNT(*) FROM $contactTable"));
+  }
+
+  //FECHANDO A CONEXÃO COM O BANCO DE DADOS
+  Future<void> close() async{
+    Database? dbContact = await db;
+    dbContact!.close();
   }
 }
 
 class Contact{
 
   //ATRIBUTOS
-  late int id;
-  late String name;
-  late String email;
-  late String phone;
-  late String img;
+  int? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? img;
+
+  Contact();
 
   //PEGANDO OS DADOS DO MAP E PASSANDO PARA OS ATRIBUTOS DA CLASSE
   Contact.fromMap(Map map){

@@ -198,3 +198,17 @@ CRIANDO UMA SNACKBAR
         ),
       ),
     );
+
+
+***********************************************************************************************************************************************************
+CRIANDO O BOTÃO FLUTUANTE QUE FICA NA PARTE INFERIOR DIREITA DA TELA
+
+...
+return Scaffold(
+    ....
+    floatingActionButton: FloatingActionButton(
+        child: ...,
+        onPressed: (){},
+        backgroundColor: ...
+    )
+)
