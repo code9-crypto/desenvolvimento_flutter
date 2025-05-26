@@ -3,7 +3,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-// *** COLUNAS DA TABELA DO BANCO DE DADOS
+// *** COLUNAS DA TABELA DO BANCO DE DADOS E O NOME DA TABELA
 final String contactTable = "contactTable";
 final String idColumn = "idColumn";
 final String nameColumn = "nameColumn";
@@ -11,6 +11,8 @@ final String phoneColumn = "phoneColumn";
 final String emailColumn = "emailColumn";
 final String imgColumn = "imgColumn";
 
+
+//ESTA É A CLASSE QUE FAZ A CONEXÃO AO BANCO DE DADOS
 class ContactHelper{
 
   //PADRÃO DE PROJETO - SINGLETON
@@ -63,7 +65,7 @@ class ContactHelper{
       columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
       where: "$idColumn = ?",
       whereArgs: [id]
-    );
+    );//quando fazemos uma query no banco, o seu retorno ou deve ser armazenado numa lista de map ou apenas numa variavel map
     if( maps.length > 0 ){
       return Contact.fromMap(maps.first);// aqui estou pegando o map do primeiro valor encontrado, chamando o construtor nomeado para passar os valores a cada atributo da classe
     }else{
@@ -95,7 +97,7 @@ class ContactHelper{
   //PEGANDO TODOS OS CONTATOS DO BANCO EM FORMA DE MAP, TRANSFORMANDO OS MAPS NUMA LISTA DE CONTATOS E RETORNANDO-OS
   Future<List<Contact>> getAllContacts() async{
     Database? dbContact = await db;
-    List listMap = await dbContact!.rawQuery("SELECT * FROM $contactTable");//aqui está recebendo uma lista de maps
+    List listMap = await dbContact!.rawQuery("SELECT * FROM $contactTable");//aqui está fazendo um select na tabela para retornar todos os contatos e seu retorno atribuindo a uma lista de maps
     List<Contact> listContact = []; //aqui foi criado uma lista de contatos, onde cada item da lista de maps será transformado para uma lista de contatos
     for(Map m in listMap){
       listContact.add(Contact.fromMap(m));
@@ -116,6 +118,8 @@ class ContactHelper{
   }
 }
 
+
+//ESTE É A CLASSE PARA CADA CONTATO
 class Contact{
 
   //ATRIBUTOS

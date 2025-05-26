@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:agenda_de_contatos/classes/contact_helper.dart';
+import 'package:agenda_de_contatos/classes/contact_page.dart';
 import 'package:flutter/material.dart';
 
 class AgendaContatos extends StatefulWidget {
@@ -19,11 +20,7 @@ class _AgendaContatosState extends State<AgendaContatos> {
   @override
   void initState() {
     super.initState();
-    helper.getAllContacts().then((data) {
-      setState(() {
-        contacts = data;
-      });
-    });
+    getAllContacts();
   }
 
   @override
@@ -41,7 +38,9 @@ class _AgendaContatosState extends State<AgendaContatos> {
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           //ESTE CONSTRUTOR É O BOTÃO QUE FICA NO CANTO DIREITO INFERIOR DO APP
-          onPressed: () {},
+          onPressed: () {
+            showContactPage(); //chamando a função de transição das telas sem passar parâmetros
+          },
           child: Icon(
             Icons.add,
             color: Colors.white,
@@ -55,7 +54,7 @@ class _AgendaContatosState extends State<AgendaContatos> {
             padding: EdgeInsets.all(10.0),
             itemCount: contacts.length,
             itemBuilder: (context, index) {
-              return contactCard(context, index);
+              return contactCard(context, index); //aqui vai o widget customizavel que criamos ali embaixo
             }),
       ),
     );
@@ -63,10 +62,44 @@ class _AgendaContatosState extends State<AgendaContatos> {
 
   //***FUNÇÕES****
 
+  //ESTA FUNÇÃO IRÁ ACESSAR O BANCO POR MEIO DA INSTANCIA HELPER, PEGAR OS DADOS E ATRIBUIR À VARIAVEL DO TIPO LISTA CONTATOS
+  void getAllContacts(){
+    helper.getAllContacts().then((data) {
+      setState(() {
+        contacts = data;
+      });
+    });
+  }
+
+  //ESTE FUNÇÃO ESTÁ SENDO USADA PARA FAZER A TRANSIÇÃO DAS TELAS
+  //OBS.: esta função é interessante porque eu posso chamá-la passando parâmetros ou não; de qualquer formar que for chamada, vai funcionar
+  void showContactPage({Contact? contact}) async{
+    //Este Navigator.push está recebendo os dados devolvidos do Navigator.pop para depois salvá-los no banco
+    final recContact = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactPage(contact: contact)
+        )
+    );
+    //aqui está verificando se a variável recContact se está vazio ou não; se não estiver vazia significa que vai salvar os dados ou vai atualizar
+    if( recContact != null ){
+      //Este contact vai verificar se a classe está populada com algum valor;  se estiver significa que vai atualizar(cair no helper.updateContact()), se não significa que está vazia e vai salvar novo(cair no helper.saveContact())
+      if( contact != null ){
+        await helper.updateContact(recContact);
+      }else{
+        await helper.saveContact(recContact);
+      }
+      getAllContacts();
+    }
+  }
+
   //ESTE WIDGET ESTÁ RETORNANDO O CARD QUE MOSTRARÁ A IMAGEM, NOME, EMAIL E TELEFONE
   Widget contactCard(BuildContext context, int index) {
     //este GestureDetector foi usado para que seja possível clicar no card a fim de editá-lo
     return GestureDetector(
+      onTap: (){
+        showContactPage(contact: contacts[index]); //aqui estou chamando a função que faz a transição das telas e passando os dados referente àquele índice clicado
+      },
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(10.0),

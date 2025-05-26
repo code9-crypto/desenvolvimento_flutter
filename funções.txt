@@ -212,3 +212,44 @@ return Scaffold(
         backgroundColor: ...
     )
 )
+
+***********************************************************************************************************************************************************
+FAZENDO A MUDANÇA DE TELAS
+OBS.: normalmente esta função fica dentro do parâmetro nomeado onTap ou também dentro de um botão no onPressed
+
+...
+onTap: (){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PaginaQueDesejaIr()
+        )
+    )
+}
+
+***********************************************************************************************************************************************************
+CRIANDO UM ALERTDIALOG
+...
+showDialog(
+    context: context,
+    builder: (context){
+        return AlertDialog(
+            title: Text("Título"),
+            content: Text("Texto do corpo"),
+            actions: [ //Neste actions normalmente irão os botões conforme abaixo
+            TextButton(
+                onPressed: (){
+                    função que será executada para cancelar
+                },
+                child: Text("texto para cancelar")
+            ),
+            TextButton(
+                onPressed: (){
+                    função que será executada para prosseguir
+                },
+                child: Text("texto de aceitar")
+            )
+            ],
+        );
+    }
+);
