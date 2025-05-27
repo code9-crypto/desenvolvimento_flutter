@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'contact_helper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactPage extends StatefulWidget {
   //VARIÁVEL
@@ -42,7 +43,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => requestPop(),
+      onWillPop: () => requestPop(), //aqui é a parte da seta que fica na appBar; Quando este botão for clicado será chamado esta função
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
@@ -75,6 +76,20 @@ class _ContactPageState extends State<ContactPage> {
             children: [
               //Aqui é a imagem que vai aparecer no topo do corpo da tela
               GestureDetector(
+                //Este onTap fará com que quando o usuário clicar na imagem, será aberto a câmera para poder tirar foto
+                onTap: (){
+                  ImagePicker().pickImage(
+                      source: ImageSource.camera
+                  ).then((file){
+                    if( file == null ){
+                      return;
+                    }else{
+                      setState(() {
+                        editedContact!.img = file.path;
+                      });
+                    }
+                  });
+                },
                 child: Container(
                   width: 140,
                   height: 140,
@@ -84,6 +99,7 @@ class _ContactPageState extends State<ContactPage> {
                       image: editedContact!.img != null
                           ? FileImage(File(editedContact!.img!))
                           : AssetImage("imagens/person.png"),
+                      fit: BoxFit.cover
                     ),
                   ),
                 ),

@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:agenda_de_contatos/classes/contact_helper.dart';
 import 'package:agenda_de_contatos/classes/contact_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+enum OrderOptions {orderaz, orderza} //este enumerador será usado para fazer a ordernação entre os nomes
 
 class AgendaContatos extends StatefulWidget {
   const AgendaContatos({super.key});
@@ -28,6 +31,26 @@ class _AgendaContatosState extends State<AgendaContatos> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          //este icontheme permite fazer a estilização dos botões que ficam na appBar
+          iconTheme: IconThemeData(
+            color: Colors.white
+          ),
+          actions: [
+            //Este PopupMenuButton são os 3 pontos que fica na appBar e será usado para fazer a ordenação entre os nomes
+            PopupMenuButton(
+                itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+                  const PopupMenuItem(
+                      child: Text("Ordernar de A-Z"),
+                      value: OrderOptions.orderaz,
+                  ),
+                  const PopupMenuItem(
+                    child: Text("Ordernar de Z-A"),
+                    value: OrderOptions.orderza,
+                  )
+                ],
+                onSelected: orderList,
+            )
+          ],
           title: Text(
             "Contatos",
             style: TextStyle(color: Colors.white),
@@ -39,7 +62,7 @@ class _AgendaContatosState extends State<AgendaContatos> {
         floatingActionButton: FloatingActionButton(
           //ESTE CONSTRUTOR É O BOTÃO QUE FICA NO CANTO DIREITO INFERIOR DO APP
           onPressed: () {
-            showContactPage(); //chamando a função de transição das telas sem passar parâmetros
+            showContactPage(); //chamando a função que fará a transição das telas sem passar parâmetros
           },
           child: Icon(
             Icons.add,
@@ -54,7 +77,8 @@ class _AgendaContatosState extends State<AgendaContatos> {
             padding: EdgeInsets.all(10.0),
             itemCount: contacts.length,
             itemBuilder: (context, index) {
-              return contactCard(context, index); //aqui vai o widget customizavel que criamos ali embaixo
+              return contactCard(context,
+                  index); //aqui vai o widget customizavel que criamos ali embaixo
             }),
       ),
     );
@@ -62,8 +86,29 @@ class _AgendaContatosState extends State<AgendaContatos> {
 
   //***FUNÇÕES****
 
+  //ESTA FUNÇÃO SERÁ CHAMADA PARA FAZER A ORDENAÇÃO ENTRE OS NOMES DA LISTA
+  void orderList(OrderOptions result){
+    switch(result){
+      case OrderOptions.orderaz:
+        contacts.sort!((a,b){
+          return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
+          throw("Um dos nomes era nulo");
+        });
+        break;
+      case OrderOptions.orderza:
+        contacts.sort((a,b){
+          return b.name!.toLowerCase().compareTo(a.name!.toLowerCase());
+          throw("Um dos nomes era nulo");
+        });
+        break;
+    }
+    setState(() {
+
+    });
+  }
+
   //ESTA FUNÇÃO IRÁ ACESSAR O BANCO POR MEIO DA INSTANCIA HELPER, PEGAR OS DADOS E ATRIBUIR À VARIAVEL DO TIPO LISTA CONTATOS
-  void getAllContacts(){
+  void getAllContacts() {
     helper.getAllContacts().then((data) {
       setState(() {
         contacts = data;
@@ -73,32 +118,121 @@ class _AgendaContatosState extends State<AgendaContatos> {
 
   //ESTE FUNÇÃO ESTÁ SENDO USADA PARA FAZER A TRANSIÇÃO DAS TELAS
   //OBS.: esta função é interessante porque eu posso chamá-la passando parâmetros ou não; de qualquer formar que for chamada, vai funcionar
-  void showContactPage({Contact? contact}) async{
+  void showContactPage({Contact? contact}) async {
     //Este Navigator.push está recebendo os dados devolvidos do Navigator.pop para depois salvá-los no banco
-    final recContact = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ContactPage(contact: contact)
-        )
-    );
+    final recContact = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ContactPage(contact: contact)));
     //aqui está verificando se a variável recContact se está vazio ou não; se não estiver vazia significa que vai salvar os dados ou vai atualizar
-    if( recContact != null ){
+    if (recContact != null) {
       //Este contact vai verificar se a classe está populada com algum valor;  se estiver significa que vai atualizar(cair no helper.updateContact()), se não significa que está vazia e vai salvar novo(cair no helper.saveContact())
-      if( contact != null ){
+      if (contact != null) {
         await helper.updateContact(recContact);
-      }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Contato atualizado com sucesso"),
+          duration: Duration(seconds: 3),
+        ));
+      } else {
         await helper.saveContact(recContact);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Contato salvo com sucesso"),
+          duration: Duration(seconds: 3),
+        ));
       }
       getAllContacts();
     }
   }
 
+  //ESTA FUNÇÃO IRÁ MOSTRAR UMA PEQUENA JANELA QUE VAI APARECER DE BAIXO PRA CIMA COM AS OPÇÕES: LIGAR, EDITAR E EXCLUIR
+  void showOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+              onClosing: () {},
+              builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          onPressed: () {
+                            launch("tel: ${contacts[index].phone}");
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "ligar",
+                            style: TextStyle(color: Colors.red, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showContactPage(contact: contacts[index]);
+                          },
+                          child: Text(
+                            "Editar",
+                            style: TextStyle(color: Colors.red, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: Text("Excluir contato?"),
+                                    content: Text("Deseja realmente excluir este contato?"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Não")
+                                      ),
+                                      TextButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                            helper.deleteContact(contacts[index].id!);
+                                            setState(() {
+                                              contacts.removeAt(index);
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text("Sim")
+                                      )
+                                    ],
+                                  );
+                                }
+                            );
+                          },
+                          child: Text(
+                            "Excluir",
+                            style: TextStyle(color: Colors.red, fontSize: 20.0),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
+        });
+  }
+
   //ESTE WIDGET ESTÁ RETORNANDO O CARD QUE MOSTRARÁ A IMAGEM, NOME, EMAIL E TELEFONE
   Widget contactCard(BuildContext context, int index) {
-    //este GestureDetector foi usado para que seja possível clicar no card a fim de editá-lo
+    //este GestureDetector foi usado para que seja possível clicar no card a fim de abrir as opções de ligar, editar e excluir
     return GestureDetector(
-      onTap: (){
-        showContactPage(contact: contacts[index]); //aqui estou chamando a função que faz a transição das telas e passando os dados referente àquele índice clicado
+      onTap: () {
+        showOptions(context, index);
       },
       child: Card(
         child: Padding(
@@ -115,6 +249,7 @@ class _AgendaContatosState extends State<AgendaContatos> {
                     image: contacts[index].img != null
                         ? FileImage(File(contacts[index].img!))
                         : AssetImage("imagens/person.png"),
+                    fit: BoxFit.cover //este comando faz com que a imagem aparece de forma cheia
                   ),
                 ),
               ),
