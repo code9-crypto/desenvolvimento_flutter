@@ -1,0 +1,10 @@
+1º Entrar no Firebase do google(https://firebase.google.com/?hl=pt-br) e se logar com a conta google;
+
+2º Depois de logado, clicar em "Go to Console" ou "Ir para console" que fica no canto direito superior;
+
+3º Nesta página clicar em "Criar novo projeto", caso não encontra o botão, usar este link(https://console.firebase.google.com/project/chatflutter-64ad5/overview?hl=pt-br)
+
+4º Depois de criado, você será redirecionado para a tela de configuração do banco de dados; Na área esquerda há várias opções, mas de começo
+clicaremos nos seguintes itens do menu: Authentication, RealTime Database e Storage. Ao fazer isso, esses itens ficarão dentro do grupo de atalhos do projeto
+
+5º Na opção RealTime Database você criará o banco de dados e para o começo do projeto crie com a opção de teste ativada(apenas de primeiro momento)

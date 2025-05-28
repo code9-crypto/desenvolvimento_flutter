@@ -30,6 +30,8 @@ funcao({String nome, int idade}){
 VALORES NULOS / NULL
 Para que uma variável/parâmetro seja null, apenas específique o símbolo de ? depois do tipo da variável:
 Ex.: String? nome
+Para que um valor não seja nulo, devemos inicia-lo assim que é declarado;
+Ex.: String nome = "Ester";
 
 ----------------------------------------------------------------------------------------------------------------------------------
 OPERADOR TERNÁRIO
@@ -403,7 +405,7 @@ if( nome != null){
 
 MODIFICAR DE ACESSO STATIC
 Esse modificador indica que o atributo ou o método pertence EXCLUSIVAMENTE à classe e não ao objeto
-Ou seja, só é possível fazer o acesso diremente pela classe e não pelo objeto;
+Ou seja, só é possível fazer o acesso diretamente pela classe e não pelo objeto;
 Ex.: class Pessoa{
 	static comer(){
 		print("comendo...");
@@ -587,4 +589,22 @@ class RepositorioPessoasLocal implements RepositorioPessoas {
   String ler(int i) {
     return "Lendo seus dados...";
   }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+ESTRUTURA SWTICH CASE
+switch (expression)
+{
+    case value1:
+        // statement1;
+        break;
+    case value2:
+        // statement2;
+        break;
+    case value3:
+        // statement3;
+        break;
+    default:
+        // statementn;
+        break;
 }
