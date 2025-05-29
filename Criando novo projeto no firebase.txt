@@ -1,3 +1,8 @@
+IMPORTANTE: ANTES MESMO DE CONTINUAR COM O PROJETO, ATIVE SUA API PARA QUE SEJA POSSÍVEL O APLICATIVO SE COMUNICAR COM O BANCO DE DADOS
+Neste link: https://console.developers.google.com/apis/api/firestore.googleapis.com/overview?project=nome_do_projeto
+
+CRIANDO O PROJETO
+
 1º Entrar no Firebase do google(https://firebase.google.com/?hl=pt-br) e se logar com a conta google;
 
 2º Depois de logado, clicar em "Go to Console" ou "Ir para console" que fica no canto direito superior;
@@ -5,6 +10,61 @@
 3º Nesta página clicar em "Criar novo projeto", caso não encontra o botão, usar este link(https://console.firebase.google.com/project/chatflutter-64ad5/overview?hl=pt-br)
 
 4º Depois de criado, você será redirecionado para a tela de configuração do banco de dados; Na área esquerda há várias opções, mas de começo
-clicaremos nos seguintes itens do menu: Authentication, RealTime Database e Storage. Ao fazer isso, esses itens ficarão dentro do grupo de atalhos do projeto
+clicaremos nos seguintes itens do menu: Authentication, Firestore Database e Storage. Ao fazer isso, esses itens ficarão dentro do grupo de atalhos do projeto
 
-5º Na opção RealTime Database você criará o banco de dados e para o começo do projeto crie com a opção de teste ativada(apenas de primeiro momento)
+5º Na opção Firestore Database você criará o banco de dados e para o começo do projeto crie com a opção de teste ativada(apenas de primeiro momento)
+
+**********************************************************************************************************************************************************
+
+CONFIGURANDO O PROJETO
+
+1º Na página do firebase, clicar em "Visão geral do projeto" e escolher a plataforma que vai adicionar ao projeto(android, IOS ou os dois)
+
+2º Na próxima tela vai pedir o nome do pacote do projeto; fica no seguinte caminho:
+
+->.../android/app/build.gradle 
+
+defaultConfig{
+    ...
+    applicationID = "o caminho fica aqui"
+    ...
+}
+
+3º Nesta mesma parte, vai pedir o certificado de assinatura(caso não tenha nenhum tipo de login, esta parte pode ficar em branco, mas caso tenha, então deverá ser preenchida)
+Para gerar esta assinatura, use este código abaixo no terminal:
+
+keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+(OBS.: para que seja possível usar este comando, você deverá o /bin do flutter nas variáveis de ambiente do windows)
+
+4º Depois que este comando rodar com sucesso, será exibido a chave SHA1. Copie-a e cole no campo pedido e clique no botão próximo
+
+5º Na próxima tela, faça o download do arquivo pedido(google-services.json) e cole no seguinte caminho: .../android/app/ (cole nesta pasta);
+OBS.: na tela do firebase clicar em próximo
+
+6º No arquivo build.gradle(.../android/app/build.gradle), dentro da chave de plugins adicionar este item;
+pluguins{
+    ...
+    id 'com.google.gms.google-services'    
+}
+
+Ainda dentro do mesmo arquivo, abaixo da chave plugins adicionar esta chave:
+dependencies{
+    implementation platform('com.google.firebase:firebase-bom:33.14.0')
+}
+
+No mesmo arquivo ainda, dentro da chave android->defaultConfig configurar desta forma:
+android{
+    ...
+    defaultConfig{
+        ...
+        minSdk = 23
+        multiDexEnabled true
+        ...
+    }
+}
+
+7º Por fim, no arquivo build.gradle dentro da pasta raiz do android, adicionar a chave plugins no topo do arquivo:
+plugins{
+    id 'com.google.gms.google-services' version '4.4.2' apply false
+}
+
