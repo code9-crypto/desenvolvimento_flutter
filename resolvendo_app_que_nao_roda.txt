@@ -1,4 +1,4 @@
-Isto é para quando houver um erro parecido com este: Execution failed for task ':pacote_usado_no_projeto:compileDebugJavaWithJavac'.
+Isto é para quando houver um erro parecido com este: Execution failed for task ':pacote_usado_no_projeto:compileDebugJavaWithJavac' ou ':app:processDebugMainManifest'.
 
 1º No arquivo settings.gradle(...projeto/android/settings.gradle),
 no objeto plugins;

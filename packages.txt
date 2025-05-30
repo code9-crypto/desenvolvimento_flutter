@@ -12,6 +12,11 @@ transparent_image: ^2.0.1 ->
 sqflite: ^2.4.0 -> este pacote faz acesso ao banco de dados usando sqlite
 url_launcher: ^6.3.1 -> permite abrir o método de ligação do telefone
 image_picker: ^1.1.2 -> permite tirar foto
+google_sign_in: ^4.1.1 -> permite fazer a autenticação do google
+firebase_storage: ^3.1.1 -> permite acessar o storage do firebase
+firebase_auth: ^0.15.3 -> permite fazer autenticação com o firebase
+cloud_firestore: ^0.13.0+1 -> permite acessar o cloud_firestore do firebase
+firebase_core: ^2.14.0 -> permite fazer os comandos no firebase
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular
