@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'classes/chat.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-
   runApp(MyApp());
+  //INICIALIZANDO O BANCO DO FIREBASE NA CLASSE PRINICIPAL
   await Firebase.initializeApp();
-  FirebaseFirestore.instance.collection("mensagens").doc("W9tmfx21u7IuQ6AK3cXo").snapshots().listen((dado){
-    print(dado.data());
-  });
-
-
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      //Este theme faz referencia a todo o aplicativo: em textos, ícones, appBar ....
+      theme: ThemeData(
+        iconTheme: IconThemeData(
+          color: Colors.green
+        )
+      ),
       home: Chat(),
     );
   }
