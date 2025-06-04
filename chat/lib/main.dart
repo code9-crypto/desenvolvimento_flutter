@@ -3,9 +3,12 @@ import 'classes/chat.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  runApp(MyApp());
+
   //INICIALIZANDO O BANCO DO FIREBASE NA CLASSE PRINICIPAL
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
