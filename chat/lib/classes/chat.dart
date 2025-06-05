@@ -34,6 +34,17 @@ class _ChatState extends State<Chat> {
     });
   }
 
+  void pegaDados() async {
+    List<Map> dados = [];
+    QuerySnapshot query = await FirebaseFirestore.instance.collection("messages").get();
+    query.docs.forEach((d){
+      dados.add(d.data() as Map);
+    });
+    for(Map m in dados){
+      print(m['senderName']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

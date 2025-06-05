@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374794242011",
+    "project_id": "voluntariadoilha",
+    "storage_bucket": "voluntariadoilha.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374794242011:android:dc5004d5fbf5e7241cc9fe",
+        "android_client_info": {
+          "package_name": "com.voluntariado.livros_voluntariado"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu1sajqyMldtyQrg7RBsRfeebVnCZmsr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
