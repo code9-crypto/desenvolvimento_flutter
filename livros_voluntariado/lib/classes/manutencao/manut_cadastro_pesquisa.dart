@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 
 class ManutCadastroPesquisa extends StatefulWidget {
   const ManutCadastroPesquisa({super.key});
@@ -10,12 +10,11 @@ class ManutCadastroPesquisa extends StatefulWidget {
 }
 
 class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
-
   //***VARIÁVEIS***
   List dados = [];
-  String codVol = "";
-  String nameVol = "";
-  String verifica = "";
+  String codNamVol = "";
+  bool verifica = false;
+  Map<String, dynamic> exibeDados = {};
 
   //***CONTROLADORES***
   TextEditingController cadNomeController = TextEditingController();
@@ -28,7 +27,6 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
     super.initState();
     getData();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                   icon: Icon(Icons.numbers_outlined)),
             ),
             SizedBox(height: 10),
-            //Este é o banco de cadastrar
+            //Este é o botão de cadastrar
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -72,35 +70,7 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 ),
               ),
               onPressed: () {
-                Map<String, dynamic> dados = {};
-                dados["nome"] = cadNomeController.text;
-                dados["codigo"] = cadCodController.text;
-                if (cadCodController.text.isNotEmpty && cadCodController.text.isNotEmpty) {
-                  FirebaseFirestore.instance.collection("voluntarios").doc().set(dados);
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "Voluntário cadastrado com sucesso!!!",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.green,
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                  cadCodController.clear();
-                  cadNomeController.clear();
-                } else {
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      "Um dos campos está vázio",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 3),
-                  ));
-                }
+                checkData();
               },
               child: Text(
                 "Cadastrar",
@@ -140,30 +110,20 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                     ),
                   ),
                   onPressed: () {
-                    codVol = pesqController.text;
-                    nameVol = pesqController.text;
-                    if( codVol.isNotEmpty ){
-                      for( Map m in dados ){
-                        if(m["codigo"] == codVol){
-
-                        }
-                      }
-                      pesqController.clear();
-                    }else if( nameVol.isNotEmpty ){
-                      for( Map m in dados ){
-                        if(m["nome"].toString().toLowerCase() == nameVol.toLowerCase()){
-                          print(m["nome"]);
-                        }
-                      }
-                    }
-
+                    searchData();
                   },
                   child: Icon(
                     Icons.search,
                     color: Colors.white,
                   ),
-                )
+                ),
               ],
+            ),
+            Padding(
+                padding: EdgeInsets.only(left: 40.0, top: 10.0),
+                child: verifica ?
+                Text("Código: ${exibeDados["codigo"]}\nNome: ${exibeDados["nome"]}", style: TextStyle(fontSize: 16),) :
+                Text("")
             )
           ],
         ),
@@ -175,9 +135,106 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
 
   //buscando os dados no firebase e atrelando cada valor na lista
   void getData() async {
-    QuerySnapshot data = await FirebaseFirestore.instance.collection("voluntarios").get();
-    data.docs.forEach((d){
+    QuerySnapshot data =
+        await FirebaseFirestore.instance.collection("manutencao").get();
+    data.docs.forEach((d) {
       dados.add(d.data());
     });
+  }
+
+  //esta função está fazendo a busca das informações que está na lista
+  void searchData(){
+    if( pesqController.text.isEmpty ){
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Por favor, digite o código ou nome do voluntário"),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          )
+      );
+    }else {
+      codNamVol = pesqController.text;
+      //Aqui está fazendo a verificação tanto pelo nome ou pelo codigo do voluntario
+      for (Map m in dados) {
+        if (m["nome"].toString().startsWith(
+            codNamVol.toUpperCase())) {
+          setState(() {
+            exibeDados["codigo"] = m["codigo"];
+            exibeDados["nome"] = m["nome"];
+            verifica = true;
+          });
+          pesqController.clear();
+        } else if (m["codigo"] == codNamVol) {
+          setState(() {
+            exibeDados["codigo"] = m["codigo"];
+            exibeDados["nome"] = m["nome"];
+            verifica = true;
+          });
+          pesqController.clear();
+        } else {
+          exibeDados["info"] = false;
+        }
+      }
+    }
+  }
+
+  //salvando dados do voluntario no banco
+  void saveData() {
+    Map<String, dynamic> dados = {};
+    dados["codigo"] = cadCodController.text.toUpperCase();
+    dados["nome"] = cadNomeController.text.toUpperCase();
+    if (cadCodController.text.isNotEmpty && cadCodController.text.isNotEmpty) {
+      FirebaseFirestore.instance.collection("manutencao").doc().set(dados);
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Voluntário cadastrado com sucesso!!!",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      cadCodController.clear();
+      cadNomeController.clear();
+    }
+  }
+
+  //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
+  void checkData(){
+    if( cadNomeController.text.isEmpty || cadCodController.text.isEmpty ){
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Um dos campos está vázio",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+
+    if( cadNomeController.text.isNotEmpty || cadCodController.text.isNotEmpty ){
+      for( int i = 0; i < dados.length; i++ ){
+        if( cadNomeController.text.toString().toUpperCase() == dados[i]["nome"].toString().toUpperCase() || cadCodController.text.toString() == dados[i]["codigo"]){
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Código ou nome do voluntário já está cadastrado", style: TextStyle(color: Colors.black),),
+                backgroundColor: Colors.amber,
+                duration: Duration(seconds: 3),
+              )
+          );
+        }
+      }
+      cadCodController.clear();
+      cadNomeController.clear();
+    } else {
+      saveData();
+      getData();
+    }
   }
 }
