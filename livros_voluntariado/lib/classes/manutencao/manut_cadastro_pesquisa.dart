@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 class ManutCadastroPesquisa extends StatefulWidget {
   const ManutCadastroPesquisa({super.key});
 
@@ -70,7 +69,7 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 ),
               ),
               onPressed: () {
-                checkData();
+                saveData();
               },
               child: Text(
                 "Cadastrar",
@@ -120,10 +119,13 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
               ],
             ),
             Padding(
-                padding: EdgeInsets.only(left: 40.0, top: 10.0),
-                child: verifica ?
-                Text("Código: ${exibeDados["codigo"]}\nNome: ${exibeDados["nome"]}", style: TextStyle(fontSize: 16),) :
-                Text("")
+              padding: EdgeInsets.only(left: 40.0, top: 10.0),
+              child: verifica
+                  ? Text(
+                      "Código: ${exibeDados["codigo"]}\nNome: ${exibeDados["nome"]}",
+                      style: TextStyle(fontSize: 16),
+                    )
+                  : Text(""),
             )
           ],
         ),
@@ -138,27 +140,24 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
     QuerySnapshot data =
         await FirebaseFirestore.instance.collection("manutencao").get();
     data.docs.forEach((d) {
-      dados.add(d.data());
+      dados.add(d.data() as Map);
     });
   }
 
   //esta função está fazendo a busca das informações que está na lista
-  void searchData(){
-    if( pesqController.text.isEmpty ){
+  void searchData() {
+    if (pesqController.text.isEmpty) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Por favor, digite o código ou nome do voluntário"),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
-          )
-      );
-    }else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Por favor, digite o código ou nome do voluntário"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 3),
+      ));
+    } else {
       codNamVol = pesqController.text;
       //Aqui está fazendo a verificação tanto pelo nome ou pelo codigo do voluntario
       for (Map m in dados) {
-        if (m["nome"].toString().startsWith(
-            codNamVol.toUpperCase())) {
+        if (m["nome"].toString().startsWith(codNamVol.toUpperCase())) {
           setState(() {
             exibeDados["codigo"] = m["codigo"];
             exibeDados["nome"] = m["nome"];
@@ -179,12 +178,54 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
     }
   }
 
+  //Esta função vai primeiro verificar se os campos estão vazios para depois prosseguir com cadastramento
+  bool verificaCamposVazios() {
+    if (cadNomeController.text.isEmpty && cadCodController.text.isEmpty) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Um dos campos está vázio",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
+  bool checkData() {
+    for (int i = 0; i < dados.length; i++) {
+      if (cadNomeController.text.toString().toUpperCase() ==
+              dados[i]["nome"].toString().toUpperCase() ||
+          cadCodController.text.toString() == dados[i]["codigo"]) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "Código ou nome do voluntário já está cadastrado",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.amber,
+          duration: Duration(seconds: 5),
+        ));
+        cadCodController.clear();
+        cadNomeController.clear();
+        return true;
+      }
+    }
+    return false;
+  }
+
   //salvando dados do voluntario no banco
   void saveData() {
     Map<String, dynamic> dados = {};
     dados["codigo"] = cadCodController.text.toUpperCase();
     dados["nome"] = cadNomeController.text.toUpperCase();
-    if (cadCodController.text.isNotEmpty && cadCodController.text.isNotEmpty) {
+    if (!verificaCamposVazios() && !checkData()) {
       FirebaseFirestore.instance.collection("manutencao").doc().set(dados);
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -197,44 +238,9 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
           duration: Duration(seconds: 3),
         ),
       );
-      cadCodController.clear();
-      cadNomeController.clear();
-    }
-  }
-
-  //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
-  void checkData(){
-    if( cadNomeController.text.isEmpty || cadCodController.text.isEmpty ){
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Um dos campos está vázio",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
-
-    if( cadNomeController.text.isNotEmpty || cadCodController.text.isNotEmpty ){
-      for( int i = 0; i < dados.length; i++ ){
-        if( cadNomeController.text.toString().toUpperCase() == dados[i]["nome"].toString().toUpperCase() || cadCodController.text.toString() == dados[i]["codigo"]){
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Código ou nome do voluntário já está cadastrado", style: TextStyle(color: Colors.black),),
-                backgroundColor: Colors.amber,
-                duration: Duration(seconds: 3),
-              )
-          );
-        }
-      }
-      cadCodController.clear();
-      cadNomeController.clear();
-    } else {
-      saveData();
       getData();
+      cadCodController.clear();
+      cadNomeController.clear();
     }
   }
 }

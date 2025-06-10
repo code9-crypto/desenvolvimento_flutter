@@ -68,7 +68,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
                 ),
               ),
               onPressed: () {
-                checkData();
+                saveData();
               },
               child: Text(
                 "Cadastrar",
@@ -153,7 +153,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
           )
       );
     } else {
-      codNamVol = pesqController.text;
+      codNamVol = pesqController.text.trim();
       //Aqui está fazendo a verificação tanto pelo nome ou pelo codigo do voluntario
       for (Map m in dados) {
         if (m["nome"].toString().startsWith(
@@ -178,32 +178,9 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
     }
   }
 
-  //salvando dados do voluntario no banco
-  void saveData() {
-    Map<String, dynamic> dados = {};
-    dados["codigo"] = cadCodController.text.toUpperCase();
-    dados["nome"] = cadNomeController.text.toUpperCase();
-    if (cadCodController.text.isNotEmpty && cadCodController.text.isNotEmpty) {
-      FirebaseFirestore.instance.collection("brigada").doc().set(dados);
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Voluntário cadastrado com sucesso!!!",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
-        ),
-      );
-      cadCodController.clear();
-      cadNomeController.clear();
-    }
-  }
-
-  //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
-  void checkData() {
-    if (cadNomeController.text.isEmpty || cadCodController.text.isEmpty) {
+  //Esta função vai primeiro verificar se os campos estão vazios para depois prosseguir com cadastramento
+  bool verificaCamposVazios(){
+    if( cadNomeController.text.isEmpty && cadCodController.text.isEmpty ){
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -215,28 +192,52 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
           duration: Duration(seconds: 3),
         ),
       );
+      return true;
+    }else {
+      return false;
     }
+  }
 
-    if (cadNomeController.text.isNotEmpty || cadCodController.text.isNotEmpty) {
-      for (int i = 0; i < dados.length; i++) {
-        if (cadNomeController.text.toString().toUpperCase() ==
-            dados[i]["nome"].toString().toUpperCase() ||
-            cadCodController.text.toString() == dados[i]["codigo"]) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Código ou nome do voluntário já está cadastrado",
-                  style: TextStyle(color: Colors.black),),
-                backgroundColor: Colors.amber,
-                duration: Duration(seconds: 3),
-              )
-          );
-        }
+  //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
+  bool checkData(){
+    for( int i = 0; i < dados.length; i++ ){
+      if( cadNomeController.text.toString().toUpperCase() == dados[i]["nome"].toString().toUpperCase() || cadCodController.text.toString() == dados[i]["codigo"]){
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Código ou nome do voluntário já está cadastrado", style: TextStyle(color: Colors.black),),
+              backgroundColor: Colors.amber,
+              duration: Duration(seconds: 5),
+            )
+        );
+        cadCodController.clear();
+        cadNomeController.clear();
+        return true;
       }
+    }
+    return false;
+  }
+
+  //salvando dados do voluntario no banco
+  void saveData() {
+    Map<String, dynamic> dados = {};
+    dados["codigo"] = cadCodController.text.toUpperCase().trim();
+    dados["nome"] = cadNomeController.text.toUpperCase().trim();
+    if ( !verificaCamposVazios() && !checkData() ) {
+      FirebaseFirestore.instance.collection("manutencao").doc().set(dados);
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Voluntário cadastrado com sucesso!!!",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      getData();
       cadCodController.clear();
       cadNomeController.clear();
-    } else {
-      saveData();
-      getData();
     }
   }
 }
