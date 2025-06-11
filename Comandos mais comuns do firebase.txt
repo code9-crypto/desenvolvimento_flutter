@@ -1,0 +1,45 @@
+INICIALIZANDO O BANCO
+OBS.: este comando deve ser usado no main.dart dentro da função main() antes do runApp()
+WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp();
+
+OBTENDO OS DADOS DO BANCO
+//este comando retorna um QuerySnapshot; OBS.: este resultado vem no futuro
+QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("coleção").get();
+
+LENDO OS DADOS OBTIDOS DO BANCO
+snapshot.docs.forEach((d){
+    print(d.data)
+});
+
+
+ARMAZENANDO OS DADOS NUMA LISTA DE MAPS
+List<Map> dados = [];
+snapshot.docs.forEach((d){
+    dados.add(d.data() as Map)
+})
+
+OU
+
+List dados = [];
+snapshot.docs.forEach((d){
+    dados.add(d.data()) //assim será salvo direto como lista
+})
+
+    PESQUISANDO NA LISTA COM CRITÉRIO ESPECÍFICO
+    for( int i = 0; i <= dados.length -1; i++ ){
+        if(dados[i]["chave"].toString().toLowerCase().startsWith("text")){
+            print(dados[i]["senderName"]);
+        }    
+    }
+
+*******************************************************************************************************************************************************
+ESCREVENDO NO BANCO DE DADOS
+FirebaseFirestore.instance.collection("messages").doc().set({"nome":"william"});
+
+OU
+
+Map<String, dynamic> data = {};
+data["chave"] = "valor";
+
+FirebaseFirestore.instance.collection("messages").doc().set(data);
