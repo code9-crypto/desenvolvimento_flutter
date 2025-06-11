@@ -5,11 +5,10 @@ no objeto plugins;
 
 plugins{
 ....
-id "com.android.application" version "8.1.0" apply false
+id "com.android.application" version "8.1.0" apply false -> este altere para versão 8.3.2
+id "org.jetbrains.kotlin.android" version "1.0.0" apply false -> este altere para versão 2.1.21
 ....
 }
-
-altere a version para "8.3.2"
 
 
 2º No arquivo build.gradle(...projeto/android/app/build.gradle),

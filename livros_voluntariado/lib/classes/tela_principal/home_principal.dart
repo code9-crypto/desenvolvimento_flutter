@@ -42,7 +42,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                 fixedSize: Size(150, 150)
               ),
               child: Text(
-                "Livro da Manutenção",
+                "Manutenção",
                 style: TextStyle(
                   fontSize: 30.0,
                   color: Colors.white
@@ -68,7 +68,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                   fixedSize: Size(150, 150)
               ),
               child: Text(
-                "Livro da Limpeza",
+                "Limpeza/Brigada",
                 style: TextStyle(
                     fontSize: 30.0,
                     color: Colors.white

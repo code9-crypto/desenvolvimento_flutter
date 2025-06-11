@@ -253,3 +253,98 @@ showDialog(
         );
     }
 );
+
+***********************************************************************************************************************************************************
+RETORNANDO UM CONTAINER COM DEGRADÊ
+
+Widget _buildBodyBack() => Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [
+          Color.fromARGB(255, 211, 118, 130),
+          Color.fromARGB(255, 253, 181, 168)
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight
+      )
+    ),
+  );
+
+
+***********************************************************************************************************************************************************
+USANDO UM CONSTRUTOR QUE PERMITE SOBREPOR O FUNDO DA TELA COM OUTROS WIDGETS
+
+Widget build(BuildContext context) {
+    return Stack(
+        children: [
+            _buildBodyBack() // esta função está retornando um fundo com degradê da cor rosa
+        ],
+    );
+}
+
+***********************************************************************************************************************************************************
+CRIANDO UMA BARRA FLUTUANTE COM CUSTOMSCROLLVIEW E SLIVERBAR
+
+Widget build(BuildContext context) {
+    //Este construtor Stack() permite que os itens sejam colocados em cima do fundo da tela
+    return Stack(
+      children: [
+        _buildBodyBack(),
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true, //este atributo vai deixar a barra flutuante no topo da tela
+              snap: true, //este atributo permite que a barra seja exibida mesmo quando não estiver aparecendo na tela
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              flexibleSpace: FlexibleSpaceBar(
+                title: const Text("Novidades", style: TextStyle(color: Colors.white),),
+                centerTitle: true,
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+
+***********************************************************************************************************************************************************
+CRIANDO UM CIRCULARPROGRESSINDICATOR - barra de carregamento circular
+...
+Container(
+    height: 200.0,
+    alignment: Alignment.center,
+    child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+    ),
+),
+
+***********************************************************************************************************************************************************
+EXIBINDO IMAGENS DENTRO DE UM CUSTOMSCROLLVIEW
+...
+//Esta codificação está exibindo as imagens(salvas como link no firebase) de forma customizada e suavemente
+return SliverToBoxAdapter(
+    child: GridView.custom(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    gridDelegate: SliverQuiltedGridDelegate(
+        crossAxisCount: 2,
+        mainAxisSpacing: 1,
+        crossAxisSpacing: 1,
+        repeatPattern: QuiltedGridRepeatPattern.inverted,
+        pattern: snapshot.data!.docs.map((e) {
+        return QuiltedGridTile(e['y'], e['x']);
+        }).toList(),
+    ),
+        childrenDelegate: SliverChildBuilderDelegate(
+            //Este FadeInImage.memoryNetwork -> permite exibir a imagem de forma mais suave junto com o kTransparentImage
+            (context, index) => FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: snapshot.data!.docs[index]['image'],
+            fit: BoxFit.cover,
+            ),
+            childCount: snapshot.data!.docs.length,
+        ),
+    ),
+);

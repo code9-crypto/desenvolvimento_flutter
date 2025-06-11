@@ -76,11 +76,7 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ),
-            Text(
-              "-" * 50,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
+            Divider(),
             SizedBox(height: 10),
             Text(
               "PESQUISAR VOLUNTÁRIO",

@@ -32,7 +32,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Brigada"),
+        title: Text("Limpeza/Brigada"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
@@ -45,6 +45,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
               textAlign: TextAlign.center,
             ),
             TextField(
+              controller: cadNomeController,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                   label: Text("Nome"),
@@ -52,6 +53,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
                   icon: Icon(Icons.person)),
             ),
             TextField(
+              controller: cadCodController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   label: Text("Código"),
@@ -75,11 +77,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ),
-            Text(
-              "-" * 50,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
+            Divider(),
             SizedBox(height: 10),
             Text(
               "PESQUISAR VOLUNTÁRIO",
@@ -90,6 +88,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: pesqController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       label: Text("Nome / Código"),
