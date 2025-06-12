@@ -15,10 +15,20 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(), //Este comando não permite fazer transição de telas arrastando o dedo
       children: [
+        //Este é a primeira página(page 0)
         Scaffold(
           body: HomeTab(),
           //Para que seja possível criar um Drawer, este deverá ficar dentro de um Scaffold e é declarado desta forma
-          drawer: CustomDrawer(),
+          drawer: CustomDrawer(_pageController),
+        ),
+        //Este é a segunda página(page 1)
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Produtos"),
+            centerTitle: true,
+          ),
+          drawer: CustomDrawer(_pageController),
+          body: Container(),
         )
       ],
     );

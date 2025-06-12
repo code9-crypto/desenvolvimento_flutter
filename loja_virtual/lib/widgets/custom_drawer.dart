@@ -4,7 +4,11 @@ import '../tiles/drawer_tile.dart';
 
 //ESTA CLASSE SERÁ A RESPONSÁVEL PELO DRAWER
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  //***VARIÁVEIS****
+  late PageController controller = PageController();
+
+  //***CONSTRUTORES****
+  CustomDrawer(this.controller);
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +68,10 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(),
               //Esses DrawerTile.loja são os construtores que criam cada um desses item na lista e que vem do arquivo drawer_tile.dart
-              DrawerTile.loja(Icons.home, "Início"),
-              DrawerTile.loja(Icons.list, "Produtos"),
-              DrawerTile.loja(Icons.location_on, "Lojas"),
-              DrawerTile.loja(Icons.playlist_add_check, "Meus Pedidos")
+              DrawerTile.loja(Icons.home, "Início", controller, 0),
+              DrawerTile.loja(Icons.list, "Produtos", controller, 1),
+              DrawerTile.loja(Icons.location_on, "Lojas", controller, 2),
+              DrawerTile.loja(Icons.playlist_add_check, "Meus Pedidos", controller, 3)
             ],
           )
         ],
