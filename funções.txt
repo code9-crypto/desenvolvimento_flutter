@@ -275,6 +275,7 @@ Widget _buildBodyBack() => Container(
 USANDO UM CONSTRUTOR QUE PERMITE SOBREPOR O FUNDO DA TELA COM OUTROS WIDGETS
 
 Widget build(BuildContext context) {
+    //Este é o construtor que permite isso
     return Stack(
         children: [
             _buildBodyBack() // esta função está retornando um fundo com degradê da cor rosa
@@ -288,8 +289,7 @@ CRIANDO UMA BARRA FLUTUANTE COM CUSTOMSCROLLVIEW E SLIVERBAR
 Widget build(BuildContext context) {
     //Este construtor Stack() permite que os itens sejam colocados em cima do fundo da tela
     return Stack(
-      children: [
-        _buildBodyBack(),
+      children: [        
         CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -348,3 +348,155 @@ return SliverToBoxAdapter(
         ),
     ),
 );
+
+***********************************************************************************************************************************************************
+FAZENDO COM QUE UMA IMAGEM OU TEXTO SEJA CLICÁVEL
+GestureDetector(
+    child: Text("Clique aqui") ou Image("link da imagem aqui"),
+    onTap: (){
+        aqui será a função para o texto ou imagem
+    }
+)
+
+***********************************************************************************************************************************************************
+CRIANDO UM DRAWER -> é aquele ícone que fica na parte superior esquerda com 3 traços na horizontal e faz o efeito de abrir uma telinha de menu
+...
+Scaffold(
+    drawer: CustomDrawer() -> este construtor é da classe que cria todo o layout do Drawer
+    ...
+)
+
+***********************************************************************************************************************************************************
+CLASSE QUE FAZ TODO O LAYOUT DO DRAWER
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Stack(
+        children: [
+          _buildBodyBack(),
+          ListView(
+            padding: EdgeInsets.only(left: 32.0, top: 16.0),
+            children: [
+              //Este Container será a parte superior do Drawer
+              Container(
+                margin: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.fromLTRB(0.0, 16.0, 16.0, 8.0),
+                height: 170.0,
+                //Este construtor Stack() permite fazer o posicionamento dos widgets de forma bem simples, conforme abaixo
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 8.0,
+                      left: 0.0,
+                      child: Text(
+                        "FLutter's\nClothing",
+                        style: TextStyle(
+                            fontSize: 34.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0.0,
+                      bottom: 0.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,                        
+                        children: [                          
+                          Text(
+                            "Olá,",
+                            style: TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              "Entre ou cadastra-se >",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0
+                              ),
+                            ),
+                            onTap: (){
+                              print("Entrando ou cadastrando...");
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              //Esses DrawerTile.loja são os construtores que criam cada um desses item na lista e que vem do arquivo drawer_tile.dart
+              DrawerTile.loja(Icons.home, "Início"),
+              DrawerTile.loja(Icons.list, "Produtos"),
+              DrawerTile.loja(Icons.location_on, "Lojas"),
+              DrawerTile.loja(Icons.playlist_add_check, "Meus Pedidos")
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  //****FUNÇÕES****
+
+  //retornado um degradê
+  Widget _buildBodyBack() => Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Color.fromARGB(255, 203, 236, 241), Colors.white],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter)),
+      );
+}
+
+***********************************************************************************************************************************************************
+ITENS QUE FICAM NO DRAWER E QUE ESTÃO DENTRO DA CLASSE DRAWERTILE
+OBS.: o construtor está recebendo por parâmetro o ícone e o texto do item da lista
+
+class DrawerTile extends StatelessWidget {
+
+  //***VARIÁVEIS****
+  late IconData icon;
+  late String text;
+
+  //***CONSTRUTORES****
+  DrawerTile({super.key});
+  DrawerTile.loja(this.icon, this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    //Está sendo retornado o Material para que seja possível causar um efeito ao clicar no item
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: (){
+
+        },
+        child: Container(
+          height: 60.0,
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 32.0,
+                color: Colors.black,
+              ),
+              SizedBox(width: 32.0,),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

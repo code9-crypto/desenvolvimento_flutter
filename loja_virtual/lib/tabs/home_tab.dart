@@ -14,11 +14,12 @@ class HomeTab extends StatelessWidget {
         _buildBodyBack(),
         CustomScrollView(
           slivers: [
+            //Este construtor SliverAppBar é quem vai deixar a barra flutuante
             SliverAppBar(
-              floating: true,
               //este atributo vai deixar a barra flutuante no topo da tela
-              snap: true,
+              floating: true,
               //este atributo permite que a barra seja exibida mesmo quando não estiver aparecendo na tela
+              snap: true,
               backgroundColor: Colors.transparent,
               elevation: 0.0,
               flexibleSpace: FlexibleSpaceBar(

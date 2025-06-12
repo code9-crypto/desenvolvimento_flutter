@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/tabs/home_tab.dart';
+import '../widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -14,7 +15,11 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(), //Este comando não permite fazer transição de telas arrastando o dedo
       children: [
-        HomeTab()
+        Scaffold(
+          body: HomeTab(),
+          //Para que seja possível criar um Drawer, este deverá ficar dentro de um Scaffold e é declarado desta forma
+          drawer: CustomDrawer(),
+        )
       ],
     );
   }
