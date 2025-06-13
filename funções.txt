@@ -284,8 +284,8 @@ class HomeScreen extends StatelessWidget {
             title: Text("Produtos"),
             centerTitle: true,
           ),
-          drawer: CustomDrawer(_pageController),
-          body: Container(),
+          drawer: CustomDrawer(_pageController), //O drawer da página
+          body: Container(), //Corpo da página
         )
       ],
     );

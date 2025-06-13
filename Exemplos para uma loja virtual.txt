@@ -1,0 +1,62 @@
+ESTA É CLASSE(TELA) E PRODUTOS
+
+class ProductsTab extends StatelessWidget {
+  const ProductsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: FirebaseFirestore.instance.collection("products").get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            //Esta variável dividedTiles está recebendo o construtor ListTile.divideTiles() para gerar uma linha divisória entre os itens
+            var dividedTiles = ListTile.divideTiles(
+                    //Este comando map que vem do snapshot, está retornando a mesma quantidade de itens que recebeu do banco de dados
+                    //Mas no layout da classe CategoryTile, pois está sendo enviado(à classe CategoryTile) cada item do snapshost pelo parâmetro doc
+                    //E no fim gerando uma lista com o comando .toList()
+                    tiles: snapshot.data!.docs.map((doc) {
+                      //Cada item está send exibido aqui
+                      return CategoryTile(doc);
+                    }).toList(),
+                    color: Colors.grey[500]
+            ).toList();
+            return ListView(
+              //O children está recebendo a variável dividedTiles para exibir os itens na lista
+              children: dividedTiles,
+            );
+          }
+        });
+  }
+}
+
+*********************************************************************************************************************************************************
+ESTE É A CLASSE QUE IRÁ APRESENTAR O LAYOUT DE CADA ITEM NA TELA DE PRODUTOS
+
+//ESTA É CLASSE RESPONSÁVEL POR EXIBIR CADA ITEM NA LISTA DA TELA PRODUTOS(products_tab.dart)
+class CategoryTile extends StatelessWidget {
+  //***VARIÁVEIS***
+  late DocumentSnapshot snapshot;
+
+  //***CONSTRUTORES***
+  CategoryTile(this.snapshot);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 28.0,
+        backgroundColor: Colors.transparent,
+        backgroundImage: NetworkImage(snapshot.get("icon")),
+      ),
+      title: Text(snapshot.get("title")),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: (){
+
+      },
+    );
+  }
+}
