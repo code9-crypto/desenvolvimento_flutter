@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Color.fromARGB(255, 4, 125, 141),
         appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 4, 125, 141),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 23.0),
           iconTheme: IconThemeData(
             color: Colors.white
           ),

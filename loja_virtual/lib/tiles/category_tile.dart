@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/screens/category_screen.dart';
 
 //ESTA É CLASSE RESPONSÁVEL POR EXIBIR CADA ITEM NA LISTA DA TELA PRODUTOS(products_tab.dart)
 class CategoryTile extends StatelessWidget {
@@ -20,7 +21,9 @@ class CategoryTile extends StatelessWidget {
       title: Text(snapshot.get("title")),
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: (){
-        print("Você clicou no produto ${snapshot.get("title")}");
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => CategoryScreen(snapshot))
+        );
       },
     );
   }
