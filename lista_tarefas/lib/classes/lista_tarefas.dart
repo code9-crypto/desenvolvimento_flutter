@@ -96,7 +96,9 @@ class _ListaTarefasState extends State<ListaTarefas> {
                         //Neste parâmetro itemCount, faz amostragem dos itens; neste caso está sendo feita a contagem até o máximo da lista
                         itemCount: todoList.length,
                         //Neste parâmetro itemBuilder irá uma função; pode ser anônima ou não
-                        itemBuilder: buildItem,
+                        //OBS.: no parâmetro do itemBuilder(caso seja função anônima), sempre irá o context e o index; Caso seja uma função personalizada
+                          //Então será necessário que na sua assinatura(parâmetros) seja declarado o context e o index
+                        itemBuilder: buildItem
                       ),
                       onRefresh: _refresh
                   ),

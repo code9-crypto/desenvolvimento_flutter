@@ -369,8 +369,11 @@ return SliverToBoxAdapter(
     shrinkWrap: true,
     physics: const NeverScrollableScrollPhysics(),
     gridDelegate: SliverQuiltedGridDelegate(
+        //Aqui é a quantidade de itens na horizontal
         crossAxisCount: 2,
+        //Este é o espaçamento entre os itens na vertical
         mainAxisSpacing: 1,
+        //Este é o espaçamento entre os itens na horizontal
         crossAxisSpacing: 1,
         repeatPattern: QuiltedGridRepeatPattern.inverted,
         pattern: snapshot.data!.docs.map((e) {
