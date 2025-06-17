@@ -117,6 +117,9 @@ class CategoryScreen extends StatelessWidget {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index){
                             //Este ProductTile é uma classe customizada que irá mostrar os itens ao usuário final;(no layout que ela for criada)
+                            //Neste caso vai ser exibido na forma de grid, pois o construtor está recebendo isso como String
+                            //NA VERDADE, QUEM VAI EXIBIR À PÁGINA SERÁ AQUI DENTRO DESTE GRIDVIEW.BUILDER
+                            //A CLASSE PRODUCTTILE ESTÁ SENDO CHAMADA PARA EXIBIR DENTRO DESSE LAYOUT DA CLASSE(ProductTile)
                             return ProductTile("grid", ProductData.fromData(snapshot.data!.docs[index]));
                           }
                       ),
@@ -124,7 +127,10 @@ class CategoryScreen extends StatelessWidget {
                           padding: EdgeInsets.all(4.0),
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index){
-                            return ProductTile("grid", ProductData.fromData(snapshot.data!.docs[index]));
+                            //Aqui o produto será exibido no formato lista
+                            //NA VERDADE, QUEM VAI EXIBIR À PÁGINA SERÁ AQUI DENTRO DESTE LISTVIEW.BUILDER
+                            //A CLASSE PRODUCTTILE ESTÁ SENDO CHAMADA PARA EXIBIR DENTRO DESSE LAYOUT DA CLASSE(ProductTile)
+                            return ProductTile("list", ProductData.fromData(snapshot.data!.docs[index]));
                           }
                       )
                     ]
@@ -137,3 +143,105 @@ class CategoryScreen extends StatelessWidget {
   }
 }
 
+********************************************************************************************************************************************************
+ESTE É A TELA QUE VAI MOSTRAR OS PRODUTOS, TANTO EM LISTA QUANTO EM GRADE
+
+class ProductTile extends StatelessWidget {
+  //***VARIÁVEIS****
+  late String type;
+  late ProductData product;
+
+  //***CONSTRUTORES****
+  ProductTile(this.type, this.product);
+
+  @override
+  Widget build(BuildContext context) {
+    //A diferença entre o inkwell e o gestureDetector, é que no inkWell quando clicado apresenta um pequeno efeito de clique
+    return InkWell(
+      //Quando o Card for clicado, será redirecionado para à página individual do produto em si
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ProductScreen(product))
+        );
+      },
+      child: Card(
+        //Aqui é onde fica a parte dos produtos em grade
+        child: type == "grid"
+            ? Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            //Esse Construtor AspectRatio é responsável por definir um tamanho fixo da imagem em vários dispositivos diferentes
+            AspectRatio(
+              aspectRatio: 0.85,
+              child: Image.network(
+                product.images[0],
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      product.title,
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "R\$ ${product.price}",
+                      style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .primaryColor,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
+        //Aqui é a parte onde fica os produtos em lista
+            : Row(
+          children: [
+            //Para que seja possível manter a proporção da imagem com o texto, então usamos um construtor Flexible com o parâmetro flex: 1
+            Flexible(
+              child: Image.network(
+                product.images[0],
+                fit: BoxFit.cover,
+                height: 250.0,
+              ),
+              flex: 1,
+            ),
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.title,
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "R\$ ${product.price}",
+                      style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .primaryColor,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

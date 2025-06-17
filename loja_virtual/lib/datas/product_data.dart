@@ -15,7 +15,7 @@ class ProductData{
     id = snapshot.id;
     title = snapshot.get("title");
     description = snapshot.get("description");
-    price = double.parse(snapshot.get("price"));
+    price = snapshot.get("price");
     images = snapshot.get("images");
     sizes = snapshot.get("sizes");
   }
