@@ -393,13 +393,25 @@ return SliverToBoxAdapter(
 );
 
 ***********************************************************************************************************************************************************
-FAZENDO COM QUE UMA IMAGEM OU TEXTO SEJA CLICÁVEL
+FAZENDO COM QUE UMA IMAGEM, TEXTO OU CARD SEJA CLICÁVEL
 GestureDetector(
     child: Text("Clique aqui") ou Image("link da imagem aqui"),
     onTap: (){
         aqui será a função para o texto ou imagem
     }
 )
+
+OU
+
+InkWell(
+  child: Card(
+    child: Text("Clique aqui") ou Image("link da imagem aqui"),
+  ),
+  onTap: (){
+    aqui será a função quando o texto for clicado
+  }
+)
+
 
 ***********************************************************************************************************************************************************
 CRIANDO UM DRAWER -> é aquele ícone que fica na parte superior esquerda com 3 traços na horizontal e faz o efeito de abrir uma telinha de menu
