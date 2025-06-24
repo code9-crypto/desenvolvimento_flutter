@@ -15,6 +15,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
   String codNamVol = "";
   bool verifica = false;
   Map<String, dynamic> exibeDados = {};
+  List infoPesquisada = [];
 
   //***CONTROLADORES***
   TextEditingController cadNomeController = TextEditingController();
@@ -36,94 +37,102 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              "CADASTRAR VOLUNTÁRIO",
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            TextField(
-              controller: cadNomeController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  label: Text("Nome"),
-                  hintText: "Digite o nome do voluntário",
-                  icon: Icon(Icons.person)),
-            ),
-            TextField(
-              controller: cadCodController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  label: Text("Código"),
-                  hintText: "Digite o código do voluntário",
-                  icon: Icon(Icons.numbers_outlined)),
-            ),
-            SizedBox(height: 10),
-            //Este é o botão de cadastrar
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                "CADASTRAR VOLUNTÁRIO",
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
               ),
-              onPressed: () {
-                saveData();
-              },
-              child: Text(
-                "Cadastrar",
-                style: TextStyle(fontSize: 16.0, color: Colors.white),
+              TextField(
+                controller: cadNomeController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    label: Text("Nome"),
+                    hintText: "Digite o nome do voluntário",
+                    icon: Icon(Icons.person)),
               ),
-            ),
-            Divider(),
-            SizedBox(height: 10),
-            Text(
-              "PESQUISAR VOLUNTÁRIO",
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: pesqController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      label: Text("Nome / Código"),
-                      hintText: "Nome ou código do voluntário",
-                      icon: Icon(Icons.co_present_rounded),
-                    ),
+              TextField(
+                controller: cadCodController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    label: Text("Código"),
+                    hintText: "Digite o código do voluntário",
+                    icon: Icon(Icons.numbers_outlined)),
+              ),
+              SizedBox(height: 10),
+              //Este é o botão de cadastrar
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                //Este é o botão de pesquisar
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                onPressed: () {
+                  saveData();
+                },
+                child: Text(
+                  "Cadastrar",
+                  style: TextStyle(fontSize: 16.0, color: Colors.white),
+                ),
+              ),
+              Divider(),
+              SizedBox(height: 10),
+              Text(
+                "PESQUISAR VOLUNTÁRIO",
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: pesqController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        label: Text("Nome / Código"),
+                        hintText: "Nome ou código do voluntário",
+                        icon: Icon(Icons.co_present_rounded),
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    searchData();
-                  },
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
+                  //Este é o botão de pesquisar
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      searchData();
+                      print("voce clicouc aqui");
+                    },
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+              //Aqui está sendo exibido os nomes dos voluntários em forma de lista
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: infoPesquisada.isNotEmpty
+                    ? ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (Map info in infoPesquisada)
+                      Text("Código: ${info['codigo']}; Nome: ${info['nome']}", style: TextStyle(fontSize: 17.0),)
+                  ],
                 )
-              ],
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 40.0, top: 10.0),
-                child: verifica ?
-                Text(
-                  "Código: ${exibeDados["codigo"]}\nNome: ${exibeDados["nome"]}",
-                  style: TextStyle(fontSize: 16),) :
-                Text("")
-            )
-          ],
+                    : Text(""),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -153,11 +162,12 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
       );
     } else {
       codNamVol = pesqController.text.trim();
+      infoPesquisada.clear();
       //Aqui está fazendo a verificação tanto pelo nome ou pelo codigo do voluntario
       for (Map m in dados) {
-        if (m["nome"].toString().startsWith(
-            codNamVol.toUpperCase())) {
+        if (m["nome"].toString().startsWith(codNamVol.toUpperCase())) {
           setState(() {
+            infoPesquisada.add(m);
             exibeDados["codigo"] = m["codigo"];
             exibeDados["nome"] = m["nome"];
             verifica = true;
@@ -165,6 +175,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
           pesqController.clear();
         } else if (m["codigo"] == codNamVol) {
           setState(() {
+            infoPesquisada.add(m);
             exibeDados["codigo"] = m["codigo"];
             exibeDados["nome"] = m["nome"];
             verifica = true;
@@ -222,7 +233,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
     dados["codigo"] = cadCodController.text.toUpperCase().trim();
     dados["nome"] = cadNomeController.text.toUpperCase().trim();
     if ( !verificaCamposVazios() && !checkData() ) {
-      FirebaseFirestore.instance.collection("manutencao").doc().set(dados);
+      FirebaseFirestore.instance.collection("brigada").doc().set(dados);
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

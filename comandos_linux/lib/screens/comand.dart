@@ -39,7 +39,7 @@ class Comand extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          snapshot.data!.docs[index].get("title"),
+                          snapshot.data!.docs[index].get("title").toString().toUpperCase(),
                           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10,),
