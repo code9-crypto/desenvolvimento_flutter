@@ -18,7 +18,7 @@ flutter_launcher_icons: -> este código aqui fica no final do arquivo e deve est
 
 CONFIGURANDO ASSINATURA DO APLICATIVO
 1º criar um keystore, usando este comando:
-keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+keytool -genkey -v -keystore %USERPROFILE%\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 OBS.: este comando usa a ferramenta keytool que é do java; caso o path do java não esteja global, você deve rodar este comando dentro da pasta do java;
 Quando criar a senha, NÃO ESQUECER NUNCA MAIS
 

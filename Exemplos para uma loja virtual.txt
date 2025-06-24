@@ -379,6 +379,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             borderRadius: BorderRadius.circular(4.0)
                         )
                       ),
+                      //Se a variavel size estiver não estiver vazia, então o botão será habilitado para receber a função, se estiver, então o botão será desabilitado
                       onPressed: size.isNotEmpty ? (){} : null,
                       child: Text(
                         "Adicionar ao Carrinho",

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "877130575764",
+    "project_id": "linux-9a787",
+    "storage_bucket": "linux-9a787.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877130575764:android:8301d13ce3c92c5422a981",
+        "android_client_info": {
+          "package_name": "com.linux.william.comandos_linux"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcVwspY7YmCxNCEv5u_Te4Tr3xebJpJO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
