@@ -109,7 +109,6 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
                     ),
                     onPressed: () {
                       searchData();
-                      print("voce clicouc aqui");
                     },
                     child: Icon(
                       Icons.search,
