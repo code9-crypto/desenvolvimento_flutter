@@ -7,7 +7,7 @@ import '../models/user_model.dart';
 class LoginScreen extends StatelessWidget {
   //***VARIÁVEIS***
   final _formKey = GlobalKey<
-      FormState>(); // Para que seja possível fazer a validação, será necessário criar esta variavel recebendo um GlobalKey()
+      FormState>(); // Para que seja possível fazer a validação, será necessário criar esta variavel recebendo um GlobalKey() do tipo FormState
 
   LoginScreen({super.key});
 
@@ -20,6 +20,7 @@ class LoginScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
+              //OBS.: este método pushReplacement não sobrepoe a próxima tela, mas sim substitui de modo que, quando clicar no botão de voltar, irá voltar para a tela antes desta
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => SignupScreen())
               );
@@ -35,7 +36,7 @@ class LoginScreen extends StatelessWidget {
           builder: (context, child, model){
             if( model.isLoading )
               return Center(child: CircularProgressIndicator(),);
-            
+
             return Form(
               key: _formKey,
               // É necessário que a variável do tipo GlobalKey(criada lá em cima) seja declarada no parâmetro key dentro do Form
