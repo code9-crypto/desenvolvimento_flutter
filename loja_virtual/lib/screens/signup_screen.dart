@@ -16,6 +16,8 @@ class _SignupScreenState extends State<SignupScreen> {
   // Para que seja possível fazer a validação, será necessário criar esta variavel recebendo um GlobalKey()
   final _formKey = GlobalKey<FormState>();
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();//Para ter acesso ao estado do Scaffold
+
   final _nameController = TextEditingController();
 
   final _emailController = TextEditingController();
@@ -27,6 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Criar Conta"),
         centerTitle: true,
@@ -162,7 +165,27 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   //***FUNÇÕES***
-  void _onSuccess(){}
+  void _onSuccess(){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Usuário criado com sucesso"),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: Duration(seconds: 2),
+      )
+    );
+    //Depois de 2 segundos vai executar esta função
+    Future.delayed(Duration(seconds: 2)).then((_){
+      Navigator.of(context).pop();
+    });
+  }
 
-  void _onFail(){}
+  void _onFail(){
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Falhar ao criar usuário"),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        )
+    );
+  }
 }

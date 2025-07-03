@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../tiles/drawer_tile.dart';
 
@@ -40,31 +42,43 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                       left: 0.0,
                       bottom: 0.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,                        
-                        children: [                          
-                          Text(
-                            "Olá,",
-                            style: TextStyle(
-                                fontSize: 18.0, fontWeight: FontWeight.bold),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              "Entre ou cadastra-se >",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0
-                              ),
-                            ),
-                            onTap: (){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => LoginScreen())
-                              );
-                            },
-                          )
-                        ],
-                      ),
+                      //Dentro deste ScopedModelDescendant está verificando se o usuário está logado ou não
+                        //Caso esteja, então o nome dele(a) será exibido e o botão de Sair também será exibido
+                        //Caso não, então será não será exibido seu nome e o botão de Entre ou cadastra-se será exibido
+                      child: ScopedModelDescendant<UserModel>(
+                          builder: (context, child, model){
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Olá, ${!model.isLoogedIn() ? "" : model.userData["name"]}",
+                                  style: TextStyle(
+                                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                  child: Text(
+                                    !model.isLoogedIn() ?
+                                    "Entre ou cadastra-se >" :
+                                    "Sair",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0
+                                    ),
+                                  ),
+                                  onTap: (){
+                                    if( !model.isLoogedIn() )
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => LoginScreen())
+                                      );
+                                    else
+                                      model.signOut();
+                                  },
+                                )
+                              ],
+                            );
+                          }
+                      )
                     )
                   ],
                 ),

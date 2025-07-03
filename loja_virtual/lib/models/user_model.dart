@@ -20,6 +20,17 @@ class UserModel extends Model{
 
   void signIn(){}
 
+
+  //Está função está deslogando o usuário e resetando as variáveis userData e firebaseUser
+  void signOut() async {
+    await _auth.signOut();
+
+    userData = Map();
+    firebaseUser = null;
+
+    notifyListeners();
+  }
+
   void signUp({required Map<String, dynamic> signUpUser, required String pass, required VoidCallback onSuccess, required VoidCallback onFail}) async {
     isLoading = true;
     notifyListeners(); //Este notifyListeners irá notificar todos os ScopedModelDescendent para que há modificação
@@ -47,6 +58,11 @@ class UserModel extends Model{
 
   void recoverPass(){
 
+  }
+
+  //Caso haja um usuário logado, esta função retornará true; caso contrário, retornará false.
+  bool isLoogedIn(){
+    return firebaseUser != null;
   }
 
   //Salvando os de mais dados do usuário
