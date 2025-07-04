@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 //ESTA CLASSE SERÁ RESPONSÁVEL POR MANTER OS DADOS DO USUÁRIO LOGADO
-class UserModel extends Model{
+class UserModel extends Model {
 
   //Instancia SingleTon
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,7 +18,28 @@ class UserModel extends Model{
 
   bool isLoading = false;
 
-  void signIn(){}
+  void signIn({required String email, required String pass, required VoidCallback onSuccess, required VoidCallback onFail}) {
+    isLoading = true;
+    notifyListeners();
+
+    _auth.signInWithEmailAndPassword(
+        email: email,
+        password: pass
+    ).then((user){
+      firebaseUser = user as User;
+      print(firebaseUser);
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e){
+        print(firebaseUser);
+       onFail();
+       isLoading = false;
+       notifyListeners();
+    });
+
+
+  }
 
 
   //Está função está deslogando o usuário e resetando as variáveis userData e firebaseUser
@@ -39,7 +60,7 @@ class UserModel extends Model{
     _auth.createUserWithEmailAndPassword(
         email: signUpUser["email"],
         password: pass
-    ).then((authResult)async{
+    ).then((authResult) async {
       firebaseUser = authResult.user as User;
 
       //Salvando os de mais dados do usuário: Nome e endereço
@@ -48,27 +69,28 @@ class UserModel extends Model{
       onSuccess();
       isLoading = false;
       notifyListeners();
-    }).catchError((e){
+    }).catchError((e) {
       onFail();
       isLoading = false;
       notifyListeners();
     });
-
   }
 
-  void recoverPass(){
+  void recoverPass() {
 
   }
 
   //Caso haja um usuário logado, esta função retornará true; caso contrário, retornará false.
-  bool isLoogedIn(){
+  bool isLoogedIn() {
     return firebaseUser != null;
   }
 
   //Salvando os de mais dados do usuário
   Future _saveUserData(Map<String, dynamic> signUpUser) async {
     userData = signUpUser;
-    await FirebaseFirestore.instance.collection("users").doc(firebaseUser!.uid).set(userData);
+    await FirebaseFirestore.instance.collection("users")
+        .doc(firebaseUser!.uid)
+        .set(userData);
   }
 
 }
