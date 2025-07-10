@@ -31,9 +31,10 @@ class ComandsScreen extends StatelessWidget {
                 ),
                 //aqui está verificando a quantidade de documentos que veio do banco
                 itemCount: snapshot.data!.docs.length,
+                //Aqui está construindo item por item(um a um) de acordo com index que está sendo passado por parâmetro
                 itemBuilder: (context, index){
                   //Aqui está pegando cada item do documento e enviando ao ComandsTile, mas com a configuração do ComandsData
-                  return ComandsTile(ComandsData(snapshot.data!.docs[index]));
+                  return ComandsTile(ComandsData(snapshot.data!.docs[index])); //aqui está fazendo um apontamento para mostrar como vai ficar cada layout
                 }
             );
           }

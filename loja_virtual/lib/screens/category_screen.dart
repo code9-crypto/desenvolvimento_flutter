@@ -53,15 +53,20 @@ class CategoryScreen extends StatelessWidget {
                               childAspectRatio: 0.65
                           ),
                           itemCount: snapshot.data!.docs.length,
+                          //Aqui está construindo item por item(um a um) de acordo com index que está sendo passado por parâmetro
                           itemBuilder: (context, index){
-                            return ProductTile("grid", ProductData.fromData(snapshot.data!.docs[index]));
+                            ProductData pData = ProductData.fromData(snapshot.data!.docs[index]);
+                            pData.category = this.snapshot.id.toString(); //este snapshot faz parte do FutureBuilder, pois este tem o ID da categoria por isso foi usado o this.snapshot
+                            return ProductTile("grid", pData); //aqui está fazendo um apontamento para mostrar como vai ficar o layout da cada item
                           }
                       ),
                       ListView.builder(
                           padding: EdgeInsets.all(4.0),
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index){
-                            return ProductTile("list", ProductData.fromData(snapshot.data!.docs[index]));
+                            ProductData pData = ProductData.fromData(snapshot.data!.docs[index]);
+                            pData.category = this.snapshot.id;
+                            return ProductTile("list", pData); //aqui está fazendo um apontamento para mostrar como vai ficar o layout da cada item
                           }
                       )
                     ]

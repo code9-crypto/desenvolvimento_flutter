@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-//ESTA CLASSE SERÁ RESPONSÁVEL POR MANTER OS DADOS DO USUÁRIO LOGADO
+//ESTA CLASSE SERÁ RESPONSÁVEL POR CUIDAR DAS FUNÇÕES DO USUÁRIO
 class UserModel extends Model {
 
   //Instancia SingleTon
@@ -18,6 +18,9 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  //Para acessar as funções desta classe de qualquer lugar do app
+  //Essa declaração fará isso e poderemos acessar de forma bem simples
+  static UserModel of(BuildContext context) => ScopedModel.of<UserModel>(context);
 
   //Chamando a função assim que o aplicativo for iniciado
   @override

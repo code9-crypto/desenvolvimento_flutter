@@ -96,6 +96,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
                         label: Text("Nome / Código"),
                         hintText: "Nome ou código do voluntário",
                         icon: Icon(Icons.co_present_rounded),
+
                       ),
                     ),
                   ),

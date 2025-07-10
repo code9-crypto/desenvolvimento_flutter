@@ -12,6 +12,7 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Este Construtor ListTile() cria uma linha com essas configurações(normalmente usado dentro do ListView)
     return ListTile(
       leading: CircleAvatar(
         radius: 28.0,

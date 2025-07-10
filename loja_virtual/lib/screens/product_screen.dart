@@ -1,6 +1,11 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
+
+import '../models/cart_model.dart';
 
 class ProductScreen extends StatefulWidget {
   //***VARIAVEIS***
@@ -130,9 +135,36 @@ class _ProductScreenState extends State<ProductScreen> {
                             borderRadius: BorderRadius.circular(4.0)
                         )
                       ),
-                      onPressed: size.isNotEmpty ? (){} : null,
+                      onPressed: size.isNotEmpty ? (){
+                        //Antes de adicionar ao carrinho, primeiramente está sendo verificar se está logado ou não
+                        //Se sim, então fará adição do produto ao carrinho
+                        //Se não, então será redirecionado a tela de login
+                        //OBS.: A estrutura do Navigator.of(context) é a mesma que criamos o UserModel.of(context); desta forma acessamos qualquer método da classe de qualquer lugar do app
+                        if( UserModel.of(context).isLoogedIn() ){
+                          CartProduct cProd = CartProduct();
+                          cProd.size = size;
+                          cProd.quantity = 1;
+                          cProd.pid = product.id;
+                          cProd.category = product.category;
+
+                          CartModel.of(context).addCartItem(cProd);
+
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Produto adicionado com sucesso"),
+                              backgroundColor: Colors.green,
+                              duration: Duration(seconds: 2),
+                            )
+                          );
+                        }else{
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => LoginScreen())
+                          );
+                        }
+                      } : null,
                       child: Text(
-                        "Adicionar ao Carrinho",
+                        UserModel.of(context).isLoogedIn() ? "Adicionar ao Carrinho" : "Entre para comprar",
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.white
