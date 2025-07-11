@@ -51,7 +51,8 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 decoration: InputDecoration(
                     label: Text("Nome"),
                     hintText: "Digite o nome do voluntário",
-                    icon: Icon(Icons.person)),
+                    icon: Icon(Icons.person),
+                ),
               ),
               TextField(
                 controller: cadCodController,

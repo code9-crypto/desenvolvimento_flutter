@@ -11,6 +11,8 @@ class CartModel extends Model{
 
   List<CartProduct> products = [];
 
+  bool isLoading = false;
+
   CartModel(this.user);
 
   //Para acessar as funções desta classe de qualquer lugar do app
