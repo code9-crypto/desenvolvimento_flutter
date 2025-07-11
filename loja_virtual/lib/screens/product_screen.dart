@@ -4,6 +4,7 @@ import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
 import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
+import 'package:loja_virtual/widgets/cart_button.dart';
 
 import '../models/cart_model.dart';
 
@@ -40,6 +41,7 @@ class _ProductScreenState extends State<ProductScreen> {
         title: Text(product.title),
         centerTitle: true,
       ),
+      floatingActionButton: CartButton(),
       body: ListView(
         children: [
           AspectRatio(
@@ -128,6 +130,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 //Este SizedBox será o responsável por deixar o botão no tamanho fixo
                 SizedBox(
                   height: 50.0,
+                  //ESTE É O BOTÃO QUE FARÁ À ADICÃO DO PRODUTO AO CARRINHO
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                        backgroundColor: primaryColor,
@@ -136,7 +139,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         )
                       ),
                       onPressed: size.isNotEmpty ? (){
-                        //Antes de adicionar ao carrinho, primeiramente está sendo verificar se está logado ou não
+                        //Antes de adicionar ao carrinho, primeiramente está sendo verificado se está logado ou não
                         //Se sim, então fará adição do produto ao carrinho
                         //Se não, então será redirecionado a tela de login
                         //OBS.: A estrutura do Navigator.of(context) é a mesma que criamos o UserModel.of(context); desta forma acessamos qualquer método da classe de qualquer lugar do app
