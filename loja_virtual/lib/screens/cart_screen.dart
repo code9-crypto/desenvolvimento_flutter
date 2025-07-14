@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/cart_model.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
+import 'package:loja_virtual/widgets/cart_price.dart';
+import 'package:loja_virtual/widgets/discount_card.dart';
+import 'package:loja_virtual/widgets/ship_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../models/user_model.dart';
@@ -58,20 +61,22 @@ class CartScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LoginScreen()));
-                    },
-                    child: Text(
-                      "Entrar",
-                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                  child: Text(
+                    "Entrar",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    fixedSize: Size(0, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        fixedSize: Size(0, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )))
+                  ),
+                )
               ],
             ),
           );
@@ -83,14 +88,16 @@ class CartScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           );
-        }else{
+        } else {
           return ListView(
             children: [
               Column(
-                children: model.products.map((p){
-                  return CartTile(p);
-                }).toList()
-              )
+                  children: model.products.map((p) {
+                return CartTile(p);
+              }).toList()),
+              DiscountCard(),
+              ShipCard(),
+              CartPrice((){})
             ],
           );
         }

@@ -13,7 +13,14 @@ class CartModel extends Model{
 
   bool isLoading = false;
 
-  CartModel(this.user);
+  String? couponCode;
+  int discountPercentage = 0;
+
+  CartModel(this.user){
+    if( user!.isLoogedIn() ){
+      loadCartItens();
+    }
+  }
 
   //Para acessar as funções desta classe de qualquer lugar do app
   //Essa declaração fará isso e poderemos acessar de forma bem simples
@@ -38,5 +45,36 @@ class CartModel extends Model{
 
     notifyListeners();
   }
+
+  //Esta função está decrementando os itens no banco de dados e também do atributo quantity
+  void decProduct(CartProduct cProd){
+    cProd.quantity = cProd.quantity! - 1;
+
+    FirebaseFirestore.instance.collection("users").doc(user!.firebaseUser!.uid).collection("cart").doc(cProd.cid).update(cProd.toMap());
+
+    notifyListeners();
+  }
+
+  //Esta função está incrementando os itens no banco de dados e também do atributo quantity
+  void incProduct(CartProduct cProd){
+    cProd.quantity = cProd.quantity! + 1;
+
+    FirebaseFirestore.instance.collection("users").doc(user!.firebaseUser!.uid).collection("cart").doc(cProd.cid).update(cProd.toMap());
+
+    notifyListeners();
+  }
+
+  //Esta função fará o carregamento dos itens que estão no carrinho do banco de dados
+  void loadCartItens() async {
+    QuerySnapshot query = await FirebaseFirestore.instance.collection("users").doc(user!.firebaseUser!.uid).collection("cart").get();
+    products = query.docs.map((doc) => CartProduct.fromDocument(doc)).toList();
+    notifyListeners();
+  }
+
+  void setCupom(String cuponCode, int discPercent){
+    this.couponCode = cuponCode;
+    this.discountPercentage = discPercent;
+  }
+
 
 }

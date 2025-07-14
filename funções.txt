@@ -24,7 +24,10 @@ Ex.: SizedBox(height: 30)
 
 Container() -> para que seja possível inserir uma imagem no aplicativo, a função Column() e todo seu conteúdo deverá ficar
 dentro do Container(), como child:
+OBS.: Também muito usado para manter uma proporção de determinado widget(imagem, card, etc...)
 Ex.: Container(
+    padding: EdgeInsets.all(8.0),
+    width: 120.0,
     margin: const EdgeInsets.symmetric(vertical: 2), -> este elemento permite dar margem aos itens; É semelhante ao padding
     decoration: BoxDecoration( -> Permite arredondar o item, semelhante ao button, mas com alguns parâmetros pouco diferentes
         borderRadius: BorderRadius.circular(10),
@@ -73,6 +76,13 @@ shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
     fixedSize: const Size(100, 100)
 )
 
+NOTA: Caso queira que um botão será desabilitado ou habilitado para que seja clicável, mas de forma programática, então usamos o operador ternário
+no parâmetro nomeado onPressed desta forma:
+Ex.: ElevatedButton(
+  ...
+  onPressed: campo.isNotEmpty ? (){} : null -> caso o campo não estaja vazio, então o botão será clicável(pois receberá alguma ação);
+  será desabilitado(pois receberá o valor null)
+)
 
 ***********************************************************************************************************************************************
 
@@ -561,3 +571,12 @@ class DrawerTile extends StatelessWidget {
     );
   }
 }
+
+******************************************************************************************************************************************************
+CONSTRUTOR QUE TEM O EFEITO DE EXPANDIR E ENCOLHER
+OBS.: este construtor tem o efeito de expandir e encolher o contéudo quando clicado
+ExpansionTile(
+  title: Text("Um titulo")
+  leading: Icon(Icons.card_giftcard), -> este parâmetro permite colocar o ícone do lado esquerdo do texto/titulo
+  trailing: Icon(Icons.add), -> este parâmetro permite colocar o ícone do lado direito do texto/titulo
+)
