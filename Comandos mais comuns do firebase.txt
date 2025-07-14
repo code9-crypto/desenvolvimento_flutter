@@ -43,3 +43,10 @@ Map<String, dynamic> data = {};
 data["chave"] = "valor";
 
 FirebaseFirestore.instance.collection("messages").doc().set(data);
+
+*******************************************************************************************************************************************************
+ACESSANDO UM ARRAY VINDO DO BANCO(com o comando .then())
+ 
+FirebaseFirestore.instance.collection("cupons").doc(text).get().then((docSnap) {
+    print(docSnap.data()!["campo"]);
+})
