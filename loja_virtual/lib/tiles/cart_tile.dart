@@ -45,6 +45,8 @@ class CartTile extends StatelessWidget {
 
   //Esta função está retornando um widget que será para a exibição dos dados no carrinho
   Widget _buildContent(BuildContext context) {
+    CartModel.of(context).updatePrices();
+
     //Esta Row é para deixar os itens alinhados um ao lado do outro
     return Row(
       children: [

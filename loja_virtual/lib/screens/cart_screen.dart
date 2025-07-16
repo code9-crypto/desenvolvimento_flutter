@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/cart_model.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
+import 'package:loja_virtual/screens/order_screen.dart';
 import 'package:loja_virtual/widgets/cart_price.dart';
 import 'package:loja_virtual/widgets/discount_card.dart';
 import 'package:loja_virtual/widgets/ship_card.dart';
@@ -89,15 +90,24 @@ class CartScreen extends StatelessWidget {
             ),
           );
         } else {
+          //Esta ListView está sendo usada para exibir os cada item no carrinho como um Card
           return ListView(
             children: [
               Column(
                   children: model.products.map((p) {
-                return CartTile(p);
+                return CartTile(p);//aqui está apontando para classe que terá o layout de cada item
               }).toList()),
-              DiscountCard(),
-              ShipCard(),
-              CartPrice((){})
+              DiscountCard(),//aqui está fazendo o apontamento para classe que será o layout do desconto
+              ShipCard(),//aqui está fazendo o apontamento para classe que será o layout de entrega/ship
+              CartPrice(() async { //aqui está fazendo o apontamento para classe que será o layout do preço
+                print("cliquei aqui");
+                String? orderID = await model.finishOrder();
+                if( orderID != null ){
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => OrderScreen(orderID))
+                  );
+                }
+              })
             ],
           );
         }

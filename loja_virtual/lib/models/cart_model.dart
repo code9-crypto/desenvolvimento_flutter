@@ -76,5 +76,76 @@ class CartModel extends Model{
     this.discountPercentage = discPercent;
   }
 
+  void updatePrices(){
+    notifyListeners();
+  }
 
+  //Retorna o total dos produtos
+  double getProductsPrice(){
+    double price = 0.0;
+    for(CartProduct c in products){
+      if( c.pData != null ){
+        price += c.quantity! * c.pData!.price;
+      }
+    }
+    return price;
+  }
+
+  //Retorna o valor da Entrega
+  double getShipPrice(){
+    return 9.99;
+  }
+
+
+  //Retorna o valor do desconto
+  double getDiscount(){
+    return getProductsPrice() * (discountPercentage / 100);
+  }
+
+  Future<String?> finishOrder() async{
+    if( products.length == 0 ) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double prodPrice = getProductsPrice();
+    double shipPrice = getShipPrice();
+    double discount = getDiscount();
+
+    //adicionando novo pedido à coleção orders
+    //E pegando a referência/ID desta inserção, para que possa ser inserido na coleção users ali embaixo
+    DocumentReference refOrder = await FirebaseFirestore.instance.collection("orders").add(
+      {
+        "clienteId":user!.firebaseUser!.uid,
+        "products":products.map((products) => products.toMap()).toList(), //aqui está pegando cada item da lista products no campo do banco como array
+        "shipPrice":shipPrice,
+        "productsPrice":prodPrice,
+        "discount":discount,
+        "totalPrice":prodPrice - discount + shipPrice,
+        "status":1
+      }
+    );
+
+    //Inserindo o ID(que foi pego no comando de cima) na coleção users
+    await FirebaseFirestore.instance.collection("users").doc(user!.firebaseUser!.uid).collection("orders").doc(refOrder.id).set(
+      {
+        "orderId" : refOrder.id
+      }
+    );
+
+    //este comando está pagando tanto os documentos(ID'S) quanto os campos dos seus respectivos documentos
+    QuerySnapshot query = await FirebaseFirestore.instance.collection("users").doc(user!.firebaseUser!.uid).collection("cart").get();
+
+    for(DocumentSnapshot doc in query.docs){
+      doc.reference.delete();
+    }
+
+    products.clear();
+    couponCode = null;
+    discountPercentage = 0;
+    isLoading = false;
+    notifyListeners();
+
+    return refOrder.id;
+  }
 }
