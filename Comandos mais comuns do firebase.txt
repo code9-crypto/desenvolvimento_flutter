@@ -1,3 +1,6 @@
+QuerySnapshot -> é usado para obter vários documentos
+DocumentSnapshot -> é usado para obter um documento
+
 INICIALIZANDO O BANCO
 OBS.: este comando deve ser usado no main.dart dentro da função main() antes do runApp()
 WidgetsFlutterBinding.ensureInitialized();
@@ -5,13 +8,18 @@ await Firebase.initializeApp();
 
 OBTENDO OS DADOS DO BANCO
 //este comando retorna um QuerySnapshot; OBS.: este resultado vem no futuro
-QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("coleção").get();
+QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("coleção").get(); -> este comando está pegando tanto os documentos(ID's) quanto seus respectivos campos
 
 LENDO OS DADOS OBTIDOS DO BANCO
 snapshot.docs.forEach((d){
     print(d.data)
 });
 
+OU
+
+for(DocumentSnapshot doc in snapshot.docs){
+    print(doc.data)
+}
 
 ARMAZENANDO OS DADOS NUMA LISTA DE MAPS
 List<Map> dados = [];
@@ -36,6 +44,7 @@ snapshot.docs.forEach((d){
 *******************************************************************************************************************************************************
 ESCREVENDO NO BANCO DE DADOS
 FirebaseFirestore.instance.collection("messages").doc().set({"nome":"william"});
+OBS.: quando é feito uma inserção no banco sem nomear o documento(doc), então seu ID será um conjunto de letras aleatória
 
 OU
 
