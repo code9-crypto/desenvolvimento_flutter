@@ -1,0 +1,10 @@
+Pasta Datas -> É responsável por estruturar, os dados que vem do banco, de acordo com cada classe;
+OBS.: Normalmente nesta classe tem a função toMap(), pois esta é tem a estrutura para armazenar os dados no banco
+
+Pasta Models -> É responsável pela lógica de cada tela
+
+Pasta Screens -> Onde ficam as telas
+
+Pasta Tabs -> esta pasta é ficam os classes que são redirecionadas pelo Drawer
+
+Pasta Tiles -> Onde ficam as classes que DEFINEM O LAYOUT DE CADA ITEM/WIDGET que vai aparecer numa listaView ou GridView.

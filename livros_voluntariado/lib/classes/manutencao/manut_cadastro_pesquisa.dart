@@ -147,6 +147,8 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
     data.docs.forEach((d) {
       dados.add(d.data());
     });
+
+
   }
 
   //esta função está fazendo a busca das informações que está na lista
