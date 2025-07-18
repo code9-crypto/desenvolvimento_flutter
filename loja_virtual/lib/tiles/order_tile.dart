@@ -23,6 +23,9 @@ class OrderTile extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }else{
+
+              int status = snapshot.data!["status"];
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -33,6 +36,29 @@ class OrderTile extends StatelessWidget {
                   SizedBox(height: 4.0),
                   Text(
                     _buildProductsText(snapshot.data as DocumentSnapshot<Object?>)
+                  ),
+                  SizedBox(height: 4.0,),
+                  Text(
+                    "Status do pedido:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildCircle("1", "Preparação", status, 1),
+                      Container(
+                        height: 1.0,
+                        width: 40.0,
+                        color: Colors.grey.shade500,
+                      ),
+                      _buildCircle("2", "Transporte", status, 2),
+                      Container(
+                        height: 1.0,
+                        width: 40.0,
+                        color: Colors.grey.shade500,
+                      ),
+                      _buildCircle("3", "Entrega", status, 3)
+                    ],
                   )
                 ],
               );
@@ -54,5 +80,52 @@ class OrderTile extends StatelessWidget {
     text += "Total: R\$ ${snap.get("totalPrice").toStringAsFixed(2)}";
 
     return text;
+  }
+
+  //Esta função está criando as bolinhas referentes ao acompanhamento do pedido
+  Widget _buildCircle(String title, String subTitle, int status, int thisStatus){
+    Color backColor;
+    Widget child;
+
+    //Se o status(esse valor que vem do banco) for menor que thisStatus(atribuido manualmente por parâmetro), as bolinhas(com status maior) ficaram com fundo cinza e com o texto que veio como parâmetro
+    if( status < thisStatus ){
+      backColor = Colors.grey.shade500;
+      child = Text(title, style: TextStyle(color: Colors.white),);
+    }
+    //Se o status(esse valor que vem do banco) for igual ao thisStatus(atribuido manualmente por parâmetro), a bolinha(atual) ficará com fundo azul, o texto e circularProgress em volta girando
+    else if( status == thisStatus ){
+      backColor = Colors.blue;
+      child = Stack(
+        alignment: Alignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white
+              ),
+            ),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            )
+          ],
+      );
+    }
+    //Se o status(esse valor que vem do banco) for maior que thisStatus(atribuido manualmente por parâmetro), a bolinha(onde thisStatus < status) ficará com fundo verde e ícone check branco
+    else{
+      backColor = Colors.green;
+      child = Icon(Icons.check, color: Colors.white,);
+    }
+
+    //Aqui retorna uma coluna que terá uma estrutura vertical com a bolinha e o texto embaixo
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 20.0,
+          backgroundColor: backColor,
+          child: child,
+        ),
+        Text(subTitle)
+      ],
+    );
   }
 }

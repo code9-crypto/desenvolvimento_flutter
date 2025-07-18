@@ -25,7 +25,8 @@ class OrdersTab extends StatelessWidget {
           }else{
             //Aqui está gerando uma lista de pedidos
             return ListView(
-              children: snapshot.data!.docs.map((doc) => OrderTile(doc.id)).toList() //aqui está pegando cada item do snapshot(pelo ID), mandando para outra classe que vai configurar o layout
+              children: snapshot.data!.docs.map((doc) => OrderTile(doc.id)).toList().reversed.toList() //aqui está pegando cada item do snapshot(pelo ID), mandando para outra classe que vai configurar o layout
+              //OBS.: este reversed deixa a lista da mais recente para mais antiga
             );
           }
         }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/tabs/home_tab.dart';
 import 'package:loja_virtual/widgets/cart_button.dart';
 import '../tabs/orders_tab.dart';
+import '../tabs/places_tab.dart';
 import '../tabs/products_tab.dart';
 import '../widgets/custom_drawer.dart';
 
@@ -43,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             title: Text("Lojas"),
             centerTitle: true,
           ),
+          body: PlacesTab(),
           drawer: CustomDrawer(_pageController),
         ),
         //Este é a segunda página(page 3 - Pedidos)
