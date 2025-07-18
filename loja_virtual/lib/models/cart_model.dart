@@ -28,8 +28,10 @@ class CartModel extends Model{
 
   //Aqui está adicionando o item ao carrinho(tanto na lista, quanto no firebase)
   void addCartItem(CartProduct cProd){
+    //Aqui estou adicionando os dados na lista products
     products.add(cProd);
-    
+
+    //Aqui estou adicionando os dados na coleção users -> cart
     FirebaseFirestore.instance.collection("users").doc(user?.firebaseUser?.uid).collection("cart").add(cProd.toMap()).then((ref){
       cProd.cid = ref.id;
     });
