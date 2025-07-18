@@ -1,5 +1,5 @@
 QuerySnapshot -> é usado para obter vários documentos
-DocumentSnapshot -> é usado para obter um documento
+DocumentSnapshot -> é usado para obter um documento(foto)
 
 INICIALIZANDO O BANCO
 OBS.: este comando deve ser usado no main.dart dentro da função main() antes do runApp()
@@ -13,7 +13,7 @@ QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("coleção"
 LENDO OS DADOS OBTIDOS DO BANCO
 snapshot.docs.forEach((d){
     print(d.data)
-});
+}); 
 
 OU
 
@@ -34,12 +34,18 @@ snapshot.docs.forEach((d){
     dados.add(d.data()) //assim será salvo direto como lista
 })
 
-    PESQUISANDO NA LISTA COM CRITÉRIO ESPECÍFICO
-    for( int i = 0; i <= dados.length -1; i++ ){
-        if(dados[i]["chave"].toString().toLowerCase().startsWith("text")){
-            print(dados[i]["senderName"]);
-        }    
-    }
+OU
+
+data.docs.map((doc){
+    dados.add(doc.data());
+});
+
+PESQUISANDO NA LISTA COM CRITÉRIO ESPECÍFICO
+for( int i = 0; i <= dados.length -1; i++ ){
+    if(dados[i]["chave"].toString().toLowerCase().startsWith("text")){
+        print(dados[i]["senderName"]);
+    }    
+}
 
 *******************************************************************************************************************************************************
 ESCREVENDO NO BANCO DE DADOS
@@ -59,3 +65,12 @@ ACESSANDO UM ARRAY VINDO DO BANCO(com o comando .then())
 FirebaseFirestore.instance.collection("cupons").doc(text).get().then((docSnap) {
     print(docSnap.data()!["campo"]);
 })
+
+*******************************************************************************************************************************************************
+OBTENDO ATUALIZAÇÕES EM TEMPO REAL
+
+//Este contrutor StreamBuilder ficará "escutando" em tempo real as alterações no banco de dados; quando houver modificação os widgets da tela serão modificados
+StreamBuilder<DocumentSnapshot>( 
+    stream: FirebaseFirestore.instance.collection("orders").doc(orderID).snapshots(),//para obter respostas em tempo real do banco, então a codificação é esta(final snapshot())
+    builder: (context, snaphost){}
+),
