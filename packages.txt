@@ -13,7 +13,7 @@ path_provider: ^2.1.5 -> este pacote será usado para salvar dados no celular us
 share_plus: ^11.0.0 -> este pacote permite fazer o compartilhamento do conteúdo
 transparent_image: ^2.0.1 -> permite fazer uma imagem suave
 sqflite: ^2.4.0 -> este pacote faz acesso ao banco de dados usando sqlite
-url_launcher: ^6.3.1 -> permite abrir o método de ligação do telefone
+url_launcher: ^6.3.1 -> permite abrir o método de ligação do telefone/ou google maps
 image_picker: ^1.1.2 -> permite tirar foto
 google_sign_in: ^6.1.4 -> permite fazer a autenticação do google
 firebase_storage: ^11.2.3 -> permite acessar o storage do firebase
@@ -25,7 +25,10 @@ flutter_staggered_grid_view: ^0.7.0 -> este pacote permite mostrar as fotos em f
 firebase_analytics: ^11.5.0 -> este pacote permite fazer a análise do banco de dados
 firebase_messaging: ^15.2.7 -> este pacote permite fazer envio de mensagens via push
 another_carousel_pro: ^1.0.2 -> este pacote permite fazer o slide das fotos
-scoped_model: ^2.0.0
+scoped_model: ^2.0.0 -> este pacote permite fazer com que seja alterado partes da tela(se onde for especificado) conforme alterações programatica do código
+flutter_youtube_view: ^2.0.4
+rxdart: ^0.28.0
+flutter_modular: ^6.3.4(este pacote ficou no lugar do block_pattern)
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular

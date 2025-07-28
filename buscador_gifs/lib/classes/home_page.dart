@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   String _search = "";
   int _offSet = 0;
 
+
   //Iniciando o aplicativo já chamando a função de requisitar os dados na API
   /*@override
   void initState() {
@@ -166,8 +167,10 @@ class _HomePageState extends State<HomePage> {
                   //Alinhando o botão de carregar mais no centro
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    
                     Icon(Icons.add, color: Colors.white, size: 70.0,),
                     Text("Carregar mais...", style: TextStyle(color: Colors.white, fontSize: 22.0),)
+
                   ]
                 ),
                 onTap: (){

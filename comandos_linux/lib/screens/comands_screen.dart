@@ -37,6 +37,13 @@ class ComandsScreen extends StatelessWidget {
                   return ComandsTile(ComandsData(snapshot.data!.docs[index])); //aqui está fazendo um apontamento para mostrar como vai ficar cada layout
                 }
             );
+            // OU
+            /*GridView(
+              children: snapshot.data!.docs.map((doc){
+                ComandsData data = ComandsData(doc)
+                return ComandsTile(data);
+              })
+             )*/
           }
         }
       ),

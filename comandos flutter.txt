@@ -64,9 +64,12 @@ pois assim o programa pegará todas as imagens da pasta
 INSERINDO IMAGEM - (dentro da função Container())
 decoration: BoxDecoration(
   image: DecorationImage(
-image: AssetImage("aqui vai o caminho da imagem") -> imagem local
-image: NetworkImage("aqui vai o caminho da imagem na internet") -> imagem na internet
-fit: BoxFit.cover -> faz a imagem preencher toda a tela sem que haja distorção da imagem
+  image: AssetImage("aqui vai o caminho da imagem") -> imagem local
+  image: NetworkImage("aqui vai o caminho da imagem na internet") -> imagem na internet
+  fit: BoxFit.cover -> faz a imagem preencher toda a tela sem que haja distorção da imagem
+  alignment: Alignment.(start, center, bottom, left, right) -> este faz o alinhamento da imagem
+  )
+)
 
 OPERADOR TERNÁRIO
 Quando queremos fazer alguma verifição de alguma condição e mudar o texto, cor, font,... usamos muito o operador ternário
@@ -160,3 +163,26 @@ return Scaffold(
     ],
   ),
 );
+
+
+TRABALHANDO COM FUNÇÃO MAP()
+NOTA: o comando map recebe uma função anonima, a qual recebe um parâmetro por padrão, e retorna/exibe o resultado de cada item(o parâmetro da função) da lista
+
+List<String> nomes = ["will","ester","dassa","mae","pai"]
+nomes.map((nome){
+  nome.toUpperCase()
+}).toList() -> deve sempre terminar com o toList(), porque será retornado sempre como lista
+
+AINDA USANDO O MAP
+Quando houver uma configuração de JSON para Map(feito por meio de uma classe personalizada), para que seja possível acessar os atributos da classe,
+deverá usar outro map a fim de acessar os atributos de cada elemento da lista; ou seja, vai ficar assim:
+
+List<Video> videos = decoded["items"].map<Video>((map) => Video.fromJson(map)).toList(); -> aqui cada elemento da lista foi configurado na classe Video
+
+ACESSANDO CADA ELEMENTO E OS ATRIBUTOS DA CLASSE
+videos.map((video){
+  video.id;
+  video.title;
+  ....
+})
+
