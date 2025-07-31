@@ -187,7 +187,7 @@ videos.map((video){
 })
 
 STREAMS
-É semelhante ao FutureBuilder, pois há os parâmetros de onde vem os dados e o builder(que é a construção do widget). No entanto temos que ressaltar
+É semelhante ao FutureBuilder, pois há os parâmetros de onde vem os dados(future) e o builder(que é a construção do widget). No entanto temos que ressaltar
 alguns detalhes;
 
 Declaração da variável

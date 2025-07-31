@@ -175,7 +175,46 @@ TextField(
 )
 
 **********************************************************************************************************************************************************
+CAMPO DE TEXTO COM FORM -> a fim de fazer a validação dos dados
+para que seja possível fazer isso é necessário criar uma variável do tipo GlobalKey
 
+Variavel
+//Validador de formulário - Usado sempre dentro dos TextFormFields para fazer a validação
+GlobalKey<FormState> _formKey = GlobalKey<FormState>(); -> depois de ter criado, inserir esta variável no parâmetro nomeado key dentro do Form
+
+...
+child: Form( //Para fazer a validação, o conteúdo da Column() deve estar dentro deste Form
+  key: _formKey, // E deverá também declarar a chave criada, que foi feito lá em cima como GlobalKey
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    //Este comando faz com que a linha estique ao máximo da coluna
+    //Dentro das listas, sempre será escrito direto os construtores das classes
+    children: [
+      Icon(
+        Icons.person_outline,
+        size: 120,
+        color: Colors.green,
+      ),
+      TextFormField( //Para que tenha efeito na validação, deverá ser o TextFormFiel, pois o TextField não tem alguns parâmetros para validação
+        validator: (value){ //Este parâmetro validator, recebe uma função(anônima ou não) que faz a verificação se o campo tem valor ou não
+          if( value!.isEmpty){
+            return "Insira seu peso";
+          }
+        },
+        controller: pesoCtrl,
+        keyboardType: TextInputType.number,
+        //Este é o comando que define qual o tipo de teclado que será exibido ao usuário
+        decoration: InputDecoration(
+            labelText: "Peso em (kg)",
+            labelStyle: TextStyle(color: Colors.green)),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 25.0, color: Colors.green),
+      ),
+  )
+)
+
+
+**********************************************************************************************************************************************************
 CRIANDO UM SCROLL PARA QUE O TECLADO NÃO SE SOBREPONHA AOS WIDGETS DA TELA
 NOTA: Não pode ser usado uma ListView dentro de um SingleChildScrollView, pois este(SingleChildScrollView) é infinito
 

@@ -1,5 +1,7 @@
+import 'package:favoritos_youtube/blocks/video_bloc.dart';
 import 'package:favoritos_youtube/delegates/data_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -29,13 +31,28 @@ class Home extends StatelessWidget {
               onPressed: () async{
                 //este é o comando que mostrará a tela de pesquisa apontando para a classe DataSearch
                 String? result = await showSearch(context: context, delegate: DataSearch());
-                print(result);
+                //Enviandos dados para API
+                if( result != null ){
+                  BlocProvider.of<VideoBlock>(context).inSearch.add(result);
+                }
               },
               icon: Icon(Icons.search, color: Colors.white, size: 30, )
           )
         ],
       ),
-      body: Container(),
+      //Aqui é a parte onde será exibido todos os resultados da pesquisa feita
+      body: StreamBuilder(
+        stream: BlocProvider.of<VideoBlock>(context).outVideos,
+        builder: (context, snapshot){
+          if( !snapshot.hasData ){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else{
+            return Container();
+          }
+        }
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ another_carousel_pro: ^1.0.2 -> este pacote permite fazer o slide das fotos
 scoped_model: ^2.0.0 -> este pacote permite fazer com que seja alterado partes da tela(se onde for especificado) conforme alterações programatica do código
 flutter_youtube_view: ^2.0.4
 rxdart: ^0.28.0
-flutter_modular: ^6.3.4(este pacote ficou no lugar do block_pattern)
+flutter_bloc: ^9.1.1(este pacote ficou no lugar do block_pattern)
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular
