@@ -153,7 +153,7 @@ return Scaffold(
     centerTitle: true,
     //Este parâmetro faz com que o título fique centralizado
     backgroundColor: Colors.green,
-    //Essas actions será, normalmente, os botões
+    //Essas actions serão, normalmente, os botões
     actions: [
       IconButton(
         onPressed: () {},
@@ -186,3 +186,28 @@ videos.map((video){
   ....
 })
 
+STREAMS
+É semelhante ao FutureBuilder, pois há os parâmetros de onde vem os dados e o builder(que é a construção do widget). No entanto temos que ressaltar
+alguns detalhes;
+
+Declaração da variável
+StreamController<int> _streamController = StreamController<int>(); -> é possível especificar qual o tipo de dado que a StreamController vai trabalhar
+
+Entrada de dados
+_streamController.sink.add(variavel); -> esta é a forma que a variável _streamController receberá a entrada de dado
+OBS.: para que seja possível o StreamController receber outra entrada, deverá ser criado outra variável do Tipo StreamController
+
+Criando o listener da Stream
+O listener da StreamController é a StreamBuilder. Desta forma, quando houver alguma modificação no StreamController apenas aquela área específica será
+redesenha;(otimizando o processamento do app)
+
+StreamBuilder(
+    initialData: 0, //este parâmetro deixa um valor inicial a fim de não aparecer o valor null
+    stream: _streamController2.stream, //aqui é a saída do stream
+    builder: (context, snapshot){
+      return Text(
+        '${snapshot.data}', //o valor vem do stream que por conseguinte vai para o snapshot. E para acessar a informação é snapshot.data
+        style: Theme.of(context).textTheme.headlineMedium,
+      );
+    }
+),

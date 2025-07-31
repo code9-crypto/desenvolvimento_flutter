@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'models/video.dart';
 
@@ -11,6 +10,7 @@ class Api{
   search(String seek) async {
     http.Response response = await http.get(Uri.parse("https://www.googleapis.com/youtube/v3/search?part=snippet&q=$seek&type=video&key=$API_KEY&maxResults=10"));
 
+    return decode(response);
   }
 
   //Esta função está fazendo ao conversão de json para um objeto do tipo customizado(Video)
