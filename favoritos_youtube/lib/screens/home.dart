@@ -3,12 +3,17 @@ import 'package:favoritos_youtube/delegates/data_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../tiles/video_tile.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<VideoBlock>(context); //é possível criar esta variável para classe apenas dentro do build devido ao parâmetro context
+
     return Scaffold(
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         backgroundColor: Colors.black87,
         //Colocando uma imagem na barra de título da appBar
@@ -30,23 +35,40 @@ class Home extends StatelessWidget {
           IconButton(
               onPressed: () async{
                 //este é o comando que mostrará a tela de pesquisa apontando para a classe DataSearch
+                //E seu resultado está sendo armazenado numa variavel para depois ser inserido no StreamController de entrada
                 String? result = await showSearch(context: context, delegate: DataSearch());
                 //Enviandos dados para API
                 if( result != null ){
-                  BlocProvider.of<VideoBlock>(context).inSearch.add(result);
+                  bloc.inSearch.add(result);
                 }
               },
               icon: Icon(Icons.search, color: Colors.white, size: 30, )
-          )
+          ),
         ],
       ),
       //Aqui é a parte onde será exibido todos os resultados da pesquisa feita
       body: StreamBuilder(
-        stream: BlocProvider.of<VideoBlock>(context).outVideos,
+        stream: bloc.outVideos,
+        initialData: [],
         builder: (context, snapshot){
-          if( !snapshot.hasData ){
-            return Center(
-              child: CircularProgressIndicator(),
+          if( snapshot.hasData ){
+            return ListView.builder(
+                itemCount: snapshot.data.length +1 ,
+                itemBuilder: (context, index){
+                  if( index < snapshot.data.length ){
+                    return VideoTile(snapshot.data[index]);
+                  } else if( index > 1 ){
+                    bloc.inSearch.add("");
+                    return Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.red),),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }
             );
           } else{
             return Container();

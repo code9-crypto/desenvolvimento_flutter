@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:favoritos_youtube/api.dart';
 import '../models/video.dart';
@@ -24,20 +23,18 @@ class VideoBlock extends BlocBase{
     api = Api();
 
     //Enviando a informação pesquisada(que está dentro do searchController) e enviando a API
-    _searchController.stream.listen(_search as void Function(String event)?); //aqui dentro vai uma função que será chamada toda vez que o _searchController receber um dado
+    _searchController.stream.listen(_search as void Function(String event)); //aqui dentro vai uma função que será chamada toda vez que o _searchController receber um dado
   }
 
   void _search(String search) async {
-    print(search);
-    videos = await api.search(search);
-    //_videosController.sink.add(videos);
+    if( search.isNotEmpty ){
+      _videosController.sink.add([]);
+      videos = await api.search(search ?? "");
+    } else {
+      videos += await api.nextPage(); //adicionando os próximos 10 videos na lista de videos
+    }
 
-    print(videos);
+    _videosController.sink.add(videos);
   }
-
-  /*@override
-  void dispose () {
-
-  }*/
 
 }
