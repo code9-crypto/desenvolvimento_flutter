@@ -190,7 +190,7 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
 
   //Esta função vai primeiro verificar se os campos estão vazios para depois prosseguir com cadastramento
   bool verificaCamposVazios(){
-    if( cadNomeController.text.isEmpty && cadCodController.text.isEmpty ){
+    if( cadNomeController.text.isEmpty || cadCodController.text.isEmpty ){
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -211,10 +211,10 @@ class _BrigCadastroPesquisaState extends State<BrigCadastroPesquisa> {
   //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
   bool checkData(){
     for( int i = 0; i < dados.length; i++ ){
-      if( cadNomeController.text.toString().toUpperCase() == dados[i]["nome"].toString().toUpperCase() || cadCodController.text.toString() == dados[i]["codigo"]){
+      if( cadNomeController.text.trim().toUpperCase() == dados[i]["nome"].toUpperCase() && cadCodController.text.trim() == dados[i]["codigo"]){
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Código ou nome do voluntário já está cadastrado", style: TextStyle(color: Colors.black),),
+              content: Text("Código e nome do voluntário já está cadastrado", style: TextStyle(color: Colors.black),),
               backgroundColor: Colors.amber,
               duration: Duration(seconds: 5),
             )

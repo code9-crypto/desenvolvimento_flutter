@@ -49,9 +49,9 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 controller: cadNomeController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                    label: Text("Nome"),
-                    hintText: "Digite o nome do voluntário",
-                    icon: Icon(Icons.person),
+                  label: Text("Nome"),
+                  hintText: "Digite o nome do voluntário",
+                  icon: Icon(Icons.person),
                 ),
               ),
               TextField(
@@ -122,12 +122,15 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
                 padding: EdgeInsets.only(top: 10.0),
                 child: infoPesquisada.isNotEmpty
                     ? ListView(
-                      shrinkWrap: true,
-                      children: [
-                        for (Map info in infoPesquisada)
-                          Text("Código: ${info['codigo']}; Nome: ${info['nome']}", style: TextStyle(fontSize: 17.0),)
-                      ],
-                    )
+                        shrinkWrap: true,
+                        children: [
+                          for (Map info in infoPesquisada)
+                            Text(
+                              "Código: ${info['codigo']}; Nome: ${info['nome']}",
+                              style: TextStyle(fontSize: 17.0),
+                            )
+                        ],
+                      )
                     : Text(""),
               )
             ],
@@ -147,8 +150,6 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
     data.docs.forEach((d) {
       dados.add(d.data());
     });
-
-
   }
 
   //esta função está fazendo a busca das informações que está na lista
@@ -190,7 +191,7 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
 
   //Esta função vai primeiro verificar se os campos estão vazios para depois prosseguir com cadastramento
   bool verificaCamposVazios() {
-    if (cadNomeController.text.isEmpty && cadCodController.text.isEmpty) {
+    if (cadNomeController.text.isEmpty || cadCodController.text.isEmpty) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -211,17 +212,17 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
   //Esta função vai primeiro checar se o voluntário está cadastrado para depois cadastrar efetivamente
   bool checkData() {
     for (int i = 0; i < dados.length; i++) {
-      if (cadNomeController.text.toString().toUpperCase() ==
-              dados[i]["nome"].toString().toUpperCase() ||
-          cadCodController.text.toString() == dados[i]["codigo"]) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            "Código ou nome do voluntário já está cadastrado",
-            style: TextStyle(color: Colors.black),
+      if (cadNomeController.text.trim().toUpperCase() == dados[i]["nome"].toUpperCase() && cadCodController.text.trim() == dados[i]["codigo"]) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Código e nome do voluntário já está cadastrado",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.amber,
+            duration: Duration(seconds: 5),
           ),
-          backgroundColor: Colors.amber,
-          duration: Duration(seconds: 5),
-        ));
+        );
         cadCodController.clear();
         cadNomeController.clear();
         return true;
@@ -233,8 +234,8 @@ class _ManutCadastroPesquisaState extends State<ManutCadastroPesquisa> {
   //salvando dados do voluntario no banco
   void saveData() {
     Map<String, dynamic> dados = {};
-    dados["codigo"] = cadCodController.text.toUpperCase();
-    dados["nome"] = cadNomeController.text.toUpperCase();
+    dados["codigo"] = cadCodController.text.trim().toUpperCase();
+    dados["nome"] = cadNomeController.text.trim().toUpperCase();
     if (!verificaCamposVazios() && !checkData()) {
       FirebaseFirestore.instance.collection("manutencao").doc().set(dados);
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
