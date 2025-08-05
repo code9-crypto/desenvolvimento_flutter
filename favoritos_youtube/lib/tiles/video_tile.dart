@@ -1,5 +1,7 @@
+import 'package:favoritos_youtube/blocks/favorite_bloc.dart';
 import 'package:favoritos_youtube/models/video.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VideoTile extends StatelessWidget {
   late final Video video;
@@ -8,6 +10,8 @@ class VideoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FavoriteBloc>(context);
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
@@ -45,13 +49,25 @@ class VideoTile extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.star_border,
-                  color: Colors.white,
-                  size: 30,
-                ),
+              StreamBuilder<Map<String, Video>>(
+                stream: bloc.outFav,
+                //initialData: {},quando a gente trabalhar com Map no StreamBuilder, o valor padrão inicial é chaves vazias
+                builder: (context, snapshot){
+                  if( snapshot.hasData ){
+                    return IconButton(
+                      onPressed: () {
+                        bloc.toggleFavorite(video);
+                      },
+                      icon: Icon(
+                        snapshot.data!.containsKey(video.id) ? Icons.star : Icons.star_border,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    );
+                  }else{
+                    return CircularProgressIndicator();
+                  }
+                }
               )
             ],
           )

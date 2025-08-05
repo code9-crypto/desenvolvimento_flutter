@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
               stream: _streamController.stream, //aqui é a saída do stream
               builder: (context, snapshot){
                 return Text(
-                  '${snapshot.data}', //o valor vem do stream que por conseguinte vai para o snapshot. E para acessar a informação é snapshot.data
+                  '${snapshot.data}', //o valor vem do stream, que por conseguinte vai para o snapshot. E para acessar a informação é snapshot.data
                   style: Theme.of(context).textTheme.headlineMedium,
                 );
               }

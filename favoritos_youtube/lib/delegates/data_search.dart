@@ -67,7 +67,7 @@ class DataSearch extends SearchDelegate<String>{
                   title: Text(snapshot.data![index]),
                   leading: Icon(Icons.play_arrow),
                   onTap: (){
-                    close({"context": context, "dado": snapshot.data![index], "result": "teste"} as BuildContext, "" );
+                    close(context, snapshot.data![index]);
                   },
                 );
               }

@@ -1,4 +1,5 @@
 import 'package:favoritos_youtube/api.dart';
+import 'package:favoritos_youtube/blocks/favorite_bloc.dart';
 import 'package:favoritos_youtube/blocks/video_bloc.dart';
 import 'package:favoritos_youtube/screens/home.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider( //Este BlocProvider permite acessar(de qualquer lugar do código) a classe VideosBloc
       create: (_) => VideoBlock(context),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Home(),
-      ),
+      child: BlocProvider(
+        create: (_) => FavoriteBloc(context),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Home(),
+        ),
+      )
     );
   }
 }
