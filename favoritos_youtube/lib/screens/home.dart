@@ -1,6 +1,7 @@
 import 'package:favoritos_youtube/blocks/favorite_bloc.dart';
 import 'package:favoritos_youtube/blocks/video_bloc.dart';
 import 'package:favoritos_youtube/delegates/data_search.dart';
+import 'package:favoritos_youtube/screens/favorites_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +43,12 @@ class Home extends StatelessWidget {
             )
           ),
           IconButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavoritesScreens())
+              );
+            },
             icon: Icon(Icons.star, color: Colors.white, size: 30, )
           ),
           IconButton(
@@ -63,7 +69,7 @@ class Home extends StatelessWidget {
       //Aqui é a parte onde será exibido todos os resultados da pesquisa feita
       body: StreamBuilder(
         stream: bloc.outVideos,
-        initialData: [],
+        //initialData: [],
         builder: (context, snapshot){
           if( snapshot.hasData ){
             return ListView.builder(

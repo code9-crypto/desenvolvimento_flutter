@@ -26,7 +26,7 @@ firebase_analytics: ^11.5.0 -> este pacote permite fazer a análise do banco de 
 firebase_messaging: ^15.2.7 -> este pacote permite fazer envio de mensagens via push
 another_carousel_pro: ^1.0.2 -> este pacote permite fazer o slide das fotos
 scoped_model: ^2.0.0 -> este pacote permite fazer com que seja alterado partes da tela(se onde for especificado) conforme alterações programatica do código
-flutter_youtube_view: ^2.0.4
+youtube_player_flutter: ^9.1.2 -> para executar players do youtube
 rxdart: ^0.28.0
 flutter_bloc: ^9.1.1(este pacote ficou no lugar do block_pattern)
 
