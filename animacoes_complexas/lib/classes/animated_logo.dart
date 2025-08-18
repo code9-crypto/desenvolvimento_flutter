@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//ESTA CLASSE É QUEM FAZ A ANIMAÇÃO, NO ENTANTO APENAS DE UM WIDGET
 class AnimatedLogo<T> extends AnimatedWidget{
   AnimatedLogo(Animation<double> animation) : super(listenable: animation);
 
