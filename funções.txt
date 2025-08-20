@@ -22,6 +22,7 @@ OBS.: aqui dentro desta lista, não precisa declarar os parâmetros como nomeado
 SizedBox() -> põe um espaçamento entre os elementos; recebe como parâmetro: width ou height
 Ex.: SizedBox(height: 30)
 
+//AQUI TAMBÉM TEM A INSERÇÃO DA IMAGEM
 Container() -> para que seja possível inserir uma imagem no aplicativo, a função Column() e todo seu conteúdo deverá ficar
 dentro do Container(), como child:
 OBS.: Também muito usado para manter uma proporção de determinado widget(imagem, card, etc...)
