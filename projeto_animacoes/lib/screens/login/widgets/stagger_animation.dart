@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+//ESTA CLASSE É A RESPONSÁVEL DE TODA A CONFIGURAÇÃO DA ANIMAÇÃO
+//IMPORTANTE: A ANIMAÇÃO NÃO ESTÁ ACONTECENDO AQUI, ELA ACONTECERÁ NA TELA/CLASSE QUE IMPORTAR ESTA CLASSE AQUI
 class StaggerAnimation extends StatelessWidget {
 
   late AnimationController controller;
   late Animation<double> buttonSqueeze;
+  late Animation<double> buttonZoomOut;
 
   StaggerAnimation({required this.controller}) : //essa notação serve para inicializar a variável
       buttonSqueeze = Tween( //animando o buttonSqueeze
@@ -13,6 +16,16 @@ class StaggerAnimation extends StatelessWidget {
         CurvedAnimation(
            parent: controller,
            curve: Interval(0.0, 0.150)
+        )
+      ),
+
+      buttonZoomOut = Tween(
+        begin: 60.0,
+        end: 1000.0,
+      ).animate(
+        CurvedAnimation(
+            parent: controller,
+            curve: Interval(0.5, 1)
         )
       );
 
@@ -27,7 +40,9 @@ class StaggerAnimation extends StatelessWidget {
               onTap: (){
                 controller.forward(); //aqui é onde acontece a inicialização da animação
               },
-              child: Container(
+              child:
+              buttonZoomOut.value <= 60 ?
+              Container(
                 width: buttonSqueeze.value,
                 height: 60,
                 alignment: Alignment.center,
@@ -36,7 +51,15 @@ class StaggerAnimation extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0)
                 ),
                 child: buildInside(context)
-              ),
+              ) :
+              Container(
+                  width: buttonZoomOut.value,
+                  height: buttonZoomOut.value,
+                  decoration: BoxDecoration(
+                      color: Colors.pinkAccent,
+                      shape: buttonZoomOut.value < 500 ? BoxShape.circle : BoxShape.rectangle
+                  ),
+              )
             ),
           );
         }

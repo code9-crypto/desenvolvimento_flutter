@@ -4,6 +4,7 @@ import 'package:projeto_animacoes/screens/login/widgets/signup_button.dart';
 import 'package:projeto_animacoes/screens/login/widgets/stagger_animation.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
+//ESTA É A TELA/CLASSE QUE FARÁ TODA A ANIMAÇÃO
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 ],
               ),
               //Para que funcione a parte do botão de animar e cobrir toda a tela, devemos usar o Stack
-              //Esta classe está sendo chamada para animar o botão quando clicado e depois cobrir toda a tela para entrar na outra
+              //Esta classe está sendo chamada para animar o botão quando clicado e depois cobrir toda a tela para entrar na outra tela
               StaggerAnimation(
                 controller: animaCtrl
               )

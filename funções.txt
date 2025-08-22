@@ -6,6 +6,7 @@ Text(
     Aqui é a estilização
     style: TextStyle(
         fontSize: 40, color: Colors.white, fontWeight: FontWeight.w800),
+        letterSpacing: 0.5 -> //este parâmetro deixa o espaçamento entre as letras no texto
 ),
 
 Column() -> é aquela que alinha todos elementos de forma vertical
@@ -30,12 +31,18 @@ Ex.: Container(
     padding: EdgeInsets.all(8.0),
     width: 120.0,
     margin: const EdgeInsets.symmetric(vertical: 2), -> este elemento permite dar margem aos itens; É semelhante ao padding
+    //Este boxDecoration é o plano de fundo( caixa ) onde fica o filho dela, onde é configurado conforme abaixo: cores, arrendondamento, imagem ...
     decoration: BoxDecoration( -> Permite arredondar o item, semelhante ao button, mas com alguns parâmetros pouco diferentes
         borderRadius: BorderRadius.circular(10),
+        shape: BoxShape.circle, //este BoxShape.circle deixa a caixa com arredondamento perfeito
         color: Colors.grey[200],
         image: DecorationImage(
           image: AssetImage("caminho_da_imagem")
-        )
+        ),
+        border: Border( //com este parâmetro é possível definir quais bordas irão aparecer e seus ajustes
+          top: BorderSide(color: Colors.grey, width: 1.0),
+          bottom: BorderSide(color: Colors.grey, width: 1.0),
+        ),
       )
     child: Column(
         //Este elemento faz com que o item fique horizontalmente alinhado(start - esquerda, center - centro, end - direita); também conhecido como eixo cruzado
