@@ -78,13 +78,14 @@ shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
 ElevatedButton(onPressed: login, child: Icon(Icons.login)) -> este parece ser um botão mais estilizado que o de cima
 OBS.: os estilos usados acima, também servem para este botão
 
-ElevatedButton.styleFrom() -> é onde podemos personalizar o botão
-padding: const EdgeInsets.all(50) -> com esta linha de código inserimos padding em todos os lados
-padding: const EdgeInsets.only(top: 20, left: 20, right: 10, bottom: 30) -> permite personalizar onde ficará os tamanhos
-shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
-    borderRadius: BorderRadius.circular(20) -> é este parâmetro que arredonda o botão
-    side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão
-    fixedSize: const Size(100, 100)
+ElevatedButton.styleFrom( -> é onde podemos personalizar o botão
+  padding: const EdgeInsets.all(50) -> com esta linha de código inserimos padding em todos os lados
+  padding: const EdgeInsets.only(top: 20, left: 20, right: 10, bottom: 30) -> permite personalizar onde ficará os tamanhos
+  fixedSize: const Size(100, 100) -> define o tamanho do botão
+  shape: RoundedRectangleBorder( -> onde é possível arredondar o botão
+      borderRadius: BorderRadius.circular(20) -> é este parâmetro que arredonda o botão
+      side: BorderSide(color: Colors.black) -> onde inseri uma linha em volta do botão
+  )
 )
 
 NOTA: Caso queira que um botão será desabilitado ou habilitado para que seja clicável, mas de forma programática, então usamos o operador ternário
@@ -174,8 +175,11 @@ TextField(
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white)
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: OutlineInputBorder( -> aqui da o foco nas linhas em volta do campo( bordas de todos os lados)
             borderSide: BorderSide(color: Colors.amber)
+        ),
+        focusedBorder: UnderlineInputBorder( -> aqui da o foco apenas na linha debaixo do campo
+          borderSide: BorderSide(color: Colors.pinkAccent),
         )
     ),
     textAlign: TextAlign.center,
@@ -217,6 +221,8 @@ child: Form( //Para fazer a validação, o conteúdo da Column() deve estar dent
             labelStyle: TextStyle(color: Colors.green)),
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 25.0, color: Colors.green),
+        obscureText: true, -> aqui deixa o texto oculto
+        obscuringCharacter: "*", -> define qual o caracter que vai aparecer quando texto for ocultado
       ),
   )
 )

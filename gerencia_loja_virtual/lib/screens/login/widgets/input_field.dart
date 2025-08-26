@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+
+//ESTA CLASSE É RESPONSÁVEL POR CRIAR O CAMPO DE TEXTO
+class InputField extends StatelessWidget {
+
+  final IconData icon;
+  final String hint;
+  final bool obscure;
+  final String labelTxt;
+  final TextInputType input;
+
+  InputField({required this.icon, required this.hint, required this.obscure, required this.labelTxt, required this.input});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      keyboardType: input,
+      decoration: InputDecoration(
+        icon: Icon(icon, color: Colors.white,),
+        hintText: hint,
+        labelText: labelTxt,
+        hintStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Colors.white),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.pinkAccent),
+        ),
+        contentPadding: EdgeInsets.only(
+          left: 5,
+          right: 30,
+          bottom: 30,
+          top: 30
+        )
+      ),
+      style: TextStyle(color: Colors.white),
+      obscureText: obscure,
+      obscuringCharacter: "*",
+    );
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122694016413",
+    "project_id": "gerente-loja-virtual-ea42f",
+    "storage_bucket": "gerente-loja-virtual-ea42f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122694016413:android:5936460d3406e02af9e374",
+        "android_client_info": {
+          "package_name": "com.gerencia.william.gerencia_loja_virtual"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzNqxW0TM3DZ0p5ZZ2qlihPRGMeKXggB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
