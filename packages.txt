@@ -17,9 +17,9 @@ url_launcher: ^6.3.1 -> permite abrir o método de ligação do telefone/ou goog
 image_picker: ^1.1.2 -> permite tirar foto
 google_sign_in: ^6.1.4 -> permite fazer a autenticação do google
 firebase_storage: ^11.2.3 -> permite acessar o storage do firebase
-firebase_auth: ^5.6.0 -> permite fazer autenticação com o firebase
-cloud_firestore: ^4.17.5 ou ^5.6.9 -> permite acessar o cloud_firestore do firebase
-firebase_core: ^2.32.0 -> permite fazer os comandos no firebase
+firebase_auth: ^6.0.1 -> permite fazer autenticação com o firebase
+cloud_firestore: ^4.17.5 ou ^6.0.0-> permite acessar o cloud_firestore do firebase
+firebase_core: ^4.0.0 -> permite fazer os comandos no firebase
 font_awesome_flutter: ^10.8.0 -> este pacote permite incluir ícones mais personalizados
 flutter_staggered_grid_view: ^0.7.0 -> este pacote permite mostrar as fotos em formato grade
 firebase_analytics: ^11.5.0 -> este pacote permite fazer a análise do banco de dados
@@ -27,8 +27,11 @@ firebase_messaging: ^15.2.7 -> este pacote permite fazer envio de mensagens via 
 another_carousel_pro: ^1.0.2 -> este pacote permite fazer o slide das fotos
 scoped_model: ^2.0.0 -> este pacote permite fazer com que seja alterado partes da tela(se onde for especificado) conforme alterações programatica do código
 youtube_player_flutter: ^9.1.2 -> para executar players do youtube
-rxdart: ^0.28.0
+rxdart: ^0.28.0 -> este pacote é usado junto com o flutter_bloc para ser usado o BehaviorSubject
 flutter_bloc: ^9.1.1(este pacote ficou no lugar do block_pattern)
+image_cropper: ^9.1.0 -> permite dar zoom na imagem e recortá-la
+flutter_speed_dial: ^7.0.0 -> este é um floatingActionButton que exibe outros botões
+shimmer: ^3.0.0 -> permite dar um efeito visual enquanto os dados são carregados
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular

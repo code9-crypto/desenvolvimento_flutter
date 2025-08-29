@@ -1,23 +1,24 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:gerencia_loja_virtual/screens/login/blocs/login_bloc.dart';
+import 'package:gerencia_loja_virtual/screens/login/widgets/botao_entrar.dart';
 import 'package:gerencia_loja_virtual/screens/login/widgets/input_field.dart';
 
 class LoginScreen extends StatefulWidget {
 
-
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //VARIÁVEIS
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  String msg = "";
-
-  @override
+@override
   Widget build(BuildContext context) {
+
+    final loginBloc = LoginBloc(context); //instanciando a classe LoginBloc
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade800,
@@ -36,32 +37,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.pinkAccent,
                       size: 160,
                     ),
-                    InputField(
+                    InputField( //classe do widget do campo de texto
                       input: TextInputType.emailAddress,
                       icon: Icons.person_outline,
                       labelTxt: "Usuário",
                       hint: "fulano@email.com",
-                      obscure: false
+                      obscure: false,
+                      stream: loginBloc.outEmail, //aqui está passando a saída do email para a stream do campo email
+                      onChanged: loginBloc.changeEmail,
                     ),
                     InputField(
                       input: TextInputType.text,
                       icon: Icons.lock_outline,
                       labelTxt: "Senha",
                       hint: "*******",
-                      obscure: true
+                      obscure: true,
+                      stream: loginBloc.outPassword,//aqui está passando a saída da senha para a stream do campo senha
+                      onChanged: loginBloc.changePassword,
                     ),
                     SizedBox(height: 32,),
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: Text("Entrar"),
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(0, 70),
-                        backgroundColor: Colors.pinkAccent,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                      ),
+                    BotaoEntrar(
+                      stream: loginBloc.outSubmitValid, //classe do widget do botão entrar
                     )
                   ],
                 ),
