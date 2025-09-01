@@ -12,6 +12,7 @@ class FavoriteBloc extends BlocBase{
 
   //Funções get do Stream
   Stream<Map<String, Video>> get outFav => _favController.stream;
+  Sink get inFav => _favController.sink;
 
   //Esta função irá colocar o video nos favoritos
   //Se tiver na lista, então irá retirá-lo, caso contrario irá colocá-lo
@@ -20,7 +21,7 @@ class FavoriteBloc extends BlocBase{
     if( favorites.containsKey(video.id) ) favorites.remove(video.id);
     else favorites[video.id] = video;
 
-    _favController.sink.add(favorites);
+    inFav.add(favorites);
 
     _saveFav();
   }
