@@ -50,7 +50,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter += 2;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -92,7 +92,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -106,7 +106,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -120,7 +120,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -134,7 +134,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )
@@ -148,7 +148,7 @@ class Home extends StatelessWidget {
                   IconButton(
                       onPressed: (){
                         counter++;
-                        bloc.addFavorito(counter);
+                        bloc.inFav.add(counter);
                       },
                       icon: Icon(Icons.star_border)
                   )

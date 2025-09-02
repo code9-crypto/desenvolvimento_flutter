@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 class BotaoEntrar extends StatelessWidget {
 
   //CONSTRUTOR
-  BotaoEntrar({super.key, required this.stream});
+  BotaoEntrar({super.key, required this.stream, required this.submit});
 
   //VARIÁVEIS
-  final Stream<bool> stream;
+  final Stream stream;
+  final Function submit;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: stream, //no parâmetro stream do construtor StreamBuilder, eu sempre paço a função ou método de saída do controlador
+    return StreamBuilder(
+      stream: stream, //no parâmetro stream do construtor StreamBuilder, eu sempre passo a função ou método de saída do controlador
       builder: (context, snapshot) {
         return ElevatedButton(
-          onPressed: snapshot.hasData ?  (){
-            print("Cliquei aqui no botão");
+          onPressed: snapshot.hasData ? (){
+            submit();
           } : null,
           style: ElevatedButton.styleFrom(
             fixedSize: Size(0, 70),
