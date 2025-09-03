@@ -636,3 +636,39 @@ ExpansionTile(
   leading: Icon(Icons.card_giftcard), -> este parâmetro permite colocar o ícone do lado esquerdo do texto/titulo
   trailing: Icon(Icons.add), -> este parâmetro permite colocar o ícone do lado direito do texto/titulo
 )
+
+******************************************************************************************************************************************************
+CRIANDO UM TABBAR E UMA TABBARVIEW
+
+return DefaultTabController( //TODA TABBAR E TABBARVIEW DEVEM SER CRIADAS DENTRO DESTE CONTRUTOR DefaultTabController()
+  length: x -> este parâmetro length é obrigatório, pois ele define quantos itens na tabbar terão. O parâmetro recebe um número inteiro
+  child: Scaffold(
+      //NESTA PARTE AQUI, ESTÁ SENDO FEITO UMA TABBAR NO RODAPÉ DA APPBAR A QUAL ESTÁ SENDO EXIBIDA COMO ÍCONE E SERÁ USADA PARA FAZER A TRANSIÇÃO DAS TELAS
+      appBar: AppBar(
+      title: Text("TabBarView teste"),
+      centerTitle: true,
+      //Este construtor TabBar(dentro do AppBar) irá construir as tabs superior da página, normalmente sendo um ícone
+      //NOTA: este construtor será usado dentro do parâmetro nomeado bottom
+      bottom: TabBar(
+          tabs: [ -> aqui é onde ficarão todos os ícones da tab. OBS.: a quantidade deverá ser a mesma informada no parâmetro length
+            Tab(icon: Icon(Icons.grid_on, color: Colors.white,),),
+            Tab(icon: Icon(Icons.list, color: Colors.white),)
+          ],
+          indicatorColor: Colors.white, -> esta é a cor do indicador
+      ),
+    ),
+    body: TabBarView( //DENTRO DESTE CONTRUTOR SERÃO AS PÁGINAS EM SI
+      physics: NeverScrollableScrollPhysics(), -> este parâmetro não permite que a tela seja mudada com o slide do dedo
+      children: [
+        //Nesses exemplos simples, serão exibidos duas telas com as cores verde e vermelha
+        //Mas cada uma será exibida individualmente em uma tabbar diferente
+        Container(
+          color: Colors.red
+        ),
+        Container(
+          color: Colors.green
+        )
+      ]
+    )
+  )
+)
