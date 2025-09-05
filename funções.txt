@@ -130,7 +130,7 @@ OBS.: Para usar a ListView deverá ser dentro da seguinte estrutura
         child: Column(
             children[
                 Ex.:
-                Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible()
+                Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible() ou Expanded()
                     child: ListView(
                         shrinkWrap: true, // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
                         children: [
@@ -142,6 +142,7 @@ OBS.: Para usar a ListView deverá ser dentro da seguinte estrutura
                                 onTap: (){ //Permite o usuário clicar em cima do item e executar uma função
                                     print("Tarefa: $task");
                                 },
+                                trailing: Icon(Icons.person, size: 30), //Este parâmetro trailing permite deixar os itens no lado direito da ListTile
                             ),
                         ],
                     ),
@@ -638,6 +639,7 @@ ExpansionTile(
 )
 
 ******************************************************************************************************************************************************
+
 CRIANDO UM TABBAR E UMA TABBARVIEW
 
 return DefaultTabController( //TODA TABBAR E TABBARVIEW DEVEM SER CRIADAS DENTRO DESTE CONTRUTOR DefaultTabController()
@@ -672,3 +674,67 @@ return DefaultTabController( //TODA TABBAR E TABBARVIEW DEVEM SER CRIADAS DENTRO
     )
   )
 )
+
+******************************************************************************************************************************************************
+
+CRIANDO UM BOTTOMNAVIGATIONBAR
+
+//ESTA É A ESTRUTURA PADRÃO COM OS CONTROLES NA BOTTOMBAR E TRANSIÇÕES DAS TELAS COM O PAGEVIEW
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  //VARIAVEIS
+  late PageController pgCtrl = PageController(); //este será usado para fazer o controle da transição de páginas no PageView
+  int page = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey.shade800,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: page, //este parâmetro está mostrando na barra em qual página está de acordo com o valor da variável page, a qual está sendo alterada no método onChangedPage
+        //A troca das páginas está acontecendo neste método do onTap;
+        //OBS.: mas antes de ter declarado o PageController ali em cima e depois de ter colocado esta variável no parâmetro nomeado controller no PageView
+        onTap: (p){
+          pgCtrl.animateToPage(
+              p,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.ease
+          );
+        },
+        backgroundColor: Colors.pinkAccent,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey.shade800,
+        items: [
+         BottomNavigationBarItem(
+           icon: Icon(Icons.person),
+           label: "Clientes",
+         ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Pedidos",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: "Produtos",
+          )
+        ]
+      ),
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        //Aqui neste onPageChanged está fazendo o controle na variável page, ou seja, quando determinado ícone for cliado, então a variável page vai receber o valor daquele item
+        onPageChanged: (pg){
+          setState(() {
+            page = pg;
+          });
+        },
+        controller: pgCtrl,
+        children: [
+          Container(color: Colors.red,),
+          Container(color: Colors.yellow,),
+          Container(color: Colors.green,)
+        ],
+      ),
+    );
+  }
+}

@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    LoginBloc.outStaticState.listen((state){
+    LoginBloc.outStaticState.listen((state){ //aqui eu tive que criar uma variável static para que seja possível ser acessada direto da classe
       switch(state){
         case LoginState.SUCCESS:
           Navigator.of(context).pushReplacement(
