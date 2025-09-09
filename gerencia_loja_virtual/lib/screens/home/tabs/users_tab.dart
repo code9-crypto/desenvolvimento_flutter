@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerencia_loja_virtual/screens/home/blocs/user_bloc.dart';
 
 import '../widgets/user_tile.dart';
 
@@ -7,6 +8,8 @@ class UsersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = UserBloc(context);
+
     return Column(
       children: [
         Padding(
@@ -34,7 +37,7 @@ class UsersTab extends StatelessWidget {
               },
               itemCount: 8
           ),
-        )
+        ),
       ],
     );
   }

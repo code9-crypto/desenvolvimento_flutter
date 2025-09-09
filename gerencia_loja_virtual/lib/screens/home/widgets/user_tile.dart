@@ -19,7 +19,7 @@ class UserTile extends StatelessWidget {
       ),
       //Este parâmetro trailing permite deixar os itens no lado direito da ListTile
       trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end, //alinhando tudo de forma uniforme para direita
         children: [
           Text(
             "Pedidos: 0",

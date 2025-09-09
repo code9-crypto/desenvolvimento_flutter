@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade800,
+      //OBS.: o bottomNavigationBar será mantido em todas as telas
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: page, //este parâmetro está mostrando na barra em qual página está de acordo com o valor da variável page, a qual está sendo alterada no método onChangedPage
         //A troca das páginas está acontecendo neste método do onTap;
