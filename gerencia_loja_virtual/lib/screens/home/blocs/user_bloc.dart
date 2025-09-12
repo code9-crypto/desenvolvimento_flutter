@@ -15,10 +15,11 @@ class UserBloc extends BlocBase{
 
   //CONSTRUTOR
   UserBloc(super.state){
-
     addUserListener();
-
   }
+
+  //STREAM
+  Stream get outUsers => userCtrl.stream; //será as saídas
 
   //FUNÇÕES
 
@@ -67,13 +68,37 @@ class UserBloc extends BlocBase{
         }
       );
       
-      userCtrl.add(users.values.toList());
+      userCtrl.sink.add(users.values.toList()); //a lista de usuários está sendo adicionada no userCtrl aqui
     });
   }
 
   //Este método será para cancelar o pedido do usuário
   void unsubsToOrders(String uid){
     users[uid]!["subscription"].cancel();
+  }
+
+  //Pegando o nome do campo de pesquisa, tirando os espaços antes e depois e enviando ao método filter
+  void onChangedSearch(String search){
+    String seek = search.trim();
+    if( seek.isEmpty ){
+      userCtrl.sink.add(users.values.toList());
+    } else {
+      userCtrl.sink.add(filter(seek));
+    }
+  }
+
+  //Método está retornando uma lista filtrada com base no nome que recebeu por parâmetro
+  List<Map<String, dynamic>> filter(String search){
+    List<Map<String, dynamic>> filteredUsers = List.from(users.values.toList()); //aqui está copiando a lista dos usuários(a qual foi pega do banco) e copiada para lista filteredUsers
+
+    //aqui está acontecendo o filtro; se o usuário que foi recebido por parâmetro for encontrado na lista, ou os usuários; então a lista será retornada apenas com este filtro
+    //caso contrário, será retornada vazia
+    filteredUsers.retainWhere((user){
+      return user["name"].toString().toUpperCase().contains(search.toUpperCase());
+    });
+
+    //aqui está retornando
+    return filteredUsers;
   }
 
 }

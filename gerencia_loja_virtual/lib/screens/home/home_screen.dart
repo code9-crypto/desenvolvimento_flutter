@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gerencia_loja_virtual/screens/home/blocs/user_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/home/tabs/users_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,9 +15,14 @@ class _HomeScreenState extends State<HomeScreen> {
   //VARIAVEIS
   late PageController pgCtrl = PageController(); //este será usado para fazer o controle da transição de páginas no PageView
   int page = 0;
+  late UserBloc userBloc;
+
 
   @override
   Widget build(BuildContext context) {
+
+    userBloc = UserBloc(context);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade800,
       //OBS.: o bottomNavigationBar será mantido em todas as telas
@@ -50,20 +56,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ]
       ),
       body: SafeArea(
-        child: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          //Aqui neste onPageChanged está fazendo o controle na variável page, ou seja, quando determinado ícone for cliado, então a variável page vai receber o valor daquele item
-          onPageChanged: (pg){
-            setState(() {
-              page = pg;
-            });
-          },
-          controller: pgCtrl,
-          children: [
-            UsersTab(),
-            Container(color: Colors.yellow,),
-            Container(color: Colors.green,)
-          ],
+        child: BlocProvider( //este BlocProvider irá permitir que o UserBloc seja acessível para as de mais telas do app
+          create: (_) => UserBloc(context),
+          child: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            //Aqui neste onPageChanged está fazendo o controle na variável page, ou seja, quando determinado ícone for cliado, então a variável page vai receber o valor daquele item
+            onPageChanged: (pg){
+              setState(() {
+                page = pg;
+              });
+            },
+            controller: pgCtrl,
+            children: [
+              UsersTab(),
+              Container(color: Colors.yellow,),
+              Container(color: Colors.green,)
+            ],
+          ),
         ),
       ),
     );
