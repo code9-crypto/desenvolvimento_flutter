@@ -118,8 +118,10 @@ class LoginBloc extends BlocBase with LoginValidators{
     auth.signInWithEmailAndPassword(
         email: email,
         password: pass
-
-    ).catchError((erro){
+    ).then((usr){
+      inState.add(LoginState.SUCCESS);
+      inStaticState.add(LoginState.SUCCESS);
+    }).catchError((erro){
       inState.add(LoginState.FAIL);
       inStaticState.add(LoginState.FAIL);
     });

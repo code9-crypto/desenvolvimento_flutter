@@ -636,6 +636,7 @@ ExpansionTile(
   title: Text("Um titulo")
   leading: Icon(Icons.card_giftcard), -> este parâmetro permite colocar o ícone do lado esquerdo do texto/titulo
   trailing: Icon(Icons.add), -> este parâmetro permite colocar o ícone do lado direito do texto/titulo
+  children: [] -> filhos do ExpansionTile
 )
 
 ******************************************************************************************************************************************************
@@ -739,3 +740,39 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+******************************************************************************************************************************************************
+
+USANDO O LAYOUT COM O SHIMMER -> este pacote dará um efeito de carregamento muito bom ao UserExperience
+return Container(
+    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 50,
+          height: 20,
+          child: Shimmer.fromColors( //Este Shimmer.fromColors dá um efeito de carregamento, o que é um detalhe muito bom para UserExperience
+            baseColor: Colors.white,
+            highlightColor: Colors.grey,
+            child: Container(
+              color: Colors.white.withAlpha(50),
+              margin: EdgeInsets.symmetric(vertical: 4),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 200,
+          height: 20,
+          child: Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.grey,
+            child: Container(
+              color: Colors.white.withAlpha(50),
+              margin: EdgeInsets.symmetric(vertical: 4),
+            ),
+          ),
+        )
+      ],
+    ),
+  );

@@ -1,0 +1,61 @@
+class OrderTile extends StatelessWidget {
+  const OrderTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: ExpansionTile(
+        title: Text(
+          "#133245 - Entregue",
+          style: TextStyle(
+            color: Colors.green
+          ),
+        ),
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: Text("Camisa preta - P"),
+                      subtitle: Text("camisetas/654987354"),
+                      trailing: Text(
+                        "2",
+                        style: TextStyle(
+                            fontSize: 20
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, //aqui nesta parte está vai deixar os widgets(os botões) com o maior espaçamento entre eles
+                  children: [
+                    TextButton(
+                      onPressed: (){},
+                      child: Text("Excluir", style: TextStyle(color: Colors.red),)
+                    ),
+                    TextButton(
+                        onPressed: (){},
+                        child: Text("Regredi", style: TextStyle(color: Colors.grey),)
+                    ),
+                    TextButton(
+                        onPressed: (){},
+                        child: Text("Avançar", style: TextStyle(color: Colors.green),)
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

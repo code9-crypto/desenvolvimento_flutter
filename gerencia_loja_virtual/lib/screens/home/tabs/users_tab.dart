@@ -12,7 +12,7 @@ class UsersTab extends StatelessWidget {
   Widget build(BuildContext context) {
 
     //BLOC
-    final userBloc = BlocProvider.of<UserBloc>(context); //agora este bloc terá acesso a todos os métodos da classe UserBloc
+    final userBloc = BlocProvider.of<UserBloc>(context); //agora este bloc terá acesso a todos os métodos da classe UserBloc, porque o BlocProvider foi colocado acima desta classe
 
     return Column(
       children: [
