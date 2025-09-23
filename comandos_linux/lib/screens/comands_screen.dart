@@ -38,7 +38,7 @@ class ComandsScreen extends StatelessWidget {
                 }
             );
             // OU
-            /*GridView(
+            /*GridView ou ListView(
               children: snapshot.data!.docs.map((doc){
                 ComandsData data = ComandsData(doc)
                 return ComandsTile(data);

@@ -1,25 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gerencia_loja_virtual/screens/home/blocs/user_bloc.dart';
 
 class OrderHeader extends StatelessWidget {
-  const OrderHeader({super.key});
+
+  final DocumentSnapshot order;
+
+  OrderHeader(this.order);
 
   @override
   Widget build(BuildContext context) {
+
+    final userBloc = BlocProvider.of<UserBloc>(context);
+    final user = userBloc.getUser(order.get("clientId"));
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("William"),
-            Text("Rua flutter top")
+            Text("${user?["name"]}"),
+            Text("${user?["address"]}")
           ],
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text("Preço dos produtos", style: TextStyle(fontWeight: FontWeight.w500),),
-            Text("Preço total", style: TextStyle(fontWeight: FontWeight.w500),)
+            Text("Produtos: R\$${order.get("productsPrice").toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.w500),),
+            Text("Preço total: R\$${order.get("totalPrice").toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.w500),)
           ],
         )
       ],

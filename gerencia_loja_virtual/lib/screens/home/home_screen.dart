@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/home/blocs/user_bloc.dart';
+import 'package:gerencia_loja_virtual/screens/order/blocs/orders_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/order/tabs/orders_tab.dart';
 import 'package:gerencia_loja_virtual/screens/home/tabs/users_tab.dart';
 import 'package:gerencia_loja_virtual/screens/login/login_screen.dart';
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late PageController pgCtrl = PageController(); //este será usado para fazer o controle da transição de páginas no PageView
   int page = 0;
   late UserBloc userBloc;
+  late OrdersBloc ordersBloc;
 
   //CONSTANTES
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -27,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
 
     userBloc = UserBloc(context);
+    ordersBloc = OrdersBloc(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               onPressed: (){
                 auth.signOut();
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => LoginScreen())
                 );
               },
@@ -48,12 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey.shade800,
       //OBS.: o bottomNavigationBar será mantido em todas as telas
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: page, //este parâmetro está mostrando na barra em qual página está de acordo com o valor da variável page, a qual está sendo alterada no método onChangedPage
+        currentIndex: page, //este parâmetro está mostrando na barra em qual página está de acordo com o valor da variável page, a qual está sendo alterada no método onPageChange(a qual está ali embaixo)
         //A troca das páginas está acontecendo neste método do onTap;
         //OBS.: mas antes de ter declarado o PageController ali em cima e depois de ter colocado esta variável no parâmetro nomeado controller no PageView
-        onTap: (p){
+        onTap: (page){
           pgCtrl.animateToPage(
-              p,
+              page,
               duration: Duration(milliseconds: 300),
               curve: Curves.ease
           );
@@ -79,20 +82,24 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: BlocProvider( //este BlocProvider irá permitir que o UserBloc seja acessível para as de mais telas do app
           create: (_) => UserBloc(context),
-          child: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            //Aqui neste onPageChanged está fazendo o controle na variável page, ou seja, quando determinado ícone for cliado, então a variável page vai receber o valor daquele item
-            onPageChanged: (pg){
-              setState(() {
-                page = pg;
-              });
-            },
-            controller: pgCtrl,
-            children: [
-              UsersTab(),
-              OrdersTab(),
-              Container(color: Colors.green,)
-            ],
+          child: BlocProvider(
+            create: (_) => OrdersBloc(context), //este BlocProvider(tipo OrdersBloc) está abaixo do UserBloc a fim de este ter acesso ao dados do usuário
+            child: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              //Aqui neste onPageChanged está fazendo o controle na variável page, ou seja, quando determinado ícone(da barra inferior) for clicado, então a variável page vai receber o valor daquele item
+              //O qual o valor daquele item está sendo passado por parâmetro nesta função e a variável page está recebendo valor
+              onPageChanged: (pg){
+                setState(() {
+                  page = pg;
+                });
+              },
+              controller: pgCtrl,
+              children: [
+                UsersTab(),
+                OrdersTab(),
+                Container(color: Colors.green,)
+              ],
+            ),
           ),
         ),
       ),

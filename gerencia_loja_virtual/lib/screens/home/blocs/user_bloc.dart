@@ -101,4 +101,8 @@ class UserBloc extends BlocBase{
     return filteredUsers;
   }
 
+  Map<String, dynamic>? getUser(String uid){
+    return users[uid];
+  }
+
 }
