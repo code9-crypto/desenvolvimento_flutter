@@ -776,3 +776,18 @@ return Container(
       ],
     ),
   );
+
+******************************************************************************************************************************************************
+COLOCANDO UMA IMAGEM COMO SE FOSSE ÍCONE AO LADO ESQUERDO DA FRASE COM O CONSTRUTOR CircularAvatar()
+
+Container(
+  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+  child: Card(
+    child: ExpansionTile(
+      leading: CircleAvatar( //Este Construtor é aquele que deixa uma imagem no tamanho de como se fosse um ícone
+        backgroundImage: NetworkImage(produto.get("icon")),
+        backgroundColor: Colors.transparent,
+      ),
+    )
+  )
+)

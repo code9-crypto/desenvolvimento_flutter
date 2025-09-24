@@ -1,0 +1,67 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+class CategoryTile extends StatelessWidget {
+
+  //VARIÁVEIS
+  final DocumentSnapshot produto;
+
+  //CONSTRUTOR
+  CategoryTile(this.produto);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Card(
+        child: ExpansionTile(
+          leading: CircleAvatar( //Este Construtor é aquele que deixa uma imagem no tamanho de como se fosse um ícone
+            backgroundImage: NetworkImage(produto.get("icon")),
+            backgroundColor: Colors.transparent,
+          ),
+          title: Text(
+            produto.get("title"),
+            style: TextStyle(
+              color: Colors.grey.shade800, fontWeight: FontWeight.w500
+            ),
+          ),
+          children: [
+            FutureBuilder(
+               future: produto.reference.collection("itens").get(),
+               builder: (context, dados){
+                 if( !dados.hasData ){
+                   return Container();
+                 }else{
+                   return Column(
+                     children: dados.data!.docs.map((prd){
+                       return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: NetworkImage(prd.get("images")[0]),
+                          ),
+                         title: Text(prd.get("title")),
+                         trailing: Text(
+                           "R\$${prd.get("price").toStringAsFixed(2)}"
+                         ),
+                         onTap: (){},
+                       );
+                     }).toList()..add(
+                       ListTile(
+                         leading: CircleAvatar(
+                           backgroundColor: Colors.transparent,
+                           child: Icon(Icons.add, color: Colors.pinkAccent,),
+                         ),
+                         title: Text("Adicionar"),
+                         onTap: (){},
+                       )
+                     ),
+                   );
+                 }
+               }
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gerencia_loja_virtual/screens/home/blocs/user_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/order/blocs/orders_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/order/tabs/orders_tab.dart';
 import 'package:gerencia_loja_virtual/screens/home/tabs/users_tab.dart';
 import 'package:gerencia_loja_virtual/screens/login/login_screen.dart';
+import 'package:gerencia_loja_virtual/screens/product/products_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -97,12 +99,52 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 UsersTab(),
                 OrdersTab(),
-                Container(color: Colors.green,)
+                ProductsTab(),
               ],
             ),
           ),
         ),
       ),
+      floatingActionButton: buildFloating(), //Este floating action button será exibido de forma diferente de acordo com a tela que for exibida
     );
+  }
+
+  //Esta é a função que mostra qual será o botão do floatingActionButton que será apresentado de acordo com a tela exibida
+  Widget buildFloating(){
+    switch(page){
+      case 0:
+        return Container();
+        break;
+      case 1:
+        return SpeedDial( //Este SpeedDial() é o floatingActionButton que quando clicado pode mostrar outros botões de forma mais animada
+          child: Icon(Icons.sort, color: Colors.white,),
+          backgroundColor: Colors.pinkAccent,
+          overlayOpacity: 0.4,
+          overlayColor: Colors.black,
+          children: [
+            SpeedDialChild( //Esses SpeedDialChild() são os botões que apareceram quando clicado o floatingActionButton
+              child: Icon(Icons.arrow_downward, color: Colors.pinkAccent,),
+              backgroundColor: Colors.white,
+              label: "Concluídos abaixo",
+              labelStyle: TextStyle(fontSize: 14),
+              onTap: (){
+                ordersBloc.setOrderCriteria(SortCriteria.READY_LAST);
+              }
+            ),
+            SpeedDialChild( //Esses SpeedDialChild() são os botões que apareceram quando clicado o floatingActionButton
+                child: Icon(Icons.arrow_upward, color: Colors.pinkAccent,),
+                backgroundColor: Colors.white,
+                label: "Concluídos acima",
+                labelStyle: TextStyle(fontSize: 14),
+                onTap: (){
+                  ordersBloc.setOrderCriteria(SortCriteria.READY_FIRST);
+                }
+            )
+          ],
+        );
+        break;
+      default:
+        return Container();
+    }
   }
 }
