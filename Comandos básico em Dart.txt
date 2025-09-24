@@ -163,6 +163,9 @@ List<String>? lista3; -> é uma lista que pode ser iniciada nula, mas que ainda 
 deverá passar por uma condicional verificando se é nula ou não, contudo ela não aceita elementos nulos.
 List<String?>? lista4; -> é uma lista que pode ser iniciada nula, mas que ainda não existe; todavia, para ser adicionada valores nela
 deverá passar por uma condicional verificando se é nula ou não, contudo ela aceita elementos nulos.
+
+Copiando uma lista de map para outra lista de map
+List<Map<String, dynamic>> filteredUsers = List.from(users.values.toList());
 -----------------------------------------------------------------------------------------------------------------------------
 MAPAS / MAPS -> É uma forma de organizar os elementos como: chave: valor;
 Map<int, String> ddds = {
@@ -205,6 +208,9 @@ null assertion = valores nulos
 String cidade = ddds[11]!; -> este sinal de exclamação será usado somente quando tiver certeza que o valor recuperado não for nulo
 Caso tenha dúvida se o valor é nulo então use esta nomenclatura
 String cidade = ddds[45] ?? "Não informado";
+
+Copiando uma lista de map para outra lista de map
+List<Map<String, dynamic>> filteredUsers = List.from(users.values.toList());
 
 -----------------------------------------------------------------------------------------------------------------------------------
 NOTAÇÃO JSON

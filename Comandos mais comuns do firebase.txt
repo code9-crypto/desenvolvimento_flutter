@@ -1,10 +1,19 @@
-QuerySnapshot -> é usado para obter vários documentos
+QuerySnapshot -> é usado para obter vários documentos(lista de documentos)
 DocumentSnapshot -> é usado para obter um documento(foto)
 
 INICIALIZANDO O BANCO
 OBS.: este comando deve ser usado no main.dart dentro da função main() antes do runApp()
 WidgetsFlutterBinding.ensureInitialized();
 await Firebase.initializeApp();
+
+OBTENDO TODOS OS DADOS DE UM VEZ
+//OBS.: este firestore vem de uma constante feita assim:  FirebaseFirestore firestore = FirebaseFirestore.instance;
+firestore.collection("users").snapshots(); 
+
+OBTENDO OS DADOS DO BANCO APENAS UMA VEZ
+//aqui este comando está pegando os dados do banco(nas coleções descritas) apenas uma vez
+//OBS.: este firestore vem de uma constante feita assim:  FirebaseFirestore firestore = FirebaseFirestore.instance;
+firestore.collection("users").doc(uid).collection("orders").get();
 
 OBTENDO OS DADOS DO BANCO
 //este comando retorna um QuerySnapshot; OBS.: este resultado vem no futuro
@@ -74,3 +83,11 @@ StreamBuilder<DocumentSnapshot>(
     stream: FirebaseFirestore.instance.collection("orders").doc(orderID).snapshots(),//para obter respostas em tempo real do banco, então a codificação é esta(final snapshot())
     builder: (context, snaphost){}
 ),
+
+*******************************************************************************************************************************************************
+
+ATUALIZANDO A COLEÇÃO COM BASE NA SUA REFERÊNCIA
+
+//Aqui o order é a informação que está sendo repassada pelo construtor(seu tipo é DocumentSnapshot) e está acessando a referência do banco para fazer
+//a atualização do campo status
+order.reference.update({"status": order.get("status") + 1});
