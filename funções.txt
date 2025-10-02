@@ -132,6 +132,7 @@ OBS.: Para usar a ListView deverá ser dentro da seguinte estrutura
                 Ex.:
                 Flexible( //Esta função faz com que a lista fique do tamanho máximo da tela; A ListView() fica dentro da função Flexible() ou Expanded()
                     child: ListView(
+                        scrollDirection: Axis.horizontal, //esta especificação está dizendo que a lista será deslizada na horizontal
                         shrinkWrap: true, // Este elemento deixa a lista do tamanho de forma que caiba todos os itens da lista
                         children: [
                         for( String task in tasks )
@@ -215,16 +216,16 @@ child: Form( //Para fazer a validação, o conteúdo da Column() deve estar dent
           }
         },
         controller: pesoCtrl,
-        keyboardType: TextInputType.number,
-        //Este é o comando que define qual o tipo de teclado que será exibido ao usuário
+        keyboardType: TextInputType.number, //Este é o comando que define qual o tipo de teclado que será exibido ao usuário
         decoration: InputDecoration(
             labelText: "Peso em (kg)",
             labelStyle: TextStyle(color: Colors.green)),
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 25.0, color: Colors.green),
+        style: TextStyle(fontSize: 25.0, color: Colors.green), // esta é a parte do estilo do texto que será digitado dentro do campo
         obscureText: true, -> aqui deixa o texto oculto
         obscuringCharacter: "*", -> define qual o caracter que vai aparecer quando texto for ocultado
       ),
+    ]
   )
 )
 

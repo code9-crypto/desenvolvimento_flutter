@@ -27,7 +27,7 @@ class OrdersBloc extends BlocBase{
   //FUNÇÕES
   void addOrdersListener(){
     firestore.collection("orders").snapshots().listen((snapshot){
-      snapshot.docChanges.forEach((change){
+      for (var change in snapshot.docChanges) {
         String oid = change.doc.id;
 
         switch(change.type){
@@ -42,7 +42,7 @@ class OrdersBloc extends BlocBase{
             orders.removeWhere((order) => order.id == oid);
             break;
         }
-      });
+      }
       ordersController.sink.add(orders);
     });
   }
@@ -59,8 +59,9 @@ class OrdersBloc extends BlocBase{
           int sa = a.get("status");
           int sb = b.get("status");
 
-          if( sa < sb ) return 1;
-          else if ( sa > sb ) return -1;
+          if( sa < sb ) {
+            return 1;
+          } else if ( sa > sb ) return -1;
           else return 0;
         });
         break;
@@ -69,8 +70,9 @@ class OrdersBloc extends BlocBase{
           int sa = a.get("status");
           int sb = b.get("status");
 
-          if( sa > sb ) return 1;
-          else if ( sa < sb ) return -1;
+          if( sa > sb ) {
+            return 1;
+          } else if ( sa < sb ) return -1;
           else return 0;
         });
         break;

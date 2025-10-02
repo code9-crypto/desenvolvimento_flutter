@@ -1,6 +1,4 @@
-import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gerencia_loja_virtual/screens/login/blocs/login_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/login/widgets/botao_entrar.dart';
@@ -41,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         case LoginState.FAIL:
         case LoginState.IDLE:
         default:
-          return null;
+          return;
       }
     });
   }

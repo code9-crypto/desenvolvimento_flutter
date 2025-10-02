@@ -26,7 +26,7 @@ class UserBloc extends BlocBase{
   //função que será chamada toda vez que houver alguma mudança na coleção de usuários(adição, modificação/atualização ou deleção)
   void addUserListener()async{
     firestore.collection("users").snapshots().listen((snapshot){ //aqui o método snapshots retornará sempre todos os dados do banco
-      snapshot.docChanges.forEach((change){ //no entanto, junto com o método listen é possível usar o comando forEach para verificar apenas cada alteração
+      for (var change in snapshot.docChanges) { //no entanto, junto com o método listen é possível usar o comando forEach para verificar apenas cada alteração
 
         String uid = change.doc.id;//aqui está atribuindo o ID apenas do usuário que foi afetado a uma variavel do tipo String
 
@@ -46,7 +46,7 @@ class UserBloc extends BlocBase{
             userCtrl.add(users.values.toList());
             break;
         }
-      });
+      }
     });
   }
 

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../product_screen.dart';
+
 class CategoryTile extends StatelessWidget {
 
   //VARIÁVEIS
@@ -43,16 +45,30 @@ class CategoryTile extends StatelessWidget {
                          trailing: Text(
                            "R\$${prd.get("price").toStringAsFixed(2)}"
                          ),
-                         onTap: (){},
+                         onTap: (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => ProductScreen(
+                                      categoryId: prd.id,
+                                      product: prd,
+                                    )
+                                )
+                            );
+                         },
                        );
-                     }).toList()..add(
+                     }).toList()..add(// este é o botão de adicionar um produto
                        ListTile(
                          leading: CircleAvatar(
                            backgroundColor: Colors.transparent,
                            child: Icon(Icons.add, color: Colors.pinkAccent,),
                          ),
                          title: Text("Adicionar"),
-                         onTap: (){},
+                         onTap: (){
+                           Navigator.of(context).push(
+                               MaterialPageRoute(builder: (context) => ProductScreen(categoryId: dados.toString(),)
+                               )
+                           );
+                         },
                        )
                      ),
                    );
