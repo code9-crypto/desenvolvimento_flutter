@@ -9,7 +9,7 @@ class CategoryTile extends StatelessWidget {
   final DocumentSnapshot produto;
 
   //CONSTRUTOR
-  CategoryTile(this.produto);
+  const CategoryTile(this.produto, {super.key});
 
   @override
   Widget build(BuildContext context) {

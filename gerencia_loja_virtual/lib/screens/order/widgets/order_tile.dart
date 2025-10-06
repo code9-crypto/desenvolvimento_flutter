@@ -10,7 +10,7 @@ class OrderTile extends StatelessWidget {
     "", "Em preparação", "Em transporte", "Aguardando entrega", "Entregue"
   ];
 
-  OrderTile(this.order);
+  OrderTile(this.order, {super.key});
 
   @override
   Widget build(BuildContext context) {

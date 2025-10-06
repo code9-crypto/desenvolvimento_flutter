@@ -1,9 +1,13 @@
+
 import 'package:flutter/material.dart';
+
+import 'image_source.dart';
 
 class ImagesWidget extends FormField<List>{
 
   //CONSTRUTORES
-  ImagesWidget({
+  ImagesWidget({super.key, 
+    final BuildContext? context,
     required FormFieldSetter<List> onSaved,
     required FormFieldValidator<List> validator,
     required List initialValue,
@@ -12,7 +16,6 @@ class ImagesWidget extends FormField<List>{
     onSaved: onSaved,
     validator: validator,
     initialValue: initialValue,
-    autovalidateMode: autoValidate as AutovalidateMode,
     builder: (state){
       return Column(
         children: [
@@ -33,16 +36,23 @@ class ImagesWidget extends FormField<List>{
                     },
                   ),
                 );
-              }).toList()..add(
+              }).toList()..add( //Aqui está adicionando um ícone da camera para tirar uma nova foto
                 GestureDetector(
                   child: Container(
                     height: 100,
                     width: 100,
-                    child: Icon(Icons.camera_enhance),
                     color: Colors.white.withAlpha(50),
+                    child: Icon(Icons.camera_enhance),
                   ),
                   onTap: (){
-
+                    showModalBottomSheet(
+                        context: context!,
+                        builder: (context) => ImageSource(
+                          onImageSelected: (image){
+                            state.didChange(state.value!..add(image));
+                          },
+                        )
+                    );
                   },
                 )
               ),

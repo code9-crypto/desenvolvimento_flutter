@@ -5,7 +5,7 @@ class UserTile extends StatelessWidget {
 
   final Map<String, dynamic> user;
 
-  const UserTile(this.user);
+  const UserTile(this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {

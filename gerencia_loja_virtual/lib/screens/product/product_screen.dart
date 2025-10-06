@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gerencia_loja_virtual/screens/product/blocs/products_bloc.dart';
+import 'package:gerencia_loja_virtual/screens/product/widgets/images_widget.dart';
 
 class ProductScreen extends StatelessWidget {
 
@@ -11,7 +12,7 @@ class ProductScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>(); //será usado para fazer as validações dos campos
 
   //CONSTRUTOR
-  ProductScreen({ required this.categoryId, this.product });
+  ProductScreen({super.key,  required this.categoryId, this.product });
 
   @override
   Widget build(BuildContext context) {
@@ -56,50 +57,65 @@ class ProductScreen extends StatelessWidget {
           stream: prodBloc.outData,
           builder: (context, snapshot) {
             if( !snapshot.hasData )  return Container();
-            return ListView(
-              padding: EdgeInsets.all(16),
-              children: [
-                Text(
-                  "Imagens",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                ImagesWidget(),
-                TextFormField(
-                  initialValue: snapshot.data["title"],
-                  style: fieldStyle, // esta é a parte do estilo do texto que será digitado dentro do campo
-                  decoration: buildDecoration("Título"),
-                  onSaved: (saved){
-
-                  },
-                  validator: (valid){
-
-                  },
-                ),
-                TextFormField(
-                  initialValue: snapshot.data["description"],
-                  style: fieldStyle, //
-                  decoration: buildDecoration("Descrição"),
-                  maxLines: 6,
-                  onSaved: (saved){
-
-                  },
-                  validator: (valid){
-
-                  },
-                ),
-                TextFormField(
-                  initialValue: snapshot?.data["price"].toStringAsFixed(2),
-                  style: fieldStyle, //
-                  decoration: buildDecoration("Preço"),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  onSaved: (saved){
-
-                  },
-                  validator: (valid){
-
-                  },
-                )
-              ],
+            return SafeArea(
+              child: ListView(
+                padding: EdgeInsets.all(16),
+                children: [
+                  Text(
+                    "Imagens",
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  ImagesWidget(
+                    context: context,
+                    initialValue: snapshot.data["images"],
+                    onSaved: (l){},
+                    validator: (l){
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    initialValue: snapshot.data["title"],
+                    style: fieldStyle, // esta é a parte do estilo do texto que será digitado dentro do campo
+                    decoration: buildDecoration("Título"),
+                    onSaved: (saved){
+              
+                    },
+                    validator: (valid){
+                      return null;
+                    
+              
+                    },
+                  ),
+                  TextFormField(
+                    initialValue: snapshot.data["description"],
+                    style: fieldStyle, //
+                    decoration: buildDecoration("Descrição"),
+                    maxLines: 6,
+                    onSaved: (saved){
+              
+                    },
+                    validator: (valid){
+                      return null;
+                    
+              
+                    },
+                  ),
+                  TextFormField(
+                    initialValue: snapshot.data["price"].toStringAsFixed(2),
+                    style: fieldStyle, //
+                    decoration: buildDecoration("Preço"),
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    onSaved: (saved){
+              
+                    },
+                    validator: (valid){
+                      return null;
+                    
+              
+                    },
+                  )
+                ],
+              ),
             );
           }
         )

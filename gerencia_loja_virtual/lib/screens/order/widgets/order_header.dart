@@ -7,7 +7,7 @@ class OrderHeader extends StatelessWidget {
 
   final DocumentSnapshot order;
 
-  OrderHeader(this.order);
+  const OrderHeader(this.order, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -59,3 +59,8 @@ plugins{
 3º no arquivo gradle-wrapper.properties (.../android/gradle/wrapper/gradle-wrapper.properties)
 ....
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-all.zip
+
+
+ERROS DE PACOTES
+-> Caso apresente erro no pacote ImagePicker na parte de onde vai vir a imagem(galeria ou camera) faça isso:
+import 'package:image_picker/image_picker.dart' as picker; -> No import da biblioteca nomeia para que o flutter entenda que o pacote é o pacote do projeto atual

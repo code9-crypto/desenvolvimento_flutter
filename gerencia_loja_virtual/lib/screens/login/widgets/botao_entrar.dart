@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BotaoEntrar extends StatelessWidget {
 
   //CONSTRUTOR
-  BotaoEntrar({super.key, required this.stream, required this.submit});
+  const BotaoEntrar({super.key, required this.stream, required this.submit});
 
   //VARIÁVEIS
   final Stream stream;

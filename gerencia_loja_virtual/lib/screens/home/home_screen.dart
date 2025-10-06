@@ -117,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         return SpeedDial( //Este SpeedDial() é o floatingActionButton que quando clicado pode mostrar outros botões de forma mais animada
-          child: Icon(Icons.sort, color: Colors.white,),
           backgroundColor: Colors.pinkAccent,
           overlayOpacity: 0.4,
           overlayColor: Colors.black,
@@ -140,7 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ordersBloc.setOrderCriteria(SortCriteria.READY_FIRST);
                 }
             )
-          ],
+          ], //Este SpeedDial() é o floatingActionButton que quando clicado pode mostrar outros botões de forma mais animada
+          child: Icon(Icons.sort, color: Colors.white,),
         );
         break;
       default:
