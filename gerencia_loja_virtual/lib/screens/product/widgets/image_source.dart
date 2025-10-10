@@ -26,6 +26,11 @@ class _ImageSourceState extends State<ImageSource> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextButton(
+                  style: TextButton.styleFrom(
+                      textStyle: TextStyle(
+                          fontSize: 35
+                      )
+                  ),
                   //Pegando a imagem pela camera
                   onPressed: () async {
                     //Depois da versão 0.8.X a biblioteca do ImagePicker não recebe mais o tipo file, mas sim o tipo XFile
@@ -49,6 +54,11 @@ class _ImageSourceState extends State<ImageSource> {
                   child: Text("Câmera")
               ),
               TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    fontSize: 35
+                  )
+                ),
                 //Pegando a imagem pela galeria
                   onPressed: () async {
                     //Depois da versão 0.8.X a biblioteca do ImagePicker não recebe mais o tipo file, mas sim o tipo XFile
@@ -71,7 +81,9 @@ class _ImageSourceState extends State<ImageSource> {
   //***************** FUNÇÃO DA IMAGEM ***********************
   void imageSelected(File imagem) async {
     //Aqui no CroppedFile a lógica é semelhante ao XFile la de cima
-    CroppedFile? cropedImg = await ImageCropper().cropImage(sourcePath: imagem.path);
+    CroppedFile? cropedImg = await ImageCropper().cropImage(
+      sourcePath: imagem.path,
+    );
     if( cropedImg != null ){
       File file = File(cropedImg.path);
       widget.onImageSelected( file ); //aqui é uma função de callback, a qual está vai retornar a imagem recortada para a classe images_widget.dart

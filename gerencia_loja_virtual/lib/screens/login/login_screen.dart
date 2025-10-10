@@ -86,8 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelTxt: "Usuário",
                               hint: "fulano@email.com",
                               obscure: false,
-                              stream: loginBloc.outEmail,
-                              //aqui está passando a saída do email para a stream do campo email
+                              stream: loginBloc.outEmail, //aqui está passando a saída do email para a stream do campo email
                               onChanged: loginBloc.changeEmail,
                             ),
                             InputField(
@@ -96,8 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelTxt: "Senha",
                               hint: "*******",
                               obscure: true,
-                              stream: loginBloc.outPassword,
-                              //aqui está passando a saída da senha para a stream do campo senha
+                              stream: loginBloc.outPassword, //aqui está passando a saída da senha para a stream do campo senha
                               onChanged: loginBloc.changePassword,
                             ),
                             SizedBox(height: 32,),

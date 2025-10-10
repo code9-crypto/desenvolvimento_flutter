@@ -10,9 +10,11 @@ class ProductsBloc extends BlocBase{
 
   //CONTROLLERS
   final dataController = BehaviorSubject();
+  final loadingController = BehaviorSubject();
 
   //STREAM
   Stream get outData => dataController.stream;
+  Stream get outLoading => loadingController.stream;
 
   //MAPS
   Map<String, dynamic> unsavedData = {};
@@ -34,6 +36,30 @@ class ProductsBloc extends BlocBase{
     }
 
     dataController.sink.add(unsavedData);
+  }
+
+  //ESSES MÉTODOS SÃO RESPONSÁVEIS POR PEGAR OS VALORES DOS CAMPOS( NA CLASSE PAI PRODUCT_SCREEN ), SALVANDO NO unsavedData PARA DEPOIS SALVAR NO FIREBASE
+  void saveTitle(String? title){
+    unsavedData["title"] = title;
+  }
+  void saveDescription(String? description){
+    unsavedData["description"] = description;
+  }
+  void savePrice(String? price){
+    unsavedData["price"] = double.parse(price!);
+  }
+  void saveImages(List? images){
+    unsavedData["images"] = images;
+  }
+
+  //Salvando todos os dados no banco
+  Future<bool> savePrdBanco() async {
+    loadingController.sink.add(true);
+
+    await Future.delayed(Duration(seconds: 5));
+
+    loadingController.sink.add(false);
+    return true;
   }
 
 }

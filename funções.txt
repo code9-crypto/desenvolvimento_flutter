@@ -189,7 +189,7 @@ TextField(
 )
 
 **********************************************************************************************************************************************************
-CAMPO DE TEXTO COM FORM -> a fim de fazer a validação dos dados
+CAMPO DE TEXTO COM TEXTFORMFIELD -> a fim de fazer a validação dos dados
 para que seja possível fazer isso é necessário criar uma variável do tipo GlobalKey
 
 Variavel
@@ -214,8 +214,9 @@ child: Form( //Para fazer a validação, o conteúdo da Column() deve estar dent
           if( value!.isEmpty){
             return "Insira seu peso";
           }
-        },
+        }, // OU validator: funcValidar -> Observação, sem colocar os parenteses, pois está passando a função e não querendo obter o resultado desta
         controller: pesoCtrl,
+        onSaved: (value){} ou funcSave // Observação, sem colocar os parenteses, pois está passando a função e não querendo obter o resultado desta
         keyboardType: TextInputType.number, //Este é o comando que define qual o tipo de teclado que será exibido ao usuário
         decoration: InputDecoration(
             labelText: "Peso em (kg)",
@@ -229,6 +230,22 @@ child: Form( //Para fazer a validação, o conteúdo da Column() deve estar dent
   )
 )
 
+NOTA: Para que os parâmetros nomeados onSaved e validator sejam  acionados, deverá ser deste jeito(normalmente chamado por meio do onPressed de algum botão):
+
+acionando o parâmetro validator
+onPressed: (){ 
+  if( _formKey.currentState!.validate() ){ // aqui posso fazer a verificação; caso seja válido(true) então posso prosseguir com outra coisa
+    faz alguma coisa aqui
+  }
+}
+
+acionando o parâmetro onSaved
+onPressed: (){
+  _formKey.currentState!.save(); //No parâmetro onSaved eu posso deixar uma outra função quando ela for acionada
+}
+
+...
+onSaved: salvarProdutos //não esquecer que aqui não passamos os paretenses
 
 **********************************************************************************************************************************************************
 CRIANDO UM SCROLL PARA QUE O TECLADO NÃO SE SOBREPONHA AOS WIDGETS DA TELA
@@ -267,6 +284,18 @@ CRIANDO UMA SNACKBAR
       ),
     );
 
+CRIANDO UMA SNACKBAR COM UMA GLOBALKEY
+OBS.: para que isso funcione, a chave deverá ser decladara e inserida dentro do Scaffold (key: scafKey)
+
+void funcao(){
+  ScaffoldMessenger.of(scafKey.currentContext!).showSnackBar(
+        SnackBar(
+            content: content
+        )
+      );
+}
+
+ScaffoldMessenger.of(scafKey.currentContext!).removeCurrentSnackBar(); //aqui removendo a snackbar anterior para depois mostrar a snackbar seguinte
 
 ***********************************************************************************************************************************************************
 CRIANDO O BOTÃO FLUTUANTE QUE FICA NA PARTE INFERIOR DIREITA DA TELA
@@ -383,6 +412,7 @@ Widget _buildBodyBack() => Container(
 
 ***********************************************************************************************************************************************************
 USANDO UM CONSTRUTOR QUE PERMITE SOBREPOR O FUNDO DA TELA COM OUTROS WIDGETS
+OBS.: este construtor permite colocar outros widgets por cima deste
 
 Widget build(BuildContext context) {
     //Este é o construtor que permite isso
@@ -392,6 +422,31 @@ Widget build(BuildContext context) {
         ],
     );
 }
+
+***********************************************************************************************************************************************************
+FAZENDO UM TELA COM IMPRESSÃO DE SALVANDO DE DADOS COM COR PRETA COM TOM MAIS SUAVE(usando construtor Stack())
+
+
+Widget build(BuildContext context){
+  return Stack(
+    children: [
+      StreamBuilder(
+             stream: prodBloc.outLoading,
+             initialData: false,
+             builder: (context, snapshot){
+                return IgnorePointer(
+                  ignoring: !snapshot.data,
+                  child: Container(
+                    color: snapshot.data ? Colors.black26 : Colors.transparent,
+                  ),
+                );
+             }
+          )
+    ]
+  )
+}
+
+
 
 ***********************************************************************************************************************************************************
 CRIANDO UMA BARRA FLUTUANTE COM CUSTOMSCROLLVIEW E SLIVERBAR
@@ -789,6 +844,32 @@ Container(
         backgroundImage: NetworkImage(produto.get("icon")),
         backgroundColor: Colors.transparent,
       ),
+    )
+  )
+)
+
+******************************************************************************************************************************************************
+CRIANDO UMA JANELA NO RODAPÉ DA TELA COM BOTTOMSHEET E SHOWMODALBOTTOMSHEET
+
+...
+showModalBottomSheet(
+  context: context,
+  builder: (context) => BottomSheet( //aqui é chamado o BottomSheet ou pode ser também uma classe separada
+    onClosing: (){},
+    builder: (context) => Column( //aqui normalmente é uma coluna, pois os botões ficam um embaixo do outro
+      children: [
+        TextButton(
+          onPressed: (){}
+          child: Text("Botão 1")
+        ),
+        TextButton(
+          onPressed: (){}
+          child: Text("Botão 2")
+        ),
+        .
+        .
+        . //quantos achar necessário
+      ]  
     )
   )
 )

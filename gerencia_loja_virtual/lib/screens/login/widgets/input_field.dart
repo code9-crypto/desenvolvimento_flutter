@@ -23,7 +23,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
-        stream: stream, //no parâmetro stream do construtor StreamBuilder, eu sempre paço a função ou método de saída do StreamController
+        stream: stream, //no parâmetro stream do construtor StreamBuilder, eu sempre passo a função ou método de saída do StreamController
         builder: (context, snapshot) {
           return TextField(
             onChanged: onChanged,

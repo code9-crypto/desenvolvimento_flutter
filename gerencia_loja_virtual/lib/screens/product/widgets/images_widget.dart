@@ -18,6 +18,7 @@ class ImagesWidget extends FormField<List>{
     initialValue: initialValue,
     builder: (state){
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 124,
@@ -36,7 +37,7 @@ class ImagesWidget extends FormField<List>{
                     },
                   ),
                 );
-              }).toList()..add( //Aqui está adicionando um ícone da camera para tirar uma nova foto
+              }).toList()..add( //Aqui está adicionando um ícone da camera para tirar uma nova foto ou pegar da galeria
                 GestureDetector(
                   child: Container(
                     height: 100,
@@ -45,6 +46,7 @@ class ImagesWidget extends FormField<List>{
                     child: Icon(Icons.camera_enhance),
                   ),
                   onTap: (){
+                    //Este modal vai aparecer no rodapé da tela
                     showModalBottomSheet(
                         context: context!,
                         builder: (context) => ImageSource(

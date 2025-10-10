@@ -16,6 +16,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
+      builder: (BuildContext context, Widget? child){
+        return SafeArea(
+          top: false,
+          child: child ?? const SizedBox.shrink()
+        );
+      },
     );
   }
 }
