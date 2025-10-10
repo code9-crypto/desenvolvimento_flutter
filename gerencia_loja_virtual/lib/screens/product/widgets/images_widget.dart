@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'image_source.dart';
 
+//ESTA CLASSE É RESPONSÁVEL DE MOSTRAR AS IMAGES DO PRODUTO NA TELA E COM FUNÇÃO DE VALIDAÇÃO E TAMBÉM MOSTRARÁ BOTÃO PARA TIRAR FOTO OU SELECIONAR DA GALERIA
 class ImagesWidget extends FormField<List>{
 
   //CONSTRUTORES

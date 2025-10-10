@@ -26,8 +26,11 @@ mixin class ProductValidator{
     }else{
       return "Preço inválido";
     }
-
     return null;
   }
 
+  String? validaSizes(String? size){
+    if( size!.isEmpty ) return "Favor inserir ao menos um tamanho para o produto";
+    return null;
+  }
 }

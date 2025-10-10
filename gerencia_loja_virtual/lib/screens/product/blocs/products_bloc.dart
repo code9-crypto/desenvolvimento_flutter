@@ -11,10 +11,12 @@ class ProductsBloc extends BlocBase{
   //CONTROLLERS
   final dataController = BehaviorSubject();
   final loadingController = BehaviorSubject();
+  final createdController = BehaviorSubject();
 
   //STREAM
   Stream get outData => dataController.stream;
   Stream get outLoading => loadingController.stream;
+  Stream get outCreated => createdController.stream;
 
   //MAPS
   Map<String, dynamic> unsavedData = {};
@@ -25,6 +27,8 @@ class ProductsBloc extends BlocBase{
       unsavedData = Map.of(product?.data() as Map<String, dynamic>); //aqui está copiando os dados que veio dentro da variavel product para variavel unsavedData
       unsavedData["images"] = List.of(product?.get("images"));
       unsavedData["sizes"] = List.of(product?.get("sizes"));
+
+      createdController.sink.add(true);
     } else {
       unsavedData = {
         "title" : null,
@@ -33,6 +37,8 @@ class ProductsBloc extends BlocBase{
         "images" : [],
         "sizes" : []
       };
+
+      createdController.sink.add(false);
     }
 
     dataController.sink.add(unsavedData);
@@ -56,10 +62,50 @@ class ProductsBloc extends BlocBase{
   Future<bool> savePrdBanco() async {
     loadingController.sink.add(true);
 
-    await Future.delayed(Duration(seconds: 5));
+    try{
+      if( product != null ){
+        await uploadImages(product!.id);
+        await product!.reference.update(unsavedData);
+      }else{
+        DocumentReference dr = await FirebaseFirestore.instance.collection("products").doc(categoryId).
+          collection("items").add(Map.from(unsavedData)..remove("images"));
+        await uploadImages(dr.id);
+        await dr.update(unsavedData);
+      }
 
-    loadingController.sink.add(false);
-    return true;
+      createdController.sink.add(true);
+      loadingController.sink.add(false);
+      return true;
+    } catch(e){
+      loadingController.sink.add(true);
+      return false;
+    }
+  }
+
+  //Salvando imagens no firebase; OBS.: essa função não funcionará aqui porque ela salva no CloudFireStore o qual não temos acesso por ser paga
+  Future uploadImages(String prdId) async {
+    for( int i = 0; i < unsavedData["images"].length; i++ ) {
+      if (unsavedData["images"][i] is String) continue;
+
+      /*StorageUploadTask uploadTask = FirebaseStorage.instance.ref().child(
+          categoryId).
+      child(prdId).child(DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString()).
+      putFile(unsavedData["images"][i]);
+
+
+      StorageTaskSnapshot s = await uploadTask.onComplete;
+      String downloadUrl = await s.ref.getDownloadURL();
+
+      unsavedData["images"][i] = downloadUrl;*/
+    }
+  }
+
+  //Deletando o produto do banco
+  void deleteProduct(){
+    product!.reference.delete();
   }
 
 }

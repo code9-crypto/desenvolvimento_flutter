@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gerencia_loja_virtual/screens/product/blocs/products_bloc.dart';
 import 'package:gerencia_loja_virtual/screens/product/validators/product_validator.dart';
 import 'package:gerencia_loja_virtual/screens/product/widgets/images_widget.dart';
+import 'package:gerencia_loja_virtual/screens/product/widgets/products_size.dart';
 
 class ProductScreen extends StatelessWidget with ProductValidator{
 
@@ -38,17 +39,43 @@ class ProductScreen extends StatelessWidget with ProductValidator{
         ),
         backgroundColor: Colors.grey.shade800,
         elevation: 0,
-        title: Text(
-          "Criar Produto",
-          style: TextStyle(
-            color: Colors.white
-          ),
+        title: StreamBuilder(
+          stream: prodBloc.outCreated,
+          initialData: false,
+          builder: (context, snapshot) {
+            return Text(
+              snapshot.data ? "Editar produto" : "Criar produto",
+              style: TextStyle(
+                color: Colors.white
+              ),
+            );
+          }
         ),
         actions: [
-          IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.remove)
-          ),
+          StreamBuilder(
+            stream: prodBloc.outCreated,
+            initialData: false,
+            builder: (context, snapshot){
+              if( snapshot.data ){
+                return StreamBuilder(
+                  stream: prodBloc.outLoading,
+                  initialData: false,
+                  builder: (context, snapshot) {
+                    return IconButton(
+                      onPressed: snapshot.data ? null : (){
+                        prodBloc.deleteProduct();
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(Icons.remove, color: Colors.white,)
+                    );
+                  }
+                );
+              } else{
+                return Container();
+              }
+            }
+          )
+          ,
           StreamBuilder(
             stream: prodBloc.outLoading,
             initialData: false,
@@ -104,6 +131,19 @@ class ProductScreen extends StatelessWidget with ProductValidator{
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                       onSaved: prodBloc.savePrice, //aqui está passando a função, por isso não está com parenteses; Se passasse com parênteses significa que está querendo obter o resultado da função
                       validator: validatePrice, //aqui está passando a função, por isso não está com parenteses; Se passasse com parênteses significa que está querendo obter o resultado da função
+                    ),
+                    SizedBox(height: 16,),
+                    Text(
+                      "Tamanhos",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12
+                      ),
+                    ),
+                    ProductsSize(
+                      initialValue: snapshot.data["sizes"],
+                      onSaved: (s){},
+                      validator: (v){}
                     )
                   ],
                 );

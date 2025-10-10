@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 @override
   Widget build(BuildContext context) {
   //CONSTANTES
-  final loginBloc = LoginBloc(context); //instanciando a classe LoginBloc
+   final loginBloc = LoginBloc(context); //instanciando a classe LoginBloc
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade800,

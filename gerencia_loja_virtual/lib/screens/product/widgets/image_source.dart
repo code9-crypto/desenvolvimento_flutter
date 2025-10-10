@@ -28,7 +28,7 @@ class _ImageSourceState extends State<ImageSource> {
               TextButton(
                   style: TextButton.styleFrom(
                       textStyle: TextStyle(
-                          fontSize: 35
+                          fontSize: 16
                       )
                   ),
                   //Pegando a imagem pela camera
@@ -56,7 +56,7 @@ class _ImageSourceState extends State<ImageSource> {
               TextButton(
                 style: TextButton.styleFrom(
                   textStyle: TextStyle(
-                    fontSize: 35
+                    fontSize: 16
                   )
                 ),
                 //Pegando a imagem pela galeria

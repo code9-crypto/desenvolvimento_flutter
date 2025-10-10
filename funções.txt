@@ -28,6 +28,7 @@ Container() -> para que seja possível inserir uma imagem no aplicativo, a funç
 dentro do Container(), como child:
 OBS.: Também muito usado para manter uma proporção de determinado widget(imagem, card, etc...)
 Ex.: Container(
+    alignment: Alignment.center //este parâmetro deixa o conteúdo dentro do container centralizado
     padding: EdgeInsets.all(8.0),
     width: 120.0,
     margin: const EdgeInsets.symmetric(vertical: 2), -> este elemento permite dar margem aos itens; É semelhante ao padding
@@ -241,7 +242,7 @@ onPressed: (){
 
 acionando o parâmetro onSaved
 onPressed: (){
-  _formKey.currentState!.save(); //No parâmetro onSaved eu posso deixar uma outra função quando ela for acionada
+  _formKey.currentState!.save(); //No parâmetro onSaved eu posso deixar uma outra função(que vai executar outra coisa), quando ela for acionada
 }
 
 ...
