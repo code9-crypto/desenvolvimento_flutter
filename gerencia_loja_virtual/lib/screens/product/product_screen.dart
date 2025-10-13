@@ -141,9 +141,10 @@ class ProductScreen extends StatelessWidget with ProductValidator{
                       ),
                     ),
                     ProductsSize(
+                      context: context,
                       initialValue: snapshot.data["sizes"],
-                      onSaved: (s){},
-                      validator: (v){}
+                      onSaved: prodBloc.saveSizes,
+                      validator: validaSizes
                     )
                   ],
                 );

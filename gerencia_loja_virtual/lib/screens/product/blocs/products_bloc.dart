@@ -58,6 +58,9 @@ class ProductsBloc extends BlocBase{
     unsavedData["images"] = images;
   }
 
+  void saveSizes(List? sizes){
+    unsavedData["sizes"] = sizes;
+  }
   //Salvando todos os dados no banco
   Future<bool> savePrdBanco() async {
     loadingController.sink.add(true);

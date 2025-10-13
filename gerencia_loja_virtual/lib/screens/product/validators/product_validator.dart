@@ -29,8 +29,8 @@ mixin class ProductValidator{
     return null;
   }
 
-  String? validaSizes(String? size){
-    if( size!.isEmpty ) return "Favor inserir ao menos um tamanho para o produto";
+  String? validaSizes(List? sizes){
+    if( sizes!.isEmpty ) return "Favor inserir ao menos um tamanho ao produto";
     return null;
   }
 }

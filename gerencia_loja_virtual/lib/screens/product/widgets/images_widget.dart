@@ -61,6 +61,7 @@ class ImagesWidget extends FormField<List>{
               ),
             ),
           ),
+          //ESTA PARTE É A MENSAGEM DE ERRO, QUANDO TIVER ERROR
           state.hasError ? Text(
             "${state.errorText}",
             style: TextStyle(
