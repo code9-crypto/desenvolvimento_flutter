@@ -12,7 +12,7 @@ class AddSizeDialog extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.only(left: 8, right: 8, top: 8),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.min, //com este comando deixa o Dialog ocupando o mínimo possível da tela
           children: [
             TextField(
               controller: controller,

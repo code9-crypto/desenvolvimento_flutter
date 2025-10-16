@@ -121,6 +121,32 @@ Row(
     ]
 )
 
+DEIXANDO OS BOTÕES DE UMA ROW COM ESPAÇOS IGUALMENTE
+OBS.: aqui está sendo usando dois botões como exemplos
+Row(
+  children:[
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly, //com este comando deixa o Dialog ocupando o mínimo possível da tela
+    TextButton(
+      onPressed: (){},
+      child: Text(
+        "Excluir",
+        style: TextStyle(
+          color: Colors.red
+        ),
+      ),
+    ),
+    TextButton(
+      onPressed: (){},
+      child: Text(
+        "Salvar",
+        style: TextStyle(
+            color: Colors.grey
+        ),
+      ),
+    )
+  ]
+)
+
 **********************************************************************************************************************************************************
 
 ListView -> Adiciona vários itens dentro dela sem desalinhá-los
@@ -353,6 +379,30 @@ showDialog(
         );
     }
 );
+
+CHAMANDO UM Dialog A PARTIR DE OUTRO BOTÃO COM showDialog
+....
+GestureDetector(
+  onTap: (){
+    showDialog(context: context, builder: (context) => OutroDialog())
+  }
+)
+
+OU
+
+InkWell(
+  onTap: (){
+    showDialog(context: context, builder: (context) => OutroDialog())
+  }
+)
+....
+
+
+....
+return Dialog(
+  child: Text("Este é o widget com o Dialog personalizado")
+)
+...
 
 ***********************************************************************************************************************************************************
 FAZENDO TRANSIÇÃO DE TELAS USANDO O CONSTRUTOR PageView
@@ -840,7 +890,7 @@ COLOCANDO UMA IMAGEM COMO SE FOSSE ÍCONE AO LADO ESQUERDO DA FRASE COM O CONSTR
 Container(
   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
   child: Card(
-    child: ExpansionTile(
+    child: ExpansionTile( //este construtor é aquele que permite abrir e fechar o widget
       leading: CircleAvatar( //Este Construtor é aquele que deixa uma imagem no tamanho de como se fosse um ícone
         backgroundImage: NetworkImage(produto.get("icon")),
         backgroundColor: Colors.transparent,

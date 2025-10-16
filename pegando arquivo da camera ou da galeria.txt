@@ -1,0 +1,48 @@
+....
+TextButton(
+    style: TextButton.styleFrom(
+        textStyle: TextStyle(
+            fontSize: 16
+        )
+    ),
+    //Pegando a imagem pela camera
+    onPressed: () async {
+    //Depois da versão 0.8.X a biblioteca do ImagePicker não recebe mais o tipo file, mas sim o tipo XFile
+    picker.XFile? img = (await picker.ImagePicker().pickImage(source: picker.ImageSource.camera));
+    if( img != null ){ //Por isso que aqui no if está acontecendo a conversão de XFile para file
+        File file = File(img.path);
+        imageSelected(file);
+    }
+
+    Navigator.of(context).pop();
+
+    //******* OU PODE SER ESCRITO DESTE JEITO, A QUAL TAMBÉM SURTIRÁ O MESMO EFEITO DO COMANDO DE CIMA *****
+    /*picker.ImagePicker().pickImage(source: picker.ImageSource.camera).then((img){
+        if( img != null ){
+        File file = File(img.path);
+        imageSelected(file);
+        Navigator.of(context).pop();
+        }
+    });*/
+    },
+    child: Text("Câmera")
+),
+TextButton(
+style: TextButton.styleFrom(
+    textStyle: TextStyle(
+    fontSize: 16
+    )
+),
+//Pegando a imagem pela galeria
+    onPressed: () async {
+    //Depois da versão 0.8.X a biblioteca do ImagePicker não recebe mais o tipo file, mas sim o tipo XFile
+    picker.XFile? img = await picker.ImagePicker().pickImage(source: picker.ImageSource.gallery);
+    if( img != null ){//Por isso que aqui no if está acontecendo a conversão de XFile para file
+        File file = File(img.path);
+        imageSelected(file);
+    }
+
+    Navigator.of(context).pop();
+    },
+    child: Text("Galeria")
+)

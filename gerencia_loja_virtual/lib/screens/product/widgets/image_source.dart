@@ -7,7 +7,7 @@ class ImageSource extends StatefulWidget {
 
   //VARIAVEIS
   late File? imagem;
-  final Function(File) onImageSelected;
+  final Function(File) onImageSelected; //quando passa o tipo de dado entre parenteses na função de callback, significa que quando ela for acessada por outra classe, deverá passar parametro
 
   //CONSTRUTOR
   ImageSource({super.key, required this.onImageSelected, this.imagem});
@@ -86,7 +86,7 @@ class _ImageSourceState extends State<ImageSource> {
     );
     if( cropedImg != null ){
       File file = File(cropedImg.path);
-      widget.onImageSelected( file ); //aqui é uma função de callback, a qual está vai retornar a imagem recortada para a classe images_widget.dart
+      widget.onImageSelected( file ); //aqui é uma função de callback, a qual esta vai retornar a imagem recortada para a classe a qual está sendo chamada
     }
   }
 }

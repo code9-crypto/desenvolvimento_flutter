@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:gerencia_loja_virtual/screens/order/tabs/orders_tab.dart';
 import 'package:gerencia_loja_virtual/screens/home/tabs/users_tab.dart';
 import 'package:gerencia_loja_virtual/screens/login/login_screen.dart';
 import 'package:gerencia_loja_virtual/screens/product/products_tab.dart';
+
+import '../product/widgets/edit_category_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -105,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: buildFloating(), //Este floating action button será exibido de forma diferente de acordo com a tela que for exibida
+      floatingActionButton: buildFloating(), //Este floatingActionButton será exibido de forma diferente de acordo com a tela que for exibida
     );
   }
 
@@ -143,6 +146,20 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Icon(Icons.sort, color: Colors.white,),
         );
         break;
+      case 2:
+        return FloatingActionButton(
+          onPressed: (){
+            showDialog(context: context, builder: (context) => EditCategoryDialog());
+          },
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.pinkAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40)
+          ),
+        );
       default:
         return Container();
     }
