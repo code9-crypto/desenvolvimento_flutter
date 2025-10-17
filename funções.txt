@@ -89,7 +89,7 @@ ElevatedButton.styleFrom( -> é onde podemos personalizar o botão
   )
 )
 
-NOTA: Caso queira que um botão será desabilitado ou habilitado para que seja clicável, mas de forma programática, então usamos o operador ternário
+NOTA: Caso queira que um botão seja desabilitado ou habilitado para que seja clicável, mas de forma programática, então usamos o operador ternário
 no parâmetro nomeado onPressed desta forma:
 Ex.: ElevatedButton(
   ...
@@ -352,6 +352,22 @@ onTap: (){
         )
     )
 }
+
+PEGANDO O VALOR E TRAZENDO PARA A TELA ANTERIOR
+
+...
+Container(
+  alignment: Alignment.centerRight,
+  child: TextButton(
+    onPressed: (){
+      Navigator.of(context).pop(controller.text); //aqui estou pegando o valor do campo de texto, voltando para a tela anterior junto com o valor do campo
+    },
+    child: Text(
+      "Add",
+        style: TextStyle(color: Colors.pinkAccent),
+    ),
+  ),
+)
 
 ***********************************************************************************************************************************************************
 CRIANDO UM ALERTDIALOG
@@ -707,7 +723,7 @@ class DrawerTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: (){
-          Navigator.of(context).pop();
+          Navigator.of(context).pop();          
           //Aqui está indo para à página que veio por parâmetro no construtor
           controller.jumpToPage(page);
         },

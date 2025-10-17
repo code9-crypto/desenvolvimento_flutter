@@ -1,0 +1,5 @@
+ESSES COMANDOS DEVE SER EXECUTADOS NO TERMINAL DO PROJETO ATUAL
+
+1º execute este comando: flutter clean
+2º depois execute este: flutter pub get
+3º por fim este aqui: flutter run
