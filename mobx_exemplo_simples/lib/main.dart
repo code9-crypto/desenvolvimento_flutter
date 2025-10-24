@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 30,),
             Text("Número por extenso"),
             Observer( //aqui (igual ao de cima) está obersanvando a modificação da ação. Este valor está sendo retornado por meio do getter txt
-                builder: (_) => Text("${counter.txt.toUpperCase()}", style: Theme.of(context).textTheme.headlineMedium,)
+                builder: (_) => Text("${counter.texto.toUpperCase()}", style: Theme.of(context).textTheme.headlineMedium,)
             )
           ],
         ),

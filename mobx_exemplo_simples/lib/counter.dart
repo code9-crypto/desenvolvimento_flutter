@@ -1,7 +1,84 @@
 import 'package:mobx/mobx.dart';
 
-class Counter{
+//Quando o gerar de código for executado, ele criar um arquivo com o nome da classe + essa nomenclatura
+part 'counter.g.dart';
 
+//Depois que ela for criada nós temos que mesclar aquela classe com esta
+//E para fazer isso é deste jeito
+class Counter = _Counter with _$Counter;
+
+//Depois disso tudo(acima) temos que dar um with Store na classe com as notações usadas
+abstract class _Counter with Store{
+
+  //tornando uma variavel observavel, ou seja, um estado
+  @observable
+  int count = 0;
+
+  @observable
+  String texto = "zero";
+
+  //tornando uma função ser uma action com esta notação
+  @action
+  void increment(){
+    count++;
+    changeText(count);
+  }
+
+  void changeText(valor){
+    switch(valor){
+      case 0:
+        texto = "zero";
+        break;
+      case 1:
+        texto = "um";
+        break;
+      case 2:
+        texto = "dois";
+        break;
+      case 3:
+        texto = "três";
+        break;
+      case 4:
+        texto = "quatro";
+        break;
+      case 5:
+        texto = "cinco";
+        break;
+      case 6:
+        texto = "seis";
+        break;
+      case 7:
+        texto = "sete";
+        break;
+      case 8:
+        texto = "oito";
+        break;
+      case 9:
+        texto = "nove";
+        break;
+      case 11:
+        texto = "onze";
+        break;
+      case 12:
+        texto = "doze";
+        break;
+      case 13:
+        texto = "treze";
+        break;
+      case 14:
+        texto = "quatorze";
+        break;
+      case 15:
+        texto = "quinze";
+        break;
+      case 16:
+        texto = "dezesseis";
+        break;
+    }
+  }
+
+
+  /*
   //Vinculando a ação com a função por meio do construtor
   Counter(){
     increment = Action(_increment);
@@ -78,5 +155,5 @@ class Counter{
         texto.value = "dezesseis";
         break;
     }
-  }
+  }*/
 }

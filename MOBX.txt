@@ -53,3 +53,55 @@ Observer(
         return Text($class.retornValorDiscount) -> ao invés de acessar o valor no estado direto, eu uso o getter que já vem com essa valor
     }
 )
+
+********************************************************************************************************************************************************
+EXECUTANDO O GERADOR DE CÓDIGO(dentro do terminal da pasta do projeto)
+
+flutter packages pub run build_runner watch -> este comando ficará em modo de monitoramento
+flutter packages pub run build_runner build -> este aqui criará o comando apenas uma vez e não vai ficar monitorando
+
+********************************************************************************************************************************************************
+USANDO NOTAÇÕES PARA TORNAR O CÓDIGO MAIS LIMPO
+
+tornando uma variavel ser um observavel / estado
+@observable
+int count = 0;
+@observable
+int discount = 0;
+
+tornando uma função ser uma ação
+@action
+void increment(){
+    count++;
+}
+
+este(normalmente é um get) retorna um valor quando um ou mais valores(observables/estados) combinados atendem a determinado critério
+@computed
+bool get isFormValid => count > 10 && discount == -10 -> neste o retorno será um valor true ou false
+
+********************************************************************************************************************************************************
+MESCLANDO A CLASSE GERADA( PELO GERADOR DE CÓDIGO ) COM A CLASSE ABSTRATA( A QUAL TEM AS NOTAÇÕES )
+//Quando o gerar de código for executado, ele criar um arquivo com o nome da classe + essa nomenclatura
+part 'nome_classe.g.dart';
+
+//Depois que ela for criada nós temos que mesclar aquela classe com esta
+//E para fazer isso é deste jeito
+class NomeClasse = _Classe with _$Classe;
+
+//Depois disso tudo(acima) temos que dar um with Store na classe com as notações usadas
+abstract class _NomeClasse with Store{}
+
+********************************************************************************************************************************************************
+AUTORUN -> ele é executado toda vez que algum observable, dentro deste autorun, for modificado
+obs.: este comando é usado dentro do contrutor da classe;
+
+class Classe{
+    Classe(){
+        autorun((_) {
+            print(count);
+        })
+    }
+
+    @observable
+    int count = 0;
+}
