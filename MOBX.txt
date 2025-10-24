@@ -1,0 +1,55 @@
+CRIANDO AÇÕES E ESTADOS
+
+TODO ESTADO É UM OBSERVABLE
+Ex.: Observable count = Observable(0) //OBS.: assim que é declarado  um estado e no seu construtor deve ser passado um valor inicial
+Observable discount = Observable(0)
+
+ACESSANDO O VALOR DE UM ESTADO E RETORNANDO-O(normalmente por meio de um getter)
+int get retonaValorCount => count.value; //este count.value é a forma que acessamos o valor do estado
+int get retornValorDiscount => discount.value;
+
+CRIANDO UMA AÇÃO
+late Action acao;
+
+CRIANDO A FUNÇÃO QUE SERÁ USADA POR MEIO DA AÇÃO
+OBS.: aqui na função é possível chamar outra função a fim de que sejam chamadas duas funções numa mesma ação. Contudo, como são funções diferentes
+então deverá ter outro estado diferente; com isso não é necessário criar outra ação, já que a mesma ação chamará duas funções diferentes
+void incrementar(){
+    count.value++;
+    decrementar(); //eu chamo a outra função dentro da função que está vinculada com a ação
+}
+
+void decrementar(){
+    discount.value--;
+} 
+
+CRIANDO O CONSTRUTOR QUE VINCULARÁ A AÇÃO COM A FUNÇÃO
+Construtor(){
+    acao = Action(incrementar);
+}
+********************************************************************************************************************************************************
+CHAMANDO A AÇÃO EM UM BOTÃO POR MEIO DO ONPRESSED, POR MEIO DO ONTAP ...
+OBS.: para isso deve-se instanciar a classe com esta ação
+Classe class = Classe();
+
+onPressed: class.incrementar
+
+OU
+
+onTap: class.incrementar
+
+********************************************************************************************************************************************************
+REAÇÃO
+
+CRIANDO UM OBSERVER PARA QUE SEJA MOSTRADA A REAÇÃO DA AÇÃO
+OBS.: essa parte é feito dentro da classe que mostrará o widget
+Observer(
+    OBS.: qualquer uma das duas formas vai retornar o widget da reação
+    builder: (context) => Text($class.retonaValorCount) -> ao invés de acessar o valor no estado direto, eu uso o getter que já vem com essa valor
+    
+    OU
+
+    builder: (context){
+        return Text($class.retornValorDiscount) -> ao invés de acessar o valor no estado direto, eu uso o getter que já vem com essa valor
+    }
+)

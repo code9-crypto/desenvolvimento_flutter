@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "229468801819",
+    "project_id": "loja-virtual-pai",
+    "storage_bucket": "loja-virtual-pai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229468801819:android:04eae4e065ea4e418f21be",
+        "android_client_info": {
+          "package_name": "com.loja.virtual.pai.loja_virutal_pai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHGYigpC50HHOG5KL5OXEnydhzMfTgrRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -32,6 +32,8 @@ flutter_bloc: ^9.1.1(este pacote ficou no lugar do block_pattern)
 image_cropper: ^9.1.0 -> permite dar zoom na imagem e recortá-la
 flutter_speed_dial: ^7.0.0 -> este é um floatingActionButton que exibe outros botões
 shimmer: ^3.0.0 -> permite dar um efeito visual enquanto os dados são carregados
+mobx: ^2.5.0 -> este pacote permite gerenciar os estados do aplicativo e dependendo desses estados podemos gerar reações
+flutter_mobx: ^2.3.0 -> este pacote é quem permite fazer a reação 
 
 IMPORTANTE:
 Quando for usar o pacote do shared_preferences no projeto, deverá fazer as seguintes configurações para funcionar no celular
