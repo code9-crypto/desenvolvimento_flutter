@@ -33,7 +33,7 @@ image_cropper: ^9.1.0 -> permite dar zoom na imagem e recortá-la
 flutter_speed_dial: ^7.0.0 -> este é um floatingActionButton que exibe outros botões
 shimmer: ^3.0.0 -> permite dar um efeito visual enquanto os dados são carregados
 mobx: ^2.5.0 -> este pacote permite gerenciar os estados do aplicativo e dependendo desses estados podemos gerar reações
-flutter_mobx: ^2.3.0 -> este pacote é quem permite fazer a reação
+flutter_mobx: ^2.3.0 -> este pacote é quem permite fazer a reação(Observer)
 mobx_codegen: ^2.6.2 -> este pacote(junto com o build_runner) é um gerador de código
 build_runner: ^2.4.13 -> este pacote(junto com o mobx_codegen) é um gerador de código
 

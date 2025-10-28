@@ -24,7 +24,7 @@ class CustomizeFields extends StatelessWidget {
         suffixIcon: sufixIcon
       ),
       style: TextStyle(
-          color: Colors.black
+        color: Colors.black
       ),
       validator: validator,
       obscureText: choice,

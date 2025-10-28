@@ -1,3 +1,10 @@
+RESOLVENDO CONFLITOS QUANDO NÃO HOUVER EFEITO DE TRANSIÇÃO
+
+Rode este comando no terminal do projeto
+flutter packages pub run build_runner build --delete-conflicting-outputs
+
+
+******************************************************************************************************************************************************
 CRIANDO AÇÕES E ESTADOS
 
 TODO ESTADO É UM OBSERVABLE
@@ -75,9 +82,16 @@ void increment(){
     count++;
 }
 
+OU
+
+@action
+void setCount(valor) => count++;
+
 este(normalmente é um get) retorna um valor quando um ou mais valores(observables/estados) combinados atendem a determinado critério
+OBS.: esta notação é o retorno dos valores dos estados( ou o retorno da combinação dos valores )
 @computed
 bool get isFormValid => count > 10 && discount == -10 -> neste o retorno será um valor true ou false
+IMPORTANTE: todos os @computed devem ser do tipo get, caso contrário não irá funcionar
 
 ********************************************************************************************************************************************************
 MESCLANDO A CLASSE GERADA( PELO GERADOR DE CÓDIGO ) COM A CLASSE ABSTRATA( A QUAL TEM AS NOTAÇÕES )

@@ -1,7 +1,6 @@
 //ESTA É A CLASSE QUE FARÁ AS VALIDAÇÕES DE TODOS OS CAMPOS DO APP SEJA DE QUAL TELA FOR
 mixin class FieldsValidators{
 
-
   String? validaLogin(String? login){
     if( login!.isEmpty ) return "Por favor, digite seu usuário";
     return null;
