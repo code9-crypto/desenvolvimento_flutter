@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -14,7 +16,26 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final LoginStore loginStore = LoginStore();
+  late ReactionDisposer disposer;
 
+
+  //Para fazer a alteração de telas, sem que seja dentro do botão, é por meio do método didChangeDependencies
+  //E dentro dele usando o autorun( OBS.: este - autorun - sempre será executado pela primeira vez )
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction(
+      (_) => loginStore.loggedIn,
+      (login){
+        if( login ){
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => ListScreen())
+          );
+        }
+      }
+    );
+  }
 
   /*@override
   void initState() {
@@ -25,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).primaryColor;
-
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -42,15 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //ESTE É O CAMPO DE EMAIL
-                  CustomTextField(
-                    hint: 'E-mail',
-                    prefix: Icon(
-                      Icons.account_circle,
-                      color: primaryColor,
-                    ),
-                    textInputType: TextInputType.emailAddress,
-                    onChanged: loginStore.setEmail,
-                    enabled: true,
+                  Observer(
+                    builder: (_) => CustomTextField(
+                      hint: 'E-mail',
+                      prefix: Icon(
+                        Icons.account_circle,
+                        color: primaryColor,
+                      ),
+                      textInputType: TextInputType.emailAddress,
+                      onChanged: loginStore.setEmail,
+                      enabled: !loginStore.carregando,
+                      ),
                   ),
                   const SizedBox(
                     height: 16,
@@ -64,9 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Icons.lock,
                           color: primaryColor,
                         ),
-                        obscure: !loginStore.isVisible,
+                        obscure: !loginStore.visivel,
                         onChanged: loginStore.setPass,
-                        enabled: true,
+                        enabled: !loginStore.carregando,
                         suffix: CustomIconButton(
                           radius: 32,
                           iconData: !loginStore.isVisible ? Icons.visibility : Icons.visibility_off,
@@ -104,10 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          onPressed: loginStore.isFormValid ? (){
-                            loginStore.login();
-                            //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ListScreen()));
-                          } : null,
+                          onPressed: loginStore.loginPressed, //tirando essa lógica do botão e deixando na classe login_store.dart
+                          /*loginStore.isFormValid ? (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute((context) => ListScreen())
+                            )
+                          } : null*/
                           child: loginStore.carregando ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white), ),)  :
                           Text('Login', style: TextStyle(color: Colors.white)),
                         ),
@@ -121,5 +145,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  //Esse dispose faz o despejo dos recursos que não estão sendo usado para evitar uma sobrecarga do uso de hardware
+  @override
+  void dispose() {
+    disposer;
+    super.dispose();
   }
 }

@@ -22,6 +22,20 @@ mixin _$LoginStore on _LoginStore, Store {
   bool get isVisible => (_$isVisibleComputed ??=
           Computed<bool>(() => super.isVisible, name: '_LoginStore.isVisible'))
       .value;
+  Computed<bool>? _$liberaBotaoComputed;
+
+  @override
+  bool get liberaBotao =>
+      (_$liberaBotaoComputed ??= Computed<bool>(() => super.liberaBotao,
+              name: '_LoginStore.liberaBotao'))
+          .value;
+  Computed<VoidCallback?>? _$loginPressedComputed;
+
+  @override
+  VoidCallback? get loginPressed => (_$loginPressedComputed ??=
+          Computed<VoidCallback?>(() => super.loginPressed,
+              name: '_LoginStore.loginPressed'))
+      .value;
 
   late final _$emailAtom = Atom(name: '_LoginStore.email', context: context);
 
@@ -86,6 +100,22 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  late final _$loggedInAtom =
+      Atom(name: '_LoginStore.loggedIn', context: context);
+
+  @override
+  bool get loggedIn {
+    _$loggedInAtom.reportRead();
+    return super.loggedIn;
+  }
+
+  @override
+  set loggedIn(bool value) {
+    _$loggedInAtom.reportWrite(value, super.loggedIn, () {
+      super.loggedIn = value;
+    });
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('_LoginStore.login', context: context);
 
@@ -137,8 +167,11 @@ email: ${email},
 password: ${password},
 visivel: ${visivel},
 carregando: ${carregando},
+loggedIn: ${loggedIn},
 isFormValid: ${isFormValid},
-isVisible: ${isVisible}
+isVisible: ${isVisible},
+liberaBotao: ${liberaBotao},
+loginPressed: ${loginPressed}
     ''';
   }
 }

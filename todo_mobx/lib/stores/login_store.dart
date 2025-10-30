@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login_store.g.dart';
@@ -35,13 +36,14 @@ abstract class _LoginStore with Store{
   @action
   Future<void> login() async{
     carregando = true;
-    print(carregando);
-
     await Future.delayed(const Duration(seconds: 3));
-
     carregando = false;
-    print(carregando);
+    loggedIn = true;
   }
+
+  //Este será o estado para quando o usuário estiver logado ou não
+  @observable
+  bool loggedIn = false;
 
 
   //Aqui é o retorno da combinação dos dois estados
@@ -50,8 +52,15 @@ abstract class _LoginStore with Store{
   @computed
   bool get isFormValid => email.length > 6 && password.length > 6;
 
-
   //aqui está retornando o valor da estado visivel
   @computed
   bool get isVisible => visivel;
+
+  @computed
+  bool get liberaBotao => isFormValid && !carregando;
+
+  //deixando a lógica, que ficaria no onPressed do botão, aqui dentro do login_store.dart
+  @computed
+  VoidCallback? get loginPressed => liberaBotao ? login : null;
+
 }

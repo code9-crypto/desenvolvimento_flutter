@@ -69,6 +69,7 @@ flutter packages pub run build_runner build -> este aqui criará o comando apena
 
 ********************************************************************************************************************************************************
 USANDO NOTAÇÕES PARA TORNAR O CÓDIGO MAIS LIMPO
+OBS.: essas notações pode criar: estados(observables), ações(actions) e gatilhos(computed)
 
 tornando uma variavel ser um observavel / estado
 @observable
@@ -87,11 +88,13 @@ OU
 @action
 void setCount(valor) => count++;
 
-este(normalmente é um get) retorna um valor quando um ou mais valores(observables/estados) combinados atendem a determinado critério
+este(sempre será um get) retorna um valor quando um ou mais valores(observables/estados) combinados atendem a determinado critério
 OBS.: esta notação é o retorno dos valores dos estados( ou o retorno da combinação dos valores )
 @computed
 bool get isFormValid => count > 10 && discount == -10 -> neste o retorno será um valor true ou false
 IMPORTANTE: todos os @computed devem ser do tipo get, caso contrário não irá funcionar
+OBS: quando no observer tiver apenas observando um valor não é necessário gerar um @computed, pode deixar observando apenas o valor estado(observable)
+O @computed é mais inteligente ser usado para quando houver a verificação de dois estados(observable) ao mesmo tempo
 
 ********************************************************************************************************************************************************
 MESCLANDO A CLASSE GERADA( PELO GERADOR DE CÓDIGO ) COM A CLASSE ABSTRATA( A QUAL TEM AS NOTAÇÕES )
@@ -107,7 +110,8 @@ abstract class _NomeClasse with Store{}
 
 ********************************************************************************************************************************************************
 AUTORUN -> ele é executado toda vez que algum observable, dentro deste autorun, for modificado
-obs.: este comando é usado dentro do contrutor da classe;
+obs.: este comando é usado dentro do contrutor da classe ou dentro do método didChangeDependencies;
+outro detalhe é que este( autorun ) é executado sempre mesmo que não haja alteração do estado
 
 class Classe{
     Classe(){
@@ -118,4 +122,63 @@ class Classe{
 
     @observable
     int count = 0;
+}
+
+OU 
+
+@override
+void didChangeDependencies() {
+super.didChangeDependencies();
+
+autorun((_){
+    "ação para executar"
+})
+}
+
+
+********************************************************************************************************************************************************
+MÉTODO REACTION(usadod entro do método didChangeDependencies)
+Este método recebe dois parâmetros:
+1º uma função anônima que ficará monitorando algum estado
+2º uma função anônima que fará a ação que depois que um estado for modificado
+OBS.: esta reaction só será executado apenas quando um estado for alterado e este fica dentro do didChangeDependencies
+DETALHE: uma parte que faz uma diferença é usar o ReactionDisposer a fim de fazer o despejo de recursos que não esteja utilizando para que não haja uma sobrecarga de memória
+E para fazer o disposer será dentro do método dispose o qual fica fim da classe, pois é quando tudo já foi usado
+
+@override
+void didChangeDependencies(){
+    reaction(
+        (_) => classe.estado -> aqui é a parte do monitoramento do estado
+        (value){ -> aqui é a parte da execução depois que o estado for modificado
+            "ação para executar"
+        }
+    )
+}
+
+usando o ReactionDisposer(normalmente dentro de um StatelessWidget ou StatefulWidget)
+
+Ex.: aqui está sendo usado um exemplo com StatefulWidget
+
+....
+Class _NomeClasse extends State<NomeClasse>{
+    final ReactionDisposer disposer;
+    
+    @override
+    void didChangeDependencies(){
+        disposer = reaction(
+            (_) => classe.estado -> aqui é a parte do monitoramento do estado
+            (value){ -> aqui é a parte da execução depois que o estado for modificado
+                "ação para executar"
+            }
+        )
+    }
+
+    .....
+
+    //Esse dispose faz o despejo dos recursos que não estão sendo usado para evitar uma sobrecarga do uso de hardware
+    @override
+    void dispose(){
+        disposer;
+        super.dispose();
+    }
 }
