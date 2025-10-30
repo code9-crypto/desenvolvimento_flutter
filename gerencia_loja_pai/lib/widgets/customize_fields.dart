@@ -5,14 +5,15 @@ class CustomizeFields extends StatelessWidget {
 
   //VARIAVEIS
   late String? label;
-  late String? Function(String?) validator;
+  late String? Function(String?)? validator;
   late TextInputType keyBoard;
   late bool choice;
   late Widget? prefixIcon;
   late Widget? sufixIcon;
 
+
   //CONSTRUTOR
-  CustomizeFields({super.key, required this.label, required this.validator, required this.keyBoard, required this.choice, this.prefixIcon, this.sufixIcon});
+  CustomizeFields({super.key, required this.label, this.validator, required this.keyBoard, required this.choice, this.prefixIcon, this.sufixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class CustomizeFields extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: prefixIcon,
-        suffixIcon: sufixIcon
+        suffixIcon: sufixIcon,
       ),
       style: TextStyle(
         color: Colors.black

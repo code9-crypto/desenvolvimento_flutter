@@ -37,7 +37,8 @@ class InputField extends StatelessWidget {
                 labelText: labelTxt,
                 hintStyle: TextStyle(color: Colors.white),
                 labelStyle: TextStyle(color: Colors.white),
-                errorText: (snapshot.hasError ? snapshot.error : "") as String, //aqui está sendo verificado se tem erro na saída da stream; se houver mostrará o erro, se não ficará em branco
+                errorText: (snapshot.hasError ? snapshot.error : "") as String?, //aqui está sendo verificado se tem erro na saída da stream; se houver mostrará o erro, se não ficará em branco
+                //OBS.: para que os campos não fiquem com sinal de error, declare o snapshot igual a String acima
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.pinkAccent),
                 ),
