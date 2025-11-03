@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   final LoginStore loginStore = LoginStore();
   late ReactionDisposer disposer;
 
@@ -26,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.didChangeDependencies();
 
     disposer = reaction(
-      (_) => loginStore.loggedIn,
-      (login){
+      (_) => loginStore.loggedIn, //aqui é a parte do monitoramento do estado
+      (login){ //aqui é a parte da execução depois que o estado for modificado
         if( login ){
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => ListScreen())
@@ -36,12 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     );
   }
-
-  /*@override
-  void initState() {
-    primaryColor = Theme.of(context).primaryColor;
-    super.initState();
-  }*/
 
   @override
   Widget build(BuildContext context) {

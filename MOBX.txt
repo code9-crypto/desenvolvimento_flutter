@@ -109,7 +109,7 @@ class NomeClasse = _Classe with _$Classe;
 abstract class _NomeClasse with Store{}
 
 ********************************************************************************************************************************************************
-AUTORUN -> ele é executado toda vez que algum observable, dentro deste autorun, for modificado
+AUTORUN -> ele é executado toda vez mesmo que não haja modificação em algum observable
 obs.: este comando é usado dentro do contrutor da classe ou dentro do método didChangeDependencies;
 outro detalhe é que este( autorun ) é executado sempre mesmo que não haja alteração do estado
 
@@ -126,24 +126,25 @@ class Classe{
 
 OU 
 
+NOTA: Este didChangeDependencies é usado dentro da classe com StatefulWidget
 @override
 void didChangeDependencies() {
 super.didChangeDependencies();
 
 autorun((_){
-    "ação para executar"
-})
+        "ação para executar"
+    })
 }
 
 
 ********************************************************************************************************************************************************
-MÉTODO REACTION(usadod entro do método didChangeDependencies)
+MÉTODO REACTION(usado dentro do método didChangeDependencies)
 Este método recebe dois parâmetros:
 1º uma função anônima que ficará monitorando algum estado
-2º uma função anônima que fará a ação que depois que um estado for modificado
-OBS.: esta reaction só será executado apenas quando um estado for alterado e este fica dentro do didChangeDependencies
+2º uma função anônima que fará a ação quando um estado for modificado
+OBS.: esta reaction só será executada apenas quando um estado for alterado e este fica dentro do didChangeDependencies
 DETALHE: uma parte que faz uma diferença é usar o ReactionDisposer a fim de fazer o despejo de recursos que não esteja utilizando para que não haja uma sobrecarga de memória
-E para fazer o disposer será dentro do método dispose o qual fica fim da classe, pois é quando tudo já foi usado
+E para fazer o disposer será dentro do método dispose o qual fica no fim da classe, pois é quando tudo já foi usado
 
 @override
 void didChangeDependencies(){
@@ -181,4 +182,12 @@ Class _NomeClasse extends State<NomeClasse>{
         disposer;
         super.dispose();
     }
+}
+
+********************************************************************************************************************************************************
+OBSERVABLELIST -> este tipo de lista é aquele que já permite modificação no Observer(), quando há alguma modificação na lista
+ObservableList<String> todoList = ObservableList<String>();
+@action
+void addTodo(){
+    todoList.add(newTodoTitle);
 }

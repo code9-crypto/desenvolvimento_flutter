@@ -7,7 +7,7 @@ class CustomIconButton extends StatelessWidget {
 
   final double radius;
   final IconData iconData;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

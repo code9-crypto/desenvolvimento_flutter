@@ -1,0 +1,26 @@
+CRIANDO UM LIVE TEMPLATE DO MOBX(IDE Android Studio)
+OBS.: este live template é o alias que executa determinadas linhas de comando por padrão: Ex.: stless, stful ...
+
+1º Clicar em file(4 traços na parte superior esquerda) -> Settings -> Editor -> Live Templates
+2º Na parte direito selecionar flutter e em seguida clicar no botão de + a qual fica abaixo do texto "By default expand with ..." e clicar em live template
+3º Em seguida abrir alguns campos abaixo que são esses:
+ - Abbreviation: "neste campo escolher o comando que irá executar o template" (deverá ser um comando com apenas uma palavra e mais breve possível)
+ - Description: "apenas uma descrição do isso faz"
+ - Template text: "aqui é o template que será executado quando for digita o comando escolhido no campo Abbreviation"
+ - - No caso do mobx ficará assim:
+    NOTA: $FILENAME$ e $CLASSNAME$ são variáveis obrigatórias para surtir efeito
+    import 'package:mobx/mobx.dart';
+
+    part '$FILENAME$.g.dart';
+
+    class $CLASSNAME$ = _TesteStore with _$$$CLASSNAME$;
+
+    abstract class _$CLASSNAME$ with Store{
+
+    }
+4º Após tudo isso feito, clique no botão "Edit Variables"
+5º (As variáveis criadas vão aparecer nesta janela) habilite os dois campos nos checks e configure-os da seguinte forma:
+ - FILENAME - fileNameWithouExtension()
+ - CLASSNAME - capitalize(camelCase(FILENAME))
+
+Tudo feito, clique em apply e depois OK; pronto live template criado com sucesso
