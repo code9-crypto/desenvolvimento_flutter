@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_pai/blocs/validator_login_screen.dart';
@@ -7,6 +8,9 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
 
   //CONSTRUTOR
   LoginBloc(super.state);
+
+  //CONSTANTES
+  final FirebaseAuth auth = FirebaseAuth.instance;
   
   //CONTROLLERS
   final userControl = BehaviorSubject<String>();
@@ -33,7 +37,26 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
     if( user.isNotEmpty && pass.isNotEmpty ){
       inLoading.add(true);
 
-      await Future.delayed(Duration(seconds: 5));
+      await auth.signInWithEmailAndPassword(
+
+          email: user,
+          password: pass
+
+      ).then((authResult){
+        Navigator.of(context).pop();
+      }).catchError((onError){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              "Houve uma falha ao se autenticar",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            )
+          )
+        );
+      });
 
       inLoading.add(false);
     }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../products/product_page.dart';
-
 class ItemMenu extends StatelessWidget {
 
   //VARIÁVEIS
@@ -18,19 +16,13 @@ class ItemMenu extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProductPage(produto: text,))
-              );
+          Text(text, style: TextStyle(fontSize: 25, color: Colors.grey.shade600),),
+          IconButton(
+            onPressed: (){
+              print("Cliquei no ícone $text");
             },
-            child: Column(
-              children: [
-                Text(text, style: TextStyle(fontSize: 25, color: Colors.grey.shade600),),
-                Icon(icon, size: 120, color: Colors.cyan,)
-              ],
-            )
-          ),
+            icon: Icon(icon, size: 120, color: Colors.cyan,),
+          )
         ],
       ),
     );

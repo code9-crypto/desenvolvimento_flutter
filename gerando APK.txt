@@ -65,10 +65,10 @@ android {
         applicationId = "dev.starttodev.contador" //-> ALTERAR AQUI
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion // -> aqui é a parte que mínima da API que o app atende
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = flutter.versionCode // -> aqui é a versão do app
+        versionName = flutter.versionName // -> aqui é a versão que vai aparecer para o usuário
     }
 
     signingConfigs {
