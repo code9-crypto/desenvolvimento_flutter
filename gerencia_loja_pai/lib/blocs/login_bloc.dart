@@ -7,7 +7,9 @@ import 'package:rxdart/rxdart.dart';
 class LoginBloc extends BlocBase with ValidaLoginScreen{
 
   //CONSTRUTOR
-  LoginBloc(super.state);
+  LoginBloc(super.state){
+    isLoggedIn();
+  }
 
   //CONSTANTES
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -16,16 +18,19 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   final userControl = BehaviorSubject<String>();
   final passControl = BehaviorSubject<String>();
   final loadingControl = BehaviorSubject<bool>();
+  final loggedIn = BehaviorSubject<bool>();
 
   //STREAMS
   Stream get outUser => userControl.stream.transform(validarUser);
   Stream get outPass => passControl.stream.transform(validarPass);
   Stream get outLoading => loadingControl.stream;
+  Stream get outLoggedIn => loggedIn.stream;
 
   //SINKS
   Sink get inUser => userControl.sink;
   Sink get inPass => passControl.sink;
   Sink get inLoading => loadingControl.sink;
+  Sink get inLoggedIn => loggedIn.sink;
 
   //FUNÇÕES DE LOGAR NO SISTEMA
   Future<void> logar(BuildContext context) async{
@@ -60,6 +65,23 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
 
       inLoading.add(false);
     }
+  }
+
+  //esta função irá verificar se o usuário está logado ou não
+  //Se estiver logado então o valor será true
+  //caso contrário será false
+  void isLoggedIn(){
+    if( auth.currentUser != null ){
+      inLoggedIn.add(true);
+    }else{
+      inLoggedIn.add(false);
+    }
+  }
+
+  //esta função irá sair do sistema
+  void signOut(){
+    auth.signOut();
+    inLoggedIn.add(false);
   }
 
 }

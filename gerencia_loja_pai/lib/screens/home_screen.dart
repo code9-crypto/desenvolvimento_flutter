@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerencia_loja_pai/blocs/login_bloc.dart';
 import 'package:gerencia_loja_pai/screens/login_screen.dart';
 
 import '../widgets/item_menu.dart';
@@ -9,17 +10,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LoginBloc loginBloc = LoginBloc(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Roupas e utensílios"),
         actions: [
-          IconButton(
-            onPressed: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => LoginScreen())
+          StreamBuilder(
+            stream: loginBloc.outLoggedIn,
+            builder: (context, snapshot) {
+              return IconButton(
+                onPressed: loginBloc.loggedIn.value == true ? (){
+                  loginBloc.signOut();
+                } : (){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginScreen())
+                  );
+                },
+                icon: loginBloc.loggedIn.value == true ? Icon(Icons.exit_to_app_outlined, color: Colors.white, size: 30,) : Icon(Icons.logout_outlined, color: Colors.white, size: 30,)
               );
-            },
-            icon: Icon(Icons.login_outlined, color: Colors.white, size: 30,)
+            }
           )
         ],
       ),
