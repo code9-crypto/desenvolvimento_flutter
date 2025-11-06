@@ -51,7 +51,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
             content: Text(
               "Houve uma falha ao se autenticar",
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
               ),
             )
           )

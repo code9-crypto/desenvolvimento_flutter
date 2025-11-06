@@ -18,7 +18,7 @@ image_picker: ^1.1.2 -> permite tirar foto
 google_sign_in: ^6.1.4 -> permite fazer a autenticação do google
 firebase_storage: ^11.2.3 -> permite acessar o storage do firebase
 firebase_auth: ^6.0.1 -> permite fazer autenticação com o firebase
-cloud_firestore: ^4.17.5 ou ^6.0.0-> permite acessar o cloud_firestore do firebase
+cloud_firestore: ^4.17.5 ou ^6.1.0-> permite acessar o cloud_firestore do firebase
 firebase_core: ^4.0.0 -> permite fazer os comandos no firebase
 font_awesome_flutter: ^10.8.0 -> este pacote permite incluir ícones mais personalizados
 flutter_staggered_grid_view: ^0.7.0 -> este pacote permite mostrar as fotos em formato grade
