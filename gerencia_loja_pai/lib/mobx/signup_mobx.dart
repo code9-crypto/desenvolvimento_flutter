@@ -29,35 +29,37 @@ abstract class _SignupMobx with Store{
   //AÇÕES
   //esta ação será para fazer o cadastro no sistema
   @action
-  Future<bool> createUser(String nm, String cel, String userE, String userP) async {
-    loading = true;
+  Future<bool?> createUser(String nm, String cel, String userE, String userP) async{
+    if( !loading ) {
+      loading = true;
 
-    //recebendo os valores nos estados pelos parâmetros
-    nome = nm;
-    celular = cel;
-    userEmail = userE;
-    userPass = userP;
+      //recebendo os valores nos estados pelos parâmetros
+      nome = nm;
+      celular = cel;
+      userEmail = userE;
+      userPass = userP;
 
-    //criando usuário no firebase
-    await auth.createUserWithEmailAndPassword(
-        email: userEmail,
-        password: userPass
-    ).then((authResult){
+      //criando usuário no firebase
+      await auth.createUserWithEmailAndPassword(
+          email: userEmail,
+          password: userPass
+      ).then((authResult) async {
+        //inserindo os dados do usuário banco
+        await firebase.collection("users").add({
+          "name": nome,
+          "cel": celular,
+          "email": userEmail
+        });
 
-      //inserindo os dados do usuário banco
-      firebase.collection("users").add({
-        "name" : nome,
-        "cel" : celular,
-        "email" : userEmail
+        loading = false;
+        return true;
+      }).catchError((onError) {
+        loading = false;
+        return false;
       });
-
-      loading = false;
       return true;
-    }).catchError((onError){
-      loading = false;
+    }else{
       return false;
-    });
-
-    return false;
+    }
   }
 }

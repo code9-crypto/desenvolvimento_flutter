@@ -3,7 +3,8 @@ import '../widgets/login_fields.dart';
 
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key, required this.tela});
+  final Widget tela;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Autenticar na Loja"),
       ),
-      body: LoginFields(),
+      body: LoginFields(tela: tela,),
     );
   }
 }

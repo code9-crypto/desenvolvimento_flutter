@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gerencia_loja_pai/mobx/signup_mobx.dart';
+import 'package:gerencia_loja_pai/screens/home_screen.dart';
 
 import '../validators/fields_validators.dart';
 import '../widgets/customize_fields.dart';
@@ -56,9 +57,9 @@ class SignupScreen extends StatelessWidget with FieldsValidators{
                 //CAMPO DO NOME DO USUÁRIO
                 CustomizeFields(
                   controller: userController,
-                  label: "Nome do usuário para entrar no sistema",
+                  label: "Email do usuário para entrar no sistema",
                   validator: validaUsuario,
-                  keyBoard: TextInputType.text,
+                  keyBoard: TextInputType.emailAddress,
                   choice: false,
                 ),
                 SizedBox(height: 16,),
@@ -86,11 +87,17 @@ class SignupScreen extends StatelessWidget with FieldsValidators{
                       ),
                       onPressed: ()async{
                         if( formKey.currentState!.validate() ){
-                          bool check = await signupMobx.createUser(nomeController.text, celController.text, userController.text, passController.text);
 
-                          if( check ){
+                          bool? check = await signupMobx.createUser(nomeController.text, celController.text, userController.text, passController.text);
+
+                          if( check! ){
                             mostraMensagem(context, "Cadastrado com sucesso!!!", Colors.green);
-                          }else{
+                            Future.delayed(Duration(seconds: 2));
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => HomeScreen())
+                            );
+                          } else {
                             mostraMensagem(context, "Falha ao cadastrar", Colors.red);
                           }
                         }
@@ -117,7 +124,7 @@ class SignupScreen extends StatelessWidget with FieldsValidators{
         content: Text(
           texto,
           style: TextStyle(
-            color: Colors.white
+              color: Colors.white
           ),
         )
       )

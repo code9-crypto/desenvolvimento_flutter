@@ -92,7 +92,7 @@ mixin _$SignupMobx on _SignupMobx, Store {
       AsyncAction('_SignupMobx.createUser', context: context);
 
   @override
-  Future<bool> createUser(String nm, String cel, String userE, String userP) {
+  Future<bool?> createUser(String nm, String cel, String userE, String userP) {
     return _$createUserAsyncAction
         .run(() => super.createUser(nm, cel, userE, userP));
   }

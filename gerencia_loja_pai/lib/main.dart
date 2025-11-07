@@ -16,7 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: HomeScreen(),
       theme: ThemeData(
         //Aqui é a configuração padrão da appBar para todas as telas
           appBarTheme: AppBarTheme(

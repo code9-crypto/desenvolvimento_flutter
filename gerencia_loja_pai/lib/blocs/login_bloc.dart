@@ -2,14 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_pai/blocs/validator_login_screen.dart';
+import 'package:gerencia_loja_pai/screens/home_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc extends BlocBase with ValidaLoginScreen{
 
   //CONSTRUTOR
-  LoginBloc(super.state){
-    isLoggedIn();
+  LoginBloc(super.state, this.tela){
+    isLoggedIn(); //aqui o construtor ta verificando se o usuário já está logado ou não por meio deste método
   }
+
+  //VARIAVEIS
+  final Widget tela;
 
   //CONSTANTES
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -24,7 +28,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   Stream get outUser => userControl.stream.transform(validarUser);
   Stream get outPass => passControl.stream.transform(validarPass);
   Stream get outLoading => loadingControl.stream;
-  Stream get outLoggedIn => loggedIn.stream;
+  Stream<bool> get outLoggedIn => loggedIn.stream;
 
   //SINKS
   Sink get inUser => userControl.sink;
@@ -48,7 +52,16 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
           password: pass
 
       ).then((authResult){
-        Navigator.of(context).pop();
+        inLoggedIn.add(true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("Logado com sucesso!!!", style: TextStyle(color: Colors.white),)
+          )
+        );
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => tela)
+        );
       }).catchError((onError){
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -80,8 +93,8 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
 
   //esta função irá sair do sistema
   void signOut(){
-    auth.signOut();
     inLoggedIn.add(false);
+    auth.signOut();
   }
 
 }

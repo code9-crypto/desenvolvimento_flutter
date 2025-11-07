@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerencia_loja_pai/screens/home_screen.dart';
 import 'package:gerencia_loja_pai/widgets/customize_fields.dart';
 import 'package:gerencia_loja_pai/blocs/login_bloc.dart';
 import '../screens/signup_screen.dart';
@@ -6,7 +7,10 @@ import '../validators/fields_validators.dart';
 
 class LoginFields extends StatelessWidget with FieldsValidators {
   //CONSTRUTOR
-  LoginFields({super.key});
+  LoginFields({super.key, required this.tela});
+
+  //VARIAVEIS
+  final Widget tela;
 
   //KEYS
   final formKey = GlobalKey<FormState>();
@@ -18,7 +22,7 @@ class LoginFields extends StatelessWidget with FieldsValidators {
   @override
   Widget build(BuildContext context) {
     //Variavel Bloc
-    final logBloc = LoginBloc(context);
+    final logBloc = LoginBloc(context, tela);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -31,8 +35,8 @@ class LoginFields extends StatelessWidget with FieldsValidators {
             //ESTE É O CAMPO DE LOGIN
             CustomizeFields(
               controller: userCtrl,
-              label: "Usuário",
-              keyBoard: TextInputType.text,
+              label: "Email",
+              keyBoard: TextInputType.emailAddress,
               choice: false,
               prefixIcon: Icon(Icons.person),
               //enviando ao widget personalizado duas streams aos mesmo tempo
@@ -100,9 +104,23 @@ class LoginFields extends StatelessWidget with FieldsValidators {
                           ),
                         )
                       : Text("Logar")));
-                })
-          ],
-        ),
+                }),
+                SizedBox(height: 50,),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.cyan,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      textStyle: TextStyle(fontSize: 25)),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomeScreen())
+                      );
+                    },
+                    child: Text("Voltar")),
+                  ],
+                ),
       ),
     );
   }
