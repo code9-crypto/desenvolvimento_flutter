@@ -13,6 +13,7 @@ class CustomizeFields extends StatelessWidget {
   late Stream? stream;
   late TextEditingController? controller;
   late Stream? habilita;
+  late Function()? mudaVisao;
 
   //CONSTRUTOR
   CustomizeFields({
@@ -25,7 +26,8 @@ class CustomizeFields extends StatelessWidget {
     this.sufixIcon,
     this.stream,
     this.controller,
-    this.habilita
+    this.habilita,
+    this.mudaVisao
   });
 
   @override
@@ -40,13 +42,14 @@ class CustomizeFields extends StatelessWidget {
             controller: controller,
             keyboardType: keyBoard,
             enabled: snapshotLoading.data == true ? false : true,
+            onTap: mudaVisao,
             decoration: InputDecoration(
-                labelText: label,
-                prefixIcon: prefixIcon,
-                suffixIcon: sufixIcon,
-                errorText: (snapshotError.hasError
-                    ? snapshotError.error
-                    : null) as String?
+              labelText: label,
+              prefixIcon: prefixIcon,
+              suffixIcon: sufixIcon,
+              errorText: (snapshotError.hasError
+                  ? snapshotError.error
+                  : null) as String?
             ),
             style: TextStyle(
                 color: Colors.black

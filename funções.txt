@@ -940,3 +940,35 @@ showModalBottomSheet(
     )
   )
 )
+
+******************************************************************************************************************************************************
+BLOCPROVIDER
+//PARA QUE TODO O APP POSSA SURTIR O EFEITO DAS INFORMAÇÕES QUE FORAM MODIFICADAS, OBRIGATORIAMENTE DEVE SER USADO O BLOCPROVIDER
+//CASO SEJA USADO O BLOC DE FORMA ESTÁTICA, AS INFORMAÇÕES NO DECORRER DO APP NÃO RECEBERÁ A MODIFICAÇÃO DOS VALORES E CONSEQUENTEMENTE A STREAMBUILDER NÃO SERÁ ALTERADA
+
+IMPORTANTE: inicialmente o BlocProvider deve ser iniciado dentro do arquivo main.dart e sempre acima das classes que terão posterior acesso
+
+iniciando o BlocProvider no arquivo main.dart
+
+...
+Widget build(BuildContext context) {
+  return BlocProvider(
+    create: (_) => ArquivoBloc(context),
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ClasseTela(),        
+    ),
+  );
+}
+
+
+inicializando o BlocProvider dentro da classe/tela que terá acesso aos dados da classe bloc
+...
+@override
+Widget build(BuildContext context) {
+  //Variavel Bloc
+  final variavelBloc = BlocProvider.of<ClasseBloc>(context);
+  ....
+}
+
+Agora só acessar as funções e streams da classe bloc por meio dessa variavel
