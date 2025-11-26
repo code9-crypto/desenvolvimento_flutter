@@ -24,6 +24,41 @@ class _HomeScreenState extends State<HomeScreen> {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return Scaffold(
+      bottomNavigationBar: StreamBuilder(
+          stream: loginBloc.outLoggedIn,
+          builder: (context, snapshot){
+            if( !snapshot.hasData || !snapshot.data! ){
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 90),
+                child: iconesLoja(),
+              );
+            } else {
+              return BottomNavigationBar(
+                currentIndex: page,
+                onTap: (p){
+                  pageController.animateToPage(
+                    p,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.ease
+                  );
+                },
+                backgroundColor: Colors.cyan,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey.shade800,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: "Inicio"
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.list),
+                    label: "Meus Pedidos"
+                  )
+                ],
+              );
+            }
+          }
+      ),
       appBar: AppBar(
         title: Text("Roupas e utensílios"),
         actions: [
@@ -39,28 +74,55 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
-                icon: ( snapshot.hasData && snapshot.data! == true ) ? Icon(Icons.exit_to_app_outlined, color: Colors.white, size: 30,) : Icon(Icons.logout_outlined, color: Colors.white, size: 30,)
+                icon: ( snapshot.hasData && snapshot.data! == true ) ? Icon(Icons.exit_to_app_outlined, color: Colors.white, size: 30,) : Icon(Icons.login_outlined, color: Colors.white, size: 30,)
               );
             }
           )
         ],
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(vertical: 70),
-        child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 1,
-              crossAxisSpacing: 1
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        onPageChanged: (pg){
+          setState(() {
+            page = pg;
+          });
+        },
+        controller: pageController,
+        children: [
+          StreamBuilder(
+            stream: loginBloc.outLoggedIn,
+            builder: (context, snapshot) {
+              if( !snapshot.hasData || !snapshot.data! ){
+                return iconesLoja();
+              } else {
+                return iconesLoja();
+              }
+            }
           ),
-          children: [
-            ItemMenu(Icons.man, "Masculina"),
-            ItemMenu(Icons.woman, "Feminina"),
-            ItemMenu(Icons.accessibility, "Jovem"),
-            ItemMenu(Icons.child_friendly, "Infantil"),
-            ItemMenu(Icons.list, "Utensilios"),
-          ],
+          Container(color: Colors.red,)
+        ]
+      ),
+    );
+  }
+
+  //FUNÇÕES
+
+  Widget iconesLoja(){
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 70),
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 1,
+            crossAxisSpacing: 1
         ),
+        children: [
+          ItemMenu(Icons.man, "Masculina"),
+          ItemMenu(Icons.woman, "Feminina"),
+          ItemMenu(Icons.accessibility, "Jovem"),
+          ItemMenu(Icons.child_friendly, "Infantil"),
+          ItemMenu(Icons.list, "Utensilios"),
+        ],
       ),
     );
   }

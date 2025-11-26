@@ -92,11 +92,6 @@ class SignupScreen extends StatelessWidget with FieldsValidators{
 
                           if( check! ){
                             mostraMensagem(context, "Cadastrado com sucesso!!!", Colors.green);
-                            Future.delayed(Duration(seconds: 2));
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => HomeScreen())
-                            );
                           } else {
                             mostraMensagem(context, "Falha ao cadastrar", Colors.red);
                           }

@@ -1,36 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_pai/blocs/validator_login_screen.dart';
+import 'package:gerencia_loja_pai/screens/admin_screen.dart';
+import 'package:gerencia_loja_pai/screens/home_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc extends BlocBase with ValidaLoginScreen{
 
   //CONSTRUTOR
   LoginBloc(super.state){
-    isLoggedIn(); //aqui o construtor ta verificando se o usuário já está logado ou não por meio deste método
+    //isLoggedIn(); //aqui o construtor ta verificando se o usuário já está logado ou não por meio deste método
   }
 
   //CONSTANTES
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firebase = FirebaseFirestore.instance;
   
   //CONTROLLERS
   final userControl = BehaviorSubject<String>();
   final passControl = BehaviorSubject<String>();
   final loadingControl = BehaviorSubject<bool>();
   final loggedIn = BehaviorSubject<bool>();
+  final adminControl = BehaviorSubject();
 
   //STREAMS
   Stream get outUser => userControl.stream.transform(validarUser);
   Stream get outPass => passControl.stream.transform(validarPass);
   Stream get outLoading => loadingControl.stream;
   Stream<bool> get outLoggedIn => loggedIn.stream;
+  Stream get outAdmin => adminControl.stream;
 
   //SINKS
   Sink get inUser => userControl.sink;
   Sink get inPass => passControl.sink;
   Sink get inLoading => loadingControl.sink;
   Sink get inLoggedIn => loggedIn.sink;
+  Sink get inAdmin => adminControl.sink;
 
   //FUNÇÕES DE LOGAR NO SISTEMA
   Future<void> logar(BuildContext context) async{
@@ -43,19 +50,25 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
       inLoading.add(true);
 
       await auth.signInWithEmailAndPassword(
-
           email: user,
           password: pass
+      ).then((authResult) async{
+        DocumentSnapshot? adminID = await firebase.collection("admins").doc(authResult.user!.uid).get();
 
-      ).then((authResult){
-        inLoggedIn.add(true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text("Logado com sucesso!!!", style: TextStyle(color: Colors.white),)
-          )
-        );
-        Navigator.of(context).pop();
+        //Aqui está verificando se o login é do administrador/gerente ou usuário comum
+        //Isso será de acordo com o valor dentro da variável adminID o qual está sendo verificado dentro da coleção admins
+        if( adminID.exists ){
+          inAdmin.add(true);
+          msgLogado("Gerente logado com sucesso!!!", context);
+          Navigator.of(context).pushAndRemoveUntil( //este redicionamento, manda para a tela de administrador e remove a pilha anterior
+            MaterialPageRoute(builder: (context) => AdminScreen()),
+            (route) => false
+          );
+        } else {
+          inLoggedIn.add(true);
+          msgLogado("Logado com sucesso!!!", context);
+          Navigator.of(context).pop();
+        }
 
       }).catchError((onError){
         ScaffoldMessenger.of(context).showSnackBar(
@@ -90,6 +103,15 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   void signOut(){
     inLoggedIn.add(false);
     auth.signOut();
+  }
+
+  Widget? msgLogado(String texto, BuildContext context){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(texto, style: TextStyle(color: Colors.white),)
+      )
+    );
   }
 
 }
