@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_pai/blocs/login_bloc.dart';
 import 'package:gerencia_loja_pai/datas/products_data.dart';
+import 'package:gerencia_loja_pai/mobx/reserve_products.dart';
+import 'package:gerencia_loja_pai/screens/cart_screen.dart';
+import 'package:gerencia_loja_pai/screens/login_screen.dart';
 
 class ProductScreen extends StatelessWidget {
   //VARIAVEIS
@@ -12,10 +15,28 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
+    ReserveProducts reserve = ReserveProducts();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(produto.nome),
+      ),
+      floatingActionButton: StreamBuilder(
+        stream: loginBloc.outLoggedIn,
+        builder: (context, snapshot) {
+          return snapshot.hasData && snapshot.data == true ? FloatingActionButton(
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => CartScreen(loginBloc.userID.value.toString()))
+              );
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30)
+            ),
+            child: Icon(Icons.shopping_cart, color: Colors.white,),
+            backgroundColor: Colors.cyan,
+          ) : Container();
+        }
       ),
       body: SafeArea(
         child: Padding(
@@ -48,27 +69,33 @@ class ProductScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.cyan,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  )
-                ),
-                onPressed: (){},
-                child: StreamBuilder<bool>(
-                  stream: loginBloc.outLoggedIn,
-                  initialData: false,
-                  builder: (context, snapshot) {
-                    return Text(
+              StreamBuilder(
+                stream: loginBloc.outLoggedIn,
+                builder: (context, snapshot) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.cyan,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                      )
+                    ),
+                    onPressed: snapshot.hasData && snapshot.data == true ? (){
+                      String userID = loginBloc.userID.value.toString();
+                      reserve.reservar(produto, userID, context);
+                    } : (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen())
+                      );
+                    },
+                    child: Text(
                       snapshot.hasData && snapshot.data == true ? "Reservar" : "Logar no sistema",
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white
                       ),
-                    );
-                  }
-                )
+                    )
+                  );
+                }
               ),
             ],
           ),

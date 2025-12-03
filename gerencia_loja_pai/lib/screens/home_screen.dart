@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gerencia_loja_pai/blocs/login_bloc.dart';
+import 'package:gerencia_loja_pai/screens/cart_screen.dart';
 import 'package:gerencia_loja_pai/screens/login_screen.dart';
 
 import '../widgets/item_menu.dart';
@@ -51,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: "Inicio"
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_cart),
+                    label: "Carrinho"
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.list),
                     label: "Meus Pedidos"
                   )
@@ -99,7 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             }
           ),
-          Container(color: Colors.red,)
+          CartScreen(loginBloc.userID.value.toString()),
+          Container(color: Colors.red,),
         ]
       ),
     );

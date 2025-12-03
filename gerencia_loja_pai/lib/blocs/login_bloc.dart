@@ -24,6 +24,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   final loadingControl = BehaviorSubject<bool>();
   final loggedIn = BehaviorSubject<bool>();
   final adminControl = BehaviorSubject();
+  final userID = BehaviorSubject();
 
   //STREAMS
   Stream get outUser => userControl.stream.transform(validarUser);
@@ -31,6 +32,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   Stream get outLoading => loadingControl.stream;
   Stream<bool> get outLoggedIn => loggedIn.stream;
   Stream get outAdmin => adminControl.stream;
+  Stream get outUserID => userID.stream;
 
   //SINKS
   Sink get inUser => userControl.sink;
@@ -38,6 +40,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
   Sink get inLoading => loadingControl.sink;
   Sink get inLoggedIn => loggedIn.sink;
   Sink get inAdmin => adminControl.sink;
+  Sink get inUserID => userID.sink;
 
   //FUNÇÕES DE LOGAR NO SISTEMA
   Future<void> logar(BuildContext context) async{
@@ -65,6 +68,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
             (route) => false
           );
         } else {
+          inUserID.add(auth.currentUser!.uid);
           inLoggedIn.add(true);
           msgLogado("Logado com sucesso!!!", context);
           Navigator.of(context).pop();
@@ -105,6 +109,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
     auth.signOut();
   }
 
+  //aqui está apresentando a mensagem quando um usuário comum ou gerente tiver sucesso no login
   Widget? msgLogado(String texto, BuildContext context){
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

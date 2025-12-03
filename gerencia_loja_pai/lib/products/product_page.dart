@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gerencia_loja_pai/blocs/login_bloc.dart';
 import 'package:gerencia_loja_pai/datas/products_data.dart';
 import 'package:gerencia_loja_pai/screens/product_screen.dart';
+
+import '../screens/cart_screen.dart';
 
 class ProductPage extends StatelessWidget {
   //VARIAVEIS
@@ -16,10 +20,28 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String prodDoc = produto.toLowerCase();
+    final LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(produto == "Utensilios" ? "$produto" : "Moda $produto"),
+      ),
+      floatingActionButton: StreamBuilder(
+        stream: loginBloc.outLoggedIn,
+        builder: (context, snapshot) {
+          return snapshot.hasData && snapshot.data == true ?  FloatingActionButton(
+            onPressed: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CartScreen(loginBloc.userID.value.toString()))
+              );
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30)
+            ),
+            child: Icon(Icons.shopping_cart, color: Colors.white,),
+            backgroundColor: Colors.cyan,
+          ) : Container();
+        }
       ),
       body: FutureBuilder(
         future: firestore.collection("produtos").doc(prodDoc).collection("itens").get(),
