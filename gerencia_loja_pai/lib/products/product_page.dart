@@ -75,7 +75,7 @@ class ProductPage extends StatelessWidget {
                           children: [
                             Flexible(
                               child: Image.network(
-                                corrigirLinkGoogleDrive(snapshot.data!.docs[index].get('image')),
+                                corrigirLinkGoogleDrive(produto.get("image")),
                                 fit: BoxFit.cover,
                                 height: 200,
                               ),
@@ -84,23 +84,16 @@ class ProductPage extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "Produto: ${snapshot.data!.docs[index].get("nome")}",
+                                  "Produto: ${produto.get("nome")}",
                                   style: TextStyle(
                                     fontSize: 20
                                   ),
                                 ),
                                 SizedBox(height: 10,),
                                 Text(
-                                  "Preço: R\$ 00,00",
+                                  "Preço: R\$ ${produto.get("price")}",
                                   style: TextStyle(
                                     fontSize: 20
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Text(
-                                  "Quantidade: 2 unidades",
-                                  style: TextStyle(
-                                      fontSize: 20
                                   ),
                                 ),
                               ],

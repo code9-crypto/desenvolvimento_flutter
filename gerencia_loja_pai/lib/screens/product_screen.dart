@@ -56,16 +56,9 @@ class ProductScreen extends StatelessWidget {
               ),
               SizedBox(height: 50,),
               Text(
-                "Preço: R\$ 00,00",
+                "Preço: R\$ ${produto.price}",
                 style: TextStyle(
                   fontSize: 20
-                ),
-              ),
-              SizedBox(height: 30,),
-              Text(
-                "Quantidade: 2 unidades",
-                style: TextStyle(
-                    fontSize: 20
                 ),
               ),
               SizedBox(height: 30,),
@@ -88,7 +81,7 @@ class ProductScreen extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      snapshot.hasData && snapshot.data == true ? "Reservar" : "Logar no sistema",
+                      snapshot.hasData && snapshot.data == true ? "Adicionar ao carrinho" : "Logar no sistema",
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white

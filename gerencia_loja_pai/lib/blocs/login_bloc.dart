@@ -62,6 +62,7 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
         //Isso será de acordo com o valor dentro da variável adminID o qual está sendo verificado dentro da coleção admins
         if( adminID.exists ){
           inAdmin.add(true);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           msgLogado("Gerente logado com sucesso!!!", context);
           Navigator.of(context).pushAndRemoveUntil( //este redicionamento, manda para a tela de administrador e remove a pilha anterior
             MaterialPageRoute(builder: (context) => AdminScreen()),
@@ -70,11 +71,13 @@ class LoginBloc extends BlocBase with ValidaLoginScreen{
         } else {
           inUserID.add(auth.currentUser!.uid);
           inLoggedIn.add(true);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           msgLogado("Logado com sucesso!!!", context);
           Navigator.of(context).pop();
         }
 
       }).catchError((onError){
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.red,

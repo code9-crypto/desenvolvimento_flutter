@@ -13,13 +13,14 @@ abstract class _ReserveProducts with Store{
 
   @action
   void reservar(ProductData produto, String userID, BuildContext context){
-    print("Produto escolhido é: ${produto.nome}\nE o ID do usuário é ${userID}");
     firestore.collection("users").doc(userID).collection("carrinho").add(
       {
         "name" : produto.nome,
-        "img" : produto.imgUrl
+        "img" : produto.imgUrl,
+        "price" : produto.price
       }
     );
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Adicionado ao carrinho com sucesso!!!"),

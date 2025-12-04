@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             }
           ),
-          CartScreen(loginBloc.userID.value.toString()),
+          CartScreen(loginBloc.userID.valueOrNull.toString()),
           Container(color: Colors.red,),
         ]
       ),
