@@ -53,7 +53,45 @@ class CartScreen extends StatelessWidget {
                 ),
               );
             } else {
-              return 
+              //Este Widget mostra a lista de itens do carrinho com um botão de reservar no final da tela
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index){
+                        DocumentSnapshot produto = snapshot.data!.docs[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            radius: 30.0,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: NetworkImage(corrigirLinkGoogleDrive(produto.get("img"))),
+                          ),
+                          trailing: Text(
+                            "${produto.get("name")}   R\$${produto.get("price")} ",
+                            style: TextStyle(
+                              fontSize: 18
+                            ),
+                          ),
+                        );
+                      }
+                    )
+                  ),
+                  SafeArea(
+                    child: Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: (){},
+                        child: Text("Reservar", style: TextStyle(fontSize: 20),),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.cyan,
+                          foregroundColor: Colors.white
+                        )
+                      ),
+                    )
+                  )
+                ],
+              );
             }
           }
         ),
