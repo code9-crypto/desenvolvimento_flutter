@@ -43,13 +43,13 @@ OBS.: na tela do firebase clicar em próximo
 
 6º No arquivo build.gradle(.../android/app/build.gradle), dentro da chave de plugins adicionar este item;
 pluguins{
-    ...
+    ...    
     id 'com.google.gms.google-services'    
 }
 
 Ainda dentro do mesmo arquivo, abaixo da chave plugins adicionar esta chave:
 dependencies{
-    implementation platform('com.google.firebase:firebase-bom:33.14.0')
+    implementation platform('com.google.firebase:firebase-bom:34.4.0')
 }
 
 No mesmo arquivo ainda, dentro da chave android->defaultConfig configurar desta forma:
@@ -65,6 +65,6 @@ android{
 
 7º Por fim, no arquivo build.gradle dentro da pasta raiz do android, adicionar a chave plugins no topo do arquivo:
 plugins{
-    id 'com.google.gms.google-services' version '4.4.2' apply false
+    id 'com.google.gms.google-services' version '4.4.4' apply false
 }
 

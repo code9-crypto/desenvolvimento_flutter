@@ -166,6 +166,12 @@ deverá passar por uma condicional verificando se é nula ou não, contudo ela a
 
 Copiando uma lista de map para outra lista de map
 List<Map<String, dynamic>> filteredUsers = List.from(users.values.toList());
+
+Copiando uma lista para outra lista de forma que os valores sejam independentes
+List<String> fakeList = List.from(originalList)
+
+Copiando uma lista para outra de forma os valores são compartilhados(referência), ou seja, se o valor de uma lista mudar o outro também muda
+List<String> fakeList = originalList
 -----------------------------------------------------------------------------------------------------------------------------
 MAPAS / MAPS -> É uma forma de organizar os elementos como: chave: valor;
 Map<int, String> ddds = {
